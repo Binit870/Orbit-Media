@@ -1,522 +1,248 @@
 import { useState, useEffect, useRef } from "react";
 
+const ICON_PATHS = {
+  linkedin:  { color: "#0A66C2", path: "M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" },
+  youtube:   { color: "#FF0000", path: "M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" },
+  facebook:  { color: "#1877F2", path: "M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" },
+  instagram: { color: "#E4405F", path: "M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z" },
+  whatsapp:  { color: "#25D366", path: "M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z" },
+};
+
 const PLATFORMS = [
-  {
-    id: "linkedin_posts",
-    label: "LinkedIn Posts",
-    icon: "in",
-    color: "#0A66C2",
-    glow: "#0A66C2",
-    angle: 270, // top
-    desc: "Thought leadership & insights",
-  },
-  {
-    id: "instagram_reels",
-    label: "Instagram Reels",
-    icon: "▶",
-    color: "#E1306C",
-    glow: "#E1306C",
-    angle: 330,
-    desc: "Short-form visual stories",
-  },
-  {
-    id: "youtube_shorts",
-    label: "YouTube Shorts",
-    icon: "▷",
-    color: "#FF0000",
-    glow: "#FF0000",
-    angle: 30,
-    desc: "Vertical video content",
-  },
-  {
-    id: "instagram_carousel",
-    label: "IG Carousel",
-    icon: "◫",
-    color: "#F77737",
-    glow: "#F77737",
-    angle: 90, // bottom
-    desc: "Swipeable slide decks",
-  },
-  {
-    id: "tiktok",
-    label: "TikTok",
-    icon: "♪",
-    color: "#69C9D0",
-    glow: "#69C9D0",
-    angle: 150,
-    desc: "Trending short videos",
-  },
-  {
-    id: "linkedin_carousel",
-    label: "LinkedIn Carousel",
-    icon: "≡",
-    color: "#70B5F9",
-    glow: "#70B5F9",
-    angle: 210,
-    desc: "Document-style posts",
-  },
+  { id: "linkedin_posts",  label: ["LinkedIn", "Posts"],   angle: 285, icon: "linkedin"  },
+  { id: "youtube_shorts",  label: ["Youtube", "Shorts"],   angle: 355, icon: "youtube"   },
+  { id: "instagram_reels", label: ["Instagram", "Reels"],  angle: 75,  icon: "instagram" },
+  { id: "facebook_posts",  label: ["Facebook", "Posts"],   angle: 140, icon: "facebook"  },
+  { id: "whatsapp",        label: ["WhatsApp", "Channel"], angle: 220, icon: "whatsapp"  },
 ];
 
-const R = 190; // orbit radius
-const CENTER = 300;
+const RING_COLORS = ["#FFE500","#AAFF00","#44FF88","#00FFCC","#00BBFF","#4488FF","#9955FF","#FF44CC","#FF0055"];
+const CX = 400, CY = 400, NODE_RADIUS = 235;
 
-function toXY(angleDeg, radius) {
+function buildWavePath(baseR, amplitude, phaseOffset, t, sides = 6) {
+  const STEPS = 180, points = [];
+  for (let i = 0; i <= STEPS; i++) {
+    const frac = i / STEPS, theta = frac * Math.PI * 2;
+    const hexFactor = 1 / Math.pow(
+      Math.pow(Math.abs(Math.cos(sides * theta / 2)), 3) +
+      Math.pow(Math.abs(Math.sin(sides * theta / 2)), 3), 1 / sides);
+    const wave = amplitude * Math.sin(sides * theta + t + phaseOffset);
+    const r = baseR * hexFactor + wave;
+    points.push(`${(CX + r * Math.cos(theta - Math.PI / 2)).toFixed(2)},${(CY + r * Math.sin(theta - Math.PI / 2)).toFixed(2)}`);
+  }
+  return `M ${points.join(" L ")} Z`;
+}
+
+function polar(angleDeg, r) {
   const rad = ((angleDeg - 90) * Math.PI) / 180;
-  return {
-    x: CENTER + radius * Math.cos(rad),
-    y: CENTER + radius * Math.sin(rad),
-  };
+  return { x: CX + r * Math.cos(rad), y: CY + r * Math.sin(rad) };
+}
+
+function HexRing({ elapsed }) {
+  const t = elapsed * 0.00065, BASE = 182;
+  return (
+    <g style={{ mixBlendMode: "screen" }}>
+      {RING_COLORS.map((color, i) => {
+        const phase = (i / RING_COLORS.length) * Math.PI * 1.5;
+        const amp = 22 - i * 1.2;
+        return <path key={i} d={buildWavePath(BASE - i * 2, amp, phase, t)}
+          fill="none" stroke={color} strokeWidth={1.6} strokeOpacity={0.9 - i * 0.025} />;
+      })}
+    </g>
+  );
+}
+
+function PlatformIcon({ iconKey, x, y, size = 56 }) {
+  const { color, path } = ICON_PATHS[iconKey];
+  return (
+    <g transform={`translate(${x}, ${y})`}>
+      <g transform={`scale(${size / 24})`}>
+        <path d={path} fill={color} />
+      </g>
+    </g>
+  );
+}
+
+function PlatformNode({ platform, visible, index }) {
+  const nodePos = polar(platform.angle, NODE_RADIUS);
+  const a = platform.angle;
+
+  const isLinkedIn  = platform.id === "linkedin_posts";
+  const isFacebook  = platform.id === "facebook_posts";
+  const isInstagram = platform.id === "instagram_reels";
+  const isWhatsApp  = platform.id === "whatsapp";
+  const isLeftHalf  = a > 95 && a < 265;
+
+  const ICON_SIZE = 56;
+  const HALF = ICON_SIZE / 2;
+  const GAP = 12;
+
+  // ── LinkedIn: icon RIGHT, text LEFT, group nudged left away from ring ──────
+  const liShiftX = -52;                          // 🔧 controls how far left from ring edge
+  const liIconX  = nodePos.x + GAP + liShiftX;
+  const liIconY  = nodePos.y - HALF;
+  const liTextX  = nodePos.x - GAP + liShiftX;
+
+  // ── Facebook: nudged right + shifted UP ───────────────────────────────────
+  const fbNudge  = 30;
+  const fbYShift = -18;
+  const fbIconX  = nodePos.x - HALF + fbNudge;
+  const fbIconY  = nodePos.y - HALF + fbYShift;
+  const fbTextX  = fbIconX + ICON_SIZE + GAP;
+
+  // ── Instagram: shifted RIGHT ──────────────────────────────────────────────
+  const igShift  = 20;
+  const igIconX  = nodePos.x - HALF + igShift;
+  const igIconY  = nodePos.y - HALF;
+  const igTextX  = igIconX + ICON_SIZE + GAP;
+
+  // ── WhatsApp: icon centered, text left (end) ──────────────────────────────
+  const waTextX  = nodePos.x - HALF - GAP;
+
+  // Default (YouTube)
+  const defaultTextX  = isLeftHalf ? nodePos.x - HALF - GAP : nodePos.x + HALF + GAP;
+  const defaultAnchor = isLeftHalf ? "end" : "start";
+
+  const labelLines = (tx, anchor, baseY = nodePos.y) =>
+    platform.label.map((line, li) => {
+      const lineH = 22;
+      const blockH = platform.label.length * lineH;
+      const lineY  = baseY - blockH / 2 + li * lineH + lineH * 0.72;
+      return (
+        <text key={li} x={tx} y={lineY} textAnchor={anchor}
+          fill="#fff" fontSize={19}
+          fontFamily="'SF Pro Display', -apple-system, 'Helvetica Neue', sans-serif"
+          fontWeight={600} letterSpacing="-0.01em">
+          {line}
+        </text>
+      );
+    });
+
+  return (
+    <g style={{
+      opacity: visible ? 1 : 0,
+      transition: `opacity 0.5s ease ${index * 0.13}s, transform 0.6s cubic-bezier(0.34,1.4,0.64,1) ${index * 0.13}s`,
+      transform: visible ? "none" : "scale(0.5)",
+      transformOrigin: `${nodePos.x}px ${nodePos.y}px`,
+    }}>
+      {isLinkedIn ? (
+        <>
+          <PlatformIcon iconKey={platform.icon} x={liIconX} y={liIconY} size={ICON_SIZE} />
+          {labelLines(liTextX, "end")}
+        </>
+      ) : isFacebook ? (
+        <>
+          <PlatformIcon iconKey={platform.icon} x={fbIconX} y={fbIconY} size={ICON_SIZE} />
+          {labelLines(fbTextX, "start", nodePos.y + fbYShift)}
+        </>
+      ) : isInstagram ? (
+        <>
+          <PlatformIcon iconKey={platform.icon} x={igIconX} y={igIconY} size={ICON_SIZE} />
+          {labelLines(igTextX, "start")}
+        </>
+      ) : isWhatsApp ? (
+        <>
+          <PlatformIcon iconKey={platform.icon} x={nodePos.x - HALF} y={nodePos.y - HALF} size={ICON_SIZE} />
+          {labelLines(waTextX, "end")}
+        </>
+      ) : (
+        <>
+          <PlatformIcon iconKey={platform.icon} x={nodePos.x - HALF} y={nodePos.y - HALF} size={ICON_SIZE} />
+          {labelLines(defaultTextX, defaultAnchor)}
+        </>
+      )}
+    </g>
+  );
 }
 
 export default function ContentFlywheel() {
-  const [rotation, setRotation] = useState(0);
-  const [scrollY, setScrollY] = useState(0);
-  const [visible, setVisible] = useState(Array(6).fill(false));
-  const rafRef = useRef(null);
-  const lastTimeRef = useRef(null);
+  const [elapsed, setElapsed] = useState(0);
+  const [scrolled, setScrolled] = useState(0);
+  const [visible, setVisible] = useState(Array(PLATFORMS.length).fill(false));
   const containerRef = useRef(null);
+  const rafRef = useRef(null);
+  const t0Ref = useRef(null);
 
-  // Smooth rotation loop
   useEffect(() => {
-    const animate = (time) => {
-      if (lastTimeRef.current != null) {
-        const delta = time - lastTimeRef.current;
-        setRotation((r) => (r + (delta / 8000) * 360) % 360);
-      }
-      lastTimeRef.current = time;
-      rafRef.current = requestAnimationFrame(animate);
-    };
-    rafRef.current = requestAnimationFrame(animate);
+    function tick(ts) {
+      if (!t0Ref.current) t0Ref.current = ts;
+      setElapsed(ts - t0Ref.current);
+      rafRef.current = requestAnimationFrame(tick);
+    }
+    rafRef.current = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(rafRef.current);
   }, []);
 
-  // Scroll-driven reveal
   useEffect(() => {
-    const onScroll = () => {
+    function onScroll() {
       const el = containerRef.current;
       if (!el) return;
       const rect = el.getBoundingClientRect();
-      const totalHeight = el.scrollHeight - window.innerHeight;
-      const scrolled = Math.max(0, -rect.top) / Math.max(1, totalHeight);
-      setScrollY(scrolled);
-
-      setVisible(
-        PLATFORMS.map((_, i) => {
-          const start = 0.05 + i * 0.12;
-          return scrolled >= start;
-        })
-      );
-    };
+      const scrollable = el.scrollHeight - window.innerHeight;
+      const s = Math.max(0, Math.min(1, -rect.top / Math.max(1, scrollable)));
+      setScrolled(s);
+      setVisible(PLATFORMS.map((_, i) => s >= (i + 1) / (PLATFORMS.length + 1)));
+    }
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Arc path for the flywheel ring
-  const arcPoints = Array.from({ length: 361 }, (_, i) => {
-    const p = toXY(i, R);
-    return `${i === 0 ? "M" : "L"} ${p.x} ${p.y}`;
-  }).join(" ");
-
   return (
-    <div
-      ref={containerRef}
-      style={{
-        background: "#000",
-        minHeight: "350vh",
-        fontFamily: "'DM Mono', 'Fira Mono', 'Courier New', monospace",
-        position: "relative",
-      }}
-    >
-      {/* Sticky canvas */}
-      <div
-        style={{
-          position: "sticky",
-          top: 0,
-          height: "100vh",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          overflow: "hidden",
-        }}
-      >
-        {/* Background grain */}
-        <svg
-          style={{ position: "absolute", inset: 0, opacity: 0.04 }}
-          width="100%"
-          height="100%"
-        >
-          <filter id="grain">
-            <feTurbulence
-              type="fractalNoise"
-              baseFrequency="0.75"
-              numOctaves="4"
-              stitchTiles="stitch"
-            />
-            <feColorMatrix type="saturate" values="0" />
-          </filter>
-          <rect width="100%" height="100%" filter="url(#grain)" />
-        </svg>
-
-        {/* Title */}
-        <div
-          style={{
-            position: "absolute",
-            top: "6%",
-            textAlign: "center",
-            zIndex: 10,
-          }}
-        >
-          <div
-            style={{
-              fontSize: "11px",
-              letterSpacing: "0.35em",
-              color: "#555",
-              textTransform: "uppercase",
-              marginBottom: "6px",
-            }}
-          >
-            scroll to build your
-          </div>
-          <div
-            style={{
-              fontSize: "clamp(22px, 4vw, 38px)",
-              fontWeight: 700,
-              letterSpacing: "-0.02em",
-              color: "#fff",
-              fontFamily: "'DM Mono', monospace",
-            }}
-          >
-            Content Flywheel
-          </div>
-        </div>
-
-        {/* SVG Flywheel */}
-        <svg
-          viewBox="0 0 600 600"
-          width="min(92vw, 600px)"
-          height="min(92vw, 600px)"
-          style={{ position: "relative", zIndex: 2, overflow: "visible" }}
-        >
-          <defs>
-            {/* Spinning gradient ring */}
-            <linearGradient
-              id="ringGrad"
-              x1="0%"
-              y1="0%"
-              x2="100%"
-              y2="100%"
-              gradientTransform={`rotate(${rotation}, 300, 300)`}
-            >
-              <stop offset="0%" stopColor="#ffffff" stopOpacity="0.06" />
-              <stop offset="40%" stopColor="#ffffff" stopOpacity="0.25" />
-              <stop offset="60%" stopColor="#aaaaff" stopOpacity="0.4" />
-              <stop offset="100%" stopColor="#ffffff" stopOpacity="0.06" />
-            </linearGradient>
-
-            {/* Center glow */}
-            <radialGradient id="centerGlow" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="#ffffff" stopOpacity="0.08" />
-              <stop offset="100%" stopColor="#000" stopOpacity="0" />
-            </radialGradient>
-
-            {/* Per-platform glows */}
-            {PLATFORMS.map((p) => (
-              <radialGradient key={p.id} id={`glow_${p.id}`} cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor={p.glow} stopOpacity="0.5" />
-                <stop offset="100%" stopColor={p.glow} stopOpacity="0" />
-              </radialGradient>
-            ))}
-
-            {/* Dash animation filter */}
-            <filter id="softGlow">
-              <feGaussianBlur stdDeviation="3" result="blur" />
-              <feMerge>
-                <feMergeNode in="blur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
-          </defs>
-
-          {/* Outer ambient glow disk */}
-          <circle cx={CENTER} cy={CENTER} r={R + 40} fill="url(#centerGlow)" />
-
-          {/* Dashed tick marks on the ring */}
-          {Array.from({ length: 60 }, (_, i) => {
-            const a = i * 6;
-            const inner = toXY(a, R - 10);
-            const outer = toXY(a, R + 10);
-            return (
-              <line
-                key={i}
-                x1={inner.x}
-                y1={inner.y}
-                x2={outer.x}
-                y2={outer.y}
-                stroke="#fff"
-                strokeOpacity={i % 5 === 0 ? 0.18 : 0.06}
-                strokeWidth={i % 5 === 0 ? 1.5 : 0.8}
-              />
-            );
-          })}
-
-          {/* Main orbit ring */}
-          <circle
-            cx={CENTER}
-            cy={CENTER}
-            r={R}
-            fill="none"
-            stroke="url(#ringGrad)"
-            strokeWidth="2"
-            filter="url(#softGlow)"
-          />
-
-          {/* Spoke lines */}
-          {PLATFORMS.map((p, i) => {
-            const pos = toXY(p.angle, R);
-            const opacity = visible[i] ? 0.3 : 0;
-            return (
-              <line
-                key={p.id}
-                x1={CENTER}
-                y1={CENTER}
-                x2={pos.x}
-                y2={pos.y}
-                stroke={p.color}
-                strokeWidth="1"
-                strokeOpacity={opacity}
-                strokeDasharray="4 6"
-                style={{ transition: "stroke-opacity 0.6s ease" }}
-              />
-            );
-          })}
-
-          {/* Center hub */}
-          <circle cx={CENTER} cy={CENTER} r={56} fill="#0a0a0a" stroke="#222" strokeWidth="1" />
-          <circle cx={CENTER} cy={CENTER} r={44} fill="none" stroke="#333" strokeWidth="1" strokeDasharray="3 4" />
-          <text
-            x={CENTER}
-            y={CENTER - 8}
-            textAnchor="middle"
-            fill="#fff"
-            fontSize="11"
-            fontFamily="'DM Mono', monospace"
-            letterSpacing="0.1em"
-          >
-            YOUR
-          </text>
-          <text
-            x={CENTER}
-            y={CENTER + 8}
-            textAnchor="middle"
-            fill="#888"
-            fontSize="9"
-            fontFamily="'DM Mono', monospace"
-            letterSpacing="0.2em"
-          >
-            CONTENT
-          </text>
-          <text
-            x={CENTER}
-            y={CENTER + 22}
-            textAnchor="middle"
-            fill="#555"
-            fontSize="8"
-            fontFamily="'DM Mono', monospace"
-            letterSpacing="0.25em"
-          >
-            ENGINE
-          </text>
-
-          {/* Platform nodes */}
-          {PLATFORMS.map((p, i) => {
-            const pos = toXY(p.angle, R);
-            const isVisible = visible[i];
-            const scale = isVisible ? 1 : 0.4;
-            const opacity = isVisible ? 1 : 0;
-
-            // Label offset
-            const isTop = p.angle > 225 && p.angle < 315;
-            const isBottom = p.angle > 45 && p.angle < 135;
-            const isRight = p.angle >= 315 || p.angle <= 45 || (p.angle > 270 && p.angle <= 330);
-            const isLeft = p.angle >= 135 && p.angle <= 225;
-
-            let labelX = pos.x;
-            let labelY = pos.y;
-            let textAnchor = "middle";
-            const LABEL_OFFSET = 52;
-
-            if (isTop) { labelY -= LABEL_OFFSET; }
-            else if (isBottom) { labelY += LABEL_OFFSET; }
-            else if (p.angle > 300 || p.angle < 60) {
-              labelX += LABEL_OFFSET + 10;
-              textAnchor = "start";
-            } else if (p.angle >= 60 && p.angle <= 120) {
-              labelX += LABEL_OFFSET + 10;
-              textAnchor = "start";
-            } else if (p.angle >= 240 && p.angle <= 300) {
-              labelX -= LABEL_OFFSET + 10;
-              textAnchor = "end";
-            } else if (p.angle >= 120 && p.angle <= 240) {
-              labelX -= LABEL_OFFSET + 10;
-              textAnchor = "end";
-            }
-
-            return (
-              <g
-                key={p.id}
-                style={{
-                  transform: `translate(${pos.x}px, ${pos.y}px) scale(${scale})`,
-                  transformOrigin: `${pos.x}px ${pos.y}px`,
-                  opacity,
-                  transition: "transform 0.7s cubic-bezier(0.34,1.56,0.64,1), opacity 0.5s ease",
-                }}
-              >
-                {/* Glow halo */}
-                <circle cx={0} cy={0} r={32} fill={`url(#glow_${p.id})`} />
-                {/* Node ring */}
-                <circle
-                  cx={0}
-                  cy={0}
-                  r={22}
-                  fill="#0a0a0a"
-                  stroke={p.color}
-                  strokeWidth="1.5"
-                />
-                {/* Icon */}
-                <text
-                  x={0}
-                  y={1}
-                  textAnchor="middle"
-                  dominantBaseline="middle"
-                  fill={p.color}
-                  fontSize="12"
-                  fontFamily="'DM Mono', monospace"
-                  fontWeight="bold"
-                >
-                  {p.icon}
-                </text>
-              </g>
-            );
-          })}
-
-          {/* Labels outside SVG transform group for clarity */}
-          {PLATFORMS.map((p, i) => {
-            const pos = toXY(p.angle, R);
-            const isVisible = visible[i];
-
-            let lx = pos.x;
-            let ly = pos.y;
-            let anchor = "middle";
-            const OFF = 52;
-
-            if (p.angle > 225 && p.angle < 315) { ly -= OFF; }
-            else if (p.angle > 45 && p.angle < 135) { ly += OFF; }
-
-            if (p.angle >= 315 || p.angle <= 60) { lx += OFF + 12; anchor = "start"; }
-            else if (p.angle >= 60 && p.angle <= 120) { lx += OFF + 12; anchor = "start"; }
-            else if (p.angle > 120 && p.angle <= 240) { lx -= OFF + 12; anchor = "end"; }
-            else if (p.angle > 240 && p.angle <= 315) { lx -= OFF + 12; anchor = "end"; }
-
-            return (
-              <g
-                key={`label_${p.id}`}
-                style={{ opacity: isVisible ? 1 : 0, transition: "opacity 0.6s ease 0.2s" }}
-              >
-                <text
-                  x={lx}
-                  y={ly - 5}
-                  textAnchor={anchor}
-                  fill="#fff"
-                  fontSize="9.5"
-                  fontFamily="'DM Mono', monospace"
-                  letterSpacing="0.08em"
-                  fontWeight="600"
-                >
-                  {p.label.toUpperCase()}
-                </text>
-                <text
-                  x={lx}
-                  y={ly + 9}
-                  textAnchor={anchor}
-                  fill="#555"
-                  fontSize="7.5"
-                  fontFamily="'DM Mono', monospace"
-                  letterSpacing="0.06em"
-                >
-                  {p.desc}
-                </text>
-              </g>
-            );
-          })}
-
-          {/* Rotating indicator dot */}
-          {(() => {
-            const dotPos = toXY(rotation, R);
-            return (
-              <circle
-                cx={dotPos.x}
-                cy={dotPos.y}
-                r={4}
-                fill="#fff"
-                opacity={0.7}
-                filter="url(#softGlow)"
-              />
-            );
-          })()}
-        </svg>
-
-        {/* Scroll cue */}
-        <div
-          style={{
-            position: "absolute",
-            bottom: "5%",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: "6px",
-            opacity: scrollY > 0.05 ? 0 : 1,
-            transition: "opacity 0.4s ease",
-          }}
-        >
-          <div
-            style={{
-              fontSize: "9px",
-              letterSpacing: "0.3em",
-              color: "#444",
-              textTransform: "uppercase",
-            }}
-          >
-            scroll to reveal
-          </div>
-          <div style={{ color: "#333", fontSize: "18px", animation: "bob 1.8s ease-in-out infinite" }}>
-            ↓
-          </div>
-        </div>
-
-        {/* Counter */}
-        <div
-          style={{
-            position: "absolute",
-            bottom: "5%",
-            right: "5%",
-            fontSize: "9px",
-            letterSpacing: "0.2em",
-            color: "#333",
-            fontFamily: "'DM Mono', monospace",
-          }}
-        >
-          {visible.filter(Boolean).length} / {PLATFORMS.length} channels
-        </div>
-      </div>
-
+    <>
       <style>{`
-        @keyframes bob {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(6px); }
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap');
+        html { scroll-behavior: smooth; }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: #000; }
+        .cfw-wrap { background: #000; min-height: 600vh; position: relative; }
+        .cfw-sticky {
+          position: sticky; top: 0; height: 100vh;
+          display: flex; align-items: center; justify-content: center; overflow: hidden;
+        }
+        .cfw-svg { width: min(96vw, 840px); height: min(96vw, 840px); overflow: visible; }
+        .cfw-hint {
+          position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+          display: flex; flex-direction: column; align-items: center; gap: 10px;
+          transition: opacity 0.4s ease;
+        }
+        .cfw-hint-label {
+          font-family: 'Outfit', sans-serif; font-size: 10px;
+          letter-spacing: 0.35em; color: #444; text-transform: uppercase;
+        }
+        .cfw-chevron {
+          width: 18px; height: 18px;
+          border-right: 1.5px solid #444; border-bottom: 1.5px solid #444;
+          transform: rotate(45deg); animation: cfw-bounce 1.8s ease-in-out infinite;
+        }
+        @keyframes cfw-bounce {
+          0%, 100% { transform: rotate(45deg) translate(0,0); }
+          50%       { transform: rotate(45deg) translate(3px,3px); }
         }
       `}</style>
-    </div>
+
+      <div className="cfw-wrap" ref={containerRef}>
+        <div className="cfw-sticky">
+          <svg className="cfw-svg" viewBox="0 0 800 800" aria-label="Content Flywheel">
+            <circle cx={CX} cy={CY} r={180} fill="#000" />
+            <HexRing elapsed={elapsed} />
+            <circle cx={CX} cy={CY} r={152} fill="#000" />
+            <text x={CX} y={CY - 16} textAnchor="middle" fill="#fff"
+              fontSize={40} fontFamily="'SF Pro Display', -apple-system, sans-serif"
+              fontWeight={700} letterSpacing="-0.025em">Content</text>
+            <text x={CX} y={CY + 36} textAnchor="middle" fill="#ff8c00"
+              fontSize={40} fontFamily="'SF Pro Display', -apple-system, sans-serif"
+              fontWeight={700} letterSpacing="-0.025em">Flywheel</text>
+            {PLATFORMS.map((p, i) => (
+              <PlatformNode key={p.id} platform={p} visible={visible[i]} index={i} />
+            ))}
+          </svg>
+          <div className="cfw-hint" style={{ opacity: scrolled > 0.06 ? 0 : 1 }}>
+            <span className="cfw-hint-label">Scroll to reveal</span>
+            <div className="cfw-chevron" />
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
