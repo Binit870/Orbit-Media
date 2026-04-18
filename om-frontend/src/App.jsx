@@ -7,7 +7,7 @@ import ShortFormSection from './components/sections/ShortFormSection';
 import ViralAndTrailersSections from './components/sections/Viralandtrailerssections';
 import HeroVideo from './components/sections/LaunchWithImpact';
 import ProcessCard from './components/sections/Process';
-import ShortTestimonials from './components/sections/ShortTEstimonials';
+import ShortTestimonials from './components/sections/ShortTestimonials';
 import FAQ from './components/sections/FAQ';
 import Footer from './components/layout/Footer';
 import ProblemsSolved from './components/sections/ProblemsSolved';
