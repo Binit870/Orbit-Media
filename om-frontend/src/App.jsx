@@ -1,5 +1,5 @@
 import React from 'react';
-import ContentFlywheel from './ContentFlywheel';
+// import ContentFlywheel from './ContentFlywheel';
 import Hero from './components/sections/Hero';
 import TrustedBy from './components/sections/TrustedBy';
 import Stats from './components/sections/Stats';
@@ -8,10 +8,15 @@ import ViralAndTrailersSections from './components/sections/Viralandtrailerssect
 import HeroVideo from './components/sections/LaunchWithImpact';
 import ProcessCard from './components/sections/Process';
 import ShortTestimonials from './components/sections/ShortTEstimonials';
+import FAQ from './components/sections/FAQ';
+import Footer from './components/layout/Footer';
+import ProblemsSolved from './components/sections/ProblemsSolved';
+import TheGoal from './components/sections/TheGoal';
+import Testimonials from './components/sections/Testimonials';
 function App() {
   return (
     <div className="App">
-      <ContentFlywheel />
+      
       <Hero />
       <TrustedBy/>
       <Stats/>
@@ -20,6 +25,11 @@ function App() {
       <HeroVideo/>
       <ShortTestimonials/>
       <ProcessCard/>
+      <ProblemsSolved/>
+      <TheGoal/>
+      <Testimonials/>
+      <FAQ/>
+      <Footer/> 
     </div>
   );
 }
