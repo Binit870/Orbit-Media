@@ -1,5 +1,5 @@
 import React from 'react';
-// import ContentFlywheel from './ContentFlywheel';
+import ContentFlywheel from './ContentFlywheel';
 import Hero from './components/sections/Hero';
 import TrustedBy from './components/sections/TrustedBy';
 import Stats from './components/sections/Stats';
@@ -21,6 +21,7 @@ function App() {
       <TrustedBy/>
       <Stats/>
       <ShortFormSection/>
+      <ContentFlywheel/>
       <ViralAndTrailersSections/>
       <HeroVideo/>
       <ShortTestimonials/>
