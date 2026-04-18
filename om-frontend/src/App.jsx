@@ -1,5 +1,5 @@
 import React from 'react';
-import ContentFlywheel from './ContentFlywheel';
+import ContentFlywheel from './components/sections/ContentFlywheel';
 import Hero from './components/sections/Hero';
 import TrustedBy from './components/sections/TrustedBy';
 import Stats from './components/sections/Stats';
@@ -16,21 +16,21 @@ import Testimonials from './components/sections/Testimonials';
 function App() {
   return (
     <div className="App">
-      
+
       <Hero />
-      <TrustedBy/>
-      <Stats/>
-      <ShortFormSection/>
-      <ContentFlywheel/>
-      <ViralAndTrailersSections/>
-      <HeroVideo/>
-      <ShortTestimonials/>
-      <ProcessCard/>
-      <ProblemsSolved/>
-      <TheGoal/>
-      <Testimonials/>
-      <FAQ/>
-      <Footer/> 
+      <TrustedBy />
+      <Stats />
+      <ShortFormSection />
+      <ContentFlywheel />
+      <ViralAndTrailersSections />
+      <HeroVideo />
+      <ShortTestimonials />
+      <ProcessCard />
+      <ProblemsSolved />
+      <TheGoal />
+      <Testimonials />
+      <FAQ />
+      <Footer />
     </div>
   );
 }
