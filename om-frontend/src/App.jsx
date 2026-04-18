@@ -5,6 +5,9 @@ import TrustedBy from './components/sections/TrustedBy';
 import Stats from './components/sections/Stats';
 import ShortFormSection from './components/sections/ShortFormSection';
 import ViralAndTrailersSections from './components/sections/Viralandtrailerssections';
+import HeroVideo from './components/sections/LaunchWithImpact';
+import ProcessCard from './components/sections/Process';
+import ShortTestimonials from './components/sections/ShortTEstimonials';
 function App() {
   return (
     <div className="App">
@@ -14,6 +17,9 @@ function App() {
       <Stats/>
       <ShortFormSection/>
       <ViralAndTrailersSections/>
+      <HeroVideo/>
+      <ShortTestimonials/>
+      <ProcessCard/>
     </div>
   );
 }
