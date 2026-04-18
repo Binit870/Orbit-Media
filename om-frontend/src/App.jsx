@@ -5,6 +5,9 @@ import TrustedBy from './components/sections/TrustedBy';
 import Stats from './components/sections/Stats';
 import ShortFormSection from './components/sections/ShortFormSection';
 import ViralAndTrailersSections from './components/sections/Viralandtrailerssections';
+import HeroVideo from './components/sections/LaunchWithImpact';
+import ProcessCard from './components/sections/Process';
+import ShortTestimonials from './components/sections/ShortTEstimonials';
 import FAQ from './components/sections/FAQ';
 import Footer from './components/layout/Footer';
 import ProblemsSolved from './components/sections/ProblemsSolved';
@@ -19,6 +22,9 @@ function App() {
       <Stats/>
       <ShortFormSection/>
       <ViralAndTrailersSections/>
+      <HeroVideo/>
+      <ShortTestimonials/>
+      <ProcessCard/>
       <ProblemsSolved/>
       <TheGoal/>
       <Testimonials/>
