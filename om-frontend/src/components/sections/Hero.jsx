@@ -35,7 +35,7 @@ const Navbar = () => (
           <div className="w-7 h-1.5 bg-white rounded-sm -skew-x-[20deg]" />
           <div className="w-7 h-1.5 bg-white rounded-sm -skew-x-[20deg]" />
         </div>
-        <span className="text-white font-bold text-lg tracking-tight">Metro Media House</span>
+        <span className="text-white font-bold text-lg tracking-tight">Orbit Media</span>
       </a>
 
       <nav className="hidden md:flex items-center gap-8">
@@ -113,7 +113,7 @@ const Index = () => (
         {/* Left: copy */}
         <div className="flex flex-col justify-center lg:min-h-[calc(100vh-5rem)] lg:py-16">
           <h1 className="text-4xl sm:text-5xl lg:text-[3.75rem] font-extrabold leading-[1.05] tracking-tight">
-            Helping Entrepreneurs
+            Helping <span className="text-orange-400 inline-block">Entrepreneurs</span>
             <br />
             build organic brands
             <br />
@@ -146,7 +146,7 @@ const Index = () => (
           <div className="mt-8 flex items-center gap-4">
             <a
               href="#contact"
-              className="inline-block bg-orange-500 text-[hsl(220_30%_10%)] font-semibold px-6 py-3.5 rounded-lg hover:brightness-110 transition shadow-lg shadow-orange-500/20 no-underline"
+              className="inline-block bg-orange-400 text-[hsl(220_30%_10%)] font-semibold px-6 py-3.5 rounded-lg hover:brightness-110 transition shadow-lg shadow-orange-500/20 no-underline"
             >
               Book a Discovery Call
             </a>
@@ -204,11 +204,7 @@ const Index = () => (
       </div>
     </main>
 
-    <footer className="border-t border-white/5 py-8">
-      <div className="max-w-7xl mx-auto px-4 text-center text-sm text-white/50">
-        © {new Date().getFullYear()} Metro Media House. All rights reserved.
-      </div>
-    </footer>
+    
   </div>
 );
 
