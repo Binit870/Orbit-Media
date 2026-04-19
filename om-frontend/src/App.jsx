@@ -16,21 +16,20 @@ import Testimonials from './components/sections/Testimonials';
 function App() {
   return (
     <div className="App">
-
       <Hero />
-      <TrustedBy />
-      <Stats />
-      <ShortFormSection />
-      <ContentFlywheel />
-      <ViralAndTrailersSections />
-      <HeroVideo />
-      <ShortTestimonials />
-      <ProcessCard />
-      <ProblemsSolved />
-      <TheGoal />
-      <Testimonials />
-      <FAQ />
-      <Footer />
+      <Stats/>
+      <TrustedBy/>
+      <ShortFormSection/>
+      <ContentFlywheel/>
+      <ViralAndTrailersSections/>
+      <HeroVideo/>
+      <ShortTestimonials/>
+      <ProcessCard/>
+      <ProblemsSolved/>
+      <TheGoal/>
+      <Testimonials/>
+      <FAQ/>
+      <Footer/> 
     </div>
   );
 }
