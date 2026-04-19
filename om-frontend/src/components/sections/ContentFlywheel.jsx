@@ -17,7 +17,7 @@ const PLATFORMS = [
 ];
 
 const RING_COLORS = ["#FFE500","#AAFF00","#44FF88","#00FFCC","#00BBFF","#4488FF","#9955FF","#FF44CC","#FF0055"];
-const CX = 400, CY = 400, NODE_RADIUS = 235;
+const CX = 450, CY = 450, NODE_RADIUS = 320;
 
 function buildWavePath(baseR, amplitude, phaseOffset, t, sides = 6) {
   const STEPS = 180, points = [];
@@ -39,14 +39,14 @@ function polar(angleDeg, r) {
 }
 
 function HexRing({ elapsed }) {
-  const t = elapsed * 0.00065, BASE = 182;
+  const t = elapsed * 0.00065, BASE = 210;
   return (
     <g style={{ mixBlendMode: "screen" }}>
       {RING_COLORS.map((color, i) => {
         const phase = (i / RING_COLORS.length) * Math.PI * 1.5;
-        const amp = 22 - i * 1.2;
-        return <path key={i} d={buildWavePath(BASE - i * 2, amp, phase, t)}
-          fill="none" stroke={color} strokeWidth={1.6} strokeOpacity={0.9 - i * 0.025} />;
+        const amp = 26 - i * 1.4;
+        return <path key={i} d={buildWavePath(BASE - i * 2.2, amp, phase, t)}
+          fill="none" stroke={color} strokeWidth={1.8} strokeOpacity={0.9 - i * 0.025} />;
       })}
     </g>
   );
@@ -100,7 +100,7 @@ function PlatformNode({ platform, visible, index }) {
         <text key={li} x={tx} y={lineY} textAnchor={anchor}
           fill="#fff" fontSize={19}
           fontFamily="'SF Pro Display', -apple-system, 'Helvetica Neue', sans-serif"
-          fontWeight={600} letterSpacing="-0.01em">{line}</text>
+          fontWeight={800} letterSpacing="-0.01em">{line}</text>
       );
     });
 
@@ -172,7 +172,6 @@ export default function ContentFlywheel() {
           z-index: 1;
         }
 
-        /* The sticky panel fills the entire viewport — SVG + button both live here */
         .cfw-sticky {
           position: sticky;
           top: 0;
@@ -181,20 +180,52 @@ export default function ContentFlywheel() {
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          gap: 28px;          /* space between SVG and button */
+          gap: 0;
           z-index: 2;
           background: #000;
+          padding: 16px 60px 24px;
+        }
+
+        .cfw-heading {
+          width: 100%;
+          max-width: 900px;
+          text-align: left;
+          flex-shrink: 0;
+          margin-bottom: 4px;
+          align-self: flex-start;
+        }
+
+        .cfw-heading h2 {
+          font-family: 'Outfit', -apple-system, sans-serif;
+          font-size: clamp(28px, 4vw, 48px);
+          font-weight: 700;
+          color: #fff;
+          letter-spacing: -0.025em;
+          line-height: 1.15;
+          margin: 0 0 8px;
+        }
+
+        .cfw-heading h2 span {
+          color: #ff8c00;
+        }
+
+        .cfw-heading p {
+          font-family: 'Outfit', -apple-system, sans-serif;
+          font-size: clamp(13px, 1.6vw, 17px);
+          font-weight: 400;
+          color: rgba(255,255,255,0.55);
+          line-height: 1.5;
+          margin: 0;
         }
 
         .cfw-svg {
           display: block;
-          /* Shrink SVG slightly so button always fits inside the viewport */
-          width: min(96vw, 780px);
-          height: auto;
-          flex-shrink: 0;
+          width: min(99vw, 1300px);
+          height: min(88vh, 980px);
+          flex-shrink: 1;
+          margin-left: -0;
         }
 
-        /* Button sits naturally BELOW the SVG inside the flex column — no negative margin */
         .cfw-btn {
           display: inline-flex;
           align-items: center;
@@ -205,13 +236,14 @@ export default function ContentFlywheel() {
           font-size: 18px;
           font-weight: 700;
           letter-spacing: 0.01em;
-          padding: 16px 52px;
+          padding: 14px 52px;
           border-radius: 50px;
           border: none;
           cursor: pointer;
           transition: background 0.18s ease, transform 0.12s ease;
           white-space: nowrap;
           flex-shrink: 0;
+          margin-top: 6px;
         }
         .cfw-btn:hover  { background: #e07b00; transform: scale(1.04); }
         .cfw-btn:active { background: #c96d00; transform: scale(0.97); }
@@ -220,26 +252,30 @@ export default function ContentFlywheel() {
       <div className="cfw-wrap" ref={containerRef}>
         <div className="cfw-sticky">
 
+          <div className="cfw-heading">
+            <h2>High Level <span>Repurposing</span></h2>
+            <p>We build bulletproof content flywheels for personal brands to grow<br />on multiple platforms with high volume of content</p>
+          </div>
+
           <svg
             className="cfw-svg"
-            viewBox="0 0 800 800"
+            viewBox="0 0 900 900"
             aria-label="Content Flywheel"
           >
-            <circle cx={CX} cy={CY} r={180} fill="#000" />
+            <circle cx={CX} cy={CY} r={205} fill="#000" />
             <HexRing elapsed={elapsed} />
-            <circle cx={CX} cy={CY} r={152} fill="#000" />
-            <text x={CX} y={CY - 16} textAnchor="middle" fill="#fff"
-              fontSize={40} fontFamily="'SF Pro Display', -apple-system, sans-serif"
+            <circle cx={CX} cy={CY} r={175} fill="#000" />
+            <text x={CX} y={CY - 18} textAnchor="middle" fill="#fff"
+              fontSize={46} fontFamily="'SF Pro Display', -apple-system, sans-serif"
               fontWeight={700} letterSpacing="-0.025em">Content</text>
-            <text x={CX} y={CY + 36} textAnchor="middle" fill="#ff8c00"
-              fontSize={40} fontFamily="'SF Pro Display', -apple-system, sans-serif"
+            <text x={CX} y={CY + 42} textAnchor="middle" fill="#ff8c00"
+              fontSize={46} fontFamily="'SF Pro Display', -apple-system, sans-serif"
               fontWeight={700} letterSpacing="-0.025em">Flywheel</text>
             {PLATFORMS.map((p, i) => (
               <PlatformNode key={p.id} platform={p} visible={visible[i]} index={i} />
             ))}
           </svg>
 
-          {/* Button is a direct flex child — always visible inside the sticky viewport */}
           <button className="cfw-btn">Get Started</button>
 
         </div>
