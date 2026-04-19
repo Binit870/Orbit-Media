@@ -14,32 +14,36 @@ const noteText = {
 
 const rotateMap = {
   "-rotate-3": "rotate(-3deg)",
-  "-rotate-2": "rotate(-2deg)",
-  "rotate-3": "rotate(3deg)",
+  "-rotate-2": "rotate(-3deg)",
+  "rotate-3": "rotate(-3deg)",
 };
 
 const ProcessCard = ({ label, noteColor, rotate, items = [] }) => {
   return (
-    <div style={{ position: "relative", paddingTop: "2.5rem" }}>
+    <div style={{ position: "relative", paddingTop: "2.5rem", height: "100%" }}>
+
+      {/* Badge */}
       <div style={{
         position: "absolute",
-        top: "-4px",
-        left: "24px",
+        top: "16px",
+        left: "16px",
         zIndex: 10,
         backgroundColor: noteBg[noteColor],
         color: noteText[noteColor],
-        padding: "6px 20px",
-        fontSize: "1.2rem",
+        padding: "8px 24px",
+        fontSize: "1.3rem",
         fontWeight: "700",
         fontStyle: "italic",
         boxShadow: "2px 2px 8px rgba(0,0,0,0.3)",
-        transform: rotateMap[rotate] ?? "rotate(0deg)",
-        borderRadius: "2px",
+        transform: rotateMap[rotate] ?? "rotate(-3deg)",
+        transformOrigin: "left center",
+        borderRadius: "4px",
         whiteSpace: "nowrap",
       }}>
         {label}
       </div>
 
+      {/* Card */}
       <div style={{
         display: "flex",
         flexDirection: "column",
@@ -92,6 +96,7 @@ const ProcessCard = ({ label, noteColor, rotate, items = [] }) => {
             border: "none",
             cursor: "pointer",
             transition: "background-color 0.2s",
+            flexShrink: 0,
           }}
           onMouseOver={e => e.currentTarget.style.backgroundColor = "#d97706"}
           onMouseOut={e => e.currentTarget.style.backgroundColor = "#f59e0b"}

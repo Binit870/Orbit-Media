@@ -60,7 +60,7 @@ const Process = () => {
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
           gap: "2rem",
-          alignItems: "start",
+          alignItems: "stretch",
         }}>
           <ProcessCard
             label="End to End"

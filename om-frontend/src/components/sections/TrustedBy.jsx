@@ -242,7 +242,7 @@ function TestimonialCard({ card, scrollProgress, visible }) {
 
       {/* Body text */}
       <p
-        className="mb-6 leading-[1.72] text-center text-[1.05rem] font-semibold text-white/90"
+        className="mb-6 leading-[1.72] text-center text-[1.2rem] font-semibold text-white/90"
         style={{ fontFamily: "'DM Sans', sans-serif" }}
       >
         {card.segments.map((seg, i) =>
@@ -336,7 +336,7 @@ export default function TestimonialsSection() {
         >
           <h2
             className="relative inline-block font-extrabold tracking-tight leading-tight text-transparent bg-clip-text"
-            style={{ fontFamily: "'Syne', sans-serif", fontSize: "clamp(2rem, 3.5vw, 2.6rem)", letterSpacing: "-0.065em" }}
+            style={{ fontFamily: "'Syne', sans-serif", fontSize: "clamp(2rem, 4.5vw, 3.6rem)", letterSpacing: "-0.065em" }}
           >
             <span className="text-white">Trusted by </span>
             <span className="gold-shimmer">Industry Leaders</span>
