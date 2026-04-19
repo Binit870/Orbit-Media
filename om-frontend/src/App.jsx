@@ -16,10 +16,9 @@ import Testimonials from './components/sections/Testimonials';
 function App() {
   return (
     <div className="App">
-      
       <Hero />
-      <TrustedBy/>
       <Stats/>
+      <TrustedBy/>
       <ShortFormSection/>
       <ContentFlywheel/>
       <ViralAndTrailersSections/>

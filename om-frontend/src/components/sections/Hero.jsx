@@ -29,13 +29,13 @@ const navItems = ["Process", "Solutions", "Work", "Testimonials"];
 
 const Navbar = () => (
   <header className="sticky top-0 z-50 backdrop-blur-md bg-[hsl(220_26%_7%/0.8)] border-b border-white/5">
-    <div className="max-w-7xl mx-auto px-4 flex items-center justify-between py-4">
+    <div className="mx-auto px-40 flex items-center justify-between py-4">
       <a href="#" className="flex items-center gap-2.5 no-underline">
         <div className="flex flex-col gap-1">
           <div className="w-7 h-1.5 bg-white rounded-sm -skew-x-[20deg]" />
           <div className="w-7 h-1.5 bg-white rounded-sm -skew-x-[20deg]" />
         </div>
-        <span className="text-white font-bold text-lg tracking-tight">Orbit Media</span>
+        <span className="text-white font-bold text-2xl tracking-tight">Orbit Media</span>
       </a>
 
       <nav className="hidden md:flex items-center gap-8">
@@ -43,7 +43,7 @@ const Navbar = () => (
           <a
             key={item}
             href={`#${item.toLowerCase()}`}
-            className="text-sm text-white/80 hover:text-white transition-colors no-underline"
+            className="text-lg text-white/80 hover:text-white transition-colors no-underline"
           >
             {item}
           </a>
@@ -108,7 +108,7 @@ const Index = () => (
         }}
       />
 
-      <div className="max-w-7xl mx-auto px-4 relative grid lg:grid-cols-2 gap-12 lg:gap-16 items-stretch pt-12 pb-24 lg:pt-0 lg:pb-0">
+      <div className=" mx-auto px-40 relative grid lg:grid-cols-2 gap-12 lg:gap-16 items-stretch pt-12 pb-24 lg:pt-0 lg:pb-0">
 
         {/* Left: copy */}
         <div className="flex flex-col justify-center lg:min-h-[calc(100vh-5rem)] lg:py-16">
@@ -153,13 +153,14 @@ const Index = () => (
 
             <div className="relative">
               <span
-                className="text-green-400 text-2xl inline-block -rotate-[8deg]"
+                className="text-green-400 text-2xl inline-block -rotate-[368deg]"
                 style={{ fontFamily: "'Caveat', cursive" }}
               >
                 It's Free
               </span>
               <svg
                 className="absolute -bottom-4 -left-2 w-12 h-8 text-green-400"
+                style={{ transform: "scaleX(-1)" }}
                 viewBox="0 0 48 32"
                 fill="none"
                 stroke="currentColor"
