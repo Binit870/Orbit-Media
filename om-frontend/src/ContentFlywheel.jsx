@@ -66,55 +66,41 @@ function PlatformIcon({ iconKey, x, y, size = 56 }) {
 function PlatformNode({ platform, visible, index }) {
   const nodePos = polar(platform.angle, NODE_RADIUS);
   const a = platform.angle;
-
   const isLinkedIn  = platform.id === "linkedin_posts";
   const isFacebook  = platform.id === "facebook_posts";
   const isInstagram = platform.id === "instagram_reels";
   const isWhatsApp  = platform.id === "whatsapp";
   const isLeftHalf  = a > 95 && a < 265;
+  const ICON_SIZE = 56, HALF = ICON_SIZE / 2, GAP = 12;
 
-  const ICON_SIZE = 56;
-  const HALF = ICON_SIZE / 2;
-  const GAP = 12;
-
-  // ── LinkedIn: icon RIGHT, text LEFT, group nudged left away from ring ──────
-  const liShiftX = -52;                          // 🔧 controls how far left from ring edge
+  const liShiftX = -52;
   const liIconX  = nodePos.x + GAP + liShiftX;
   const liIconY  = nodePos.y - HALF;
   const liTextX  = nodePos.x - GAP + liShiftX;
 
-  // ── Facebook: nudged right + shifted UP ───────────────────────────────────
-  const fbNudge  = 30;
-  const fbYShift = -18;
-  const fbIconX  = nodePos.x - HALF + fbNudge;
-  const fbIconY  = nodePos.y - HALF + fbYShift;
-  const fbTextX  = fbIconX + ICON_SIZE + GAP;
+  const fbNudge = 30, fbYShift = -18;
+  const fbIconX = nodePos.x - HALF + fbNudge;
+  const fbIconY = nodePos.y - HALF + fbYShift;
+  const fbTextX = fbIconX + ICON_SIZE + GAP;
 
-  // ── Instagram: shifted RIGHT ──────────────────────────────────────────────
-  const igShift  = 20;
-  const igIconX  = nodePos.x - HALF + igShift;
-  const igIconY  = nodePos.y - HALF;
-  const igTextX  = igIconX + ICON_SIZE + GAP;
+  const igShift = 20;
+  const igIconX = nodePos.x - HALF + igShift;
+  const igIconY = nodePos.y - HALF;
+  const igTextX = igIconX + ICON_SIZE + GAP;
 
-  // ── WhatsApp: icon centered, text left (end) ──────────────────────────────
-  const waTextX  = nodePos.x - HALF - GAP;
-
-  // Default (YouTube)
+  const waTextX       = nodePos.x - HALF - GAP;
   const defaultTextX  = isLeftHalf ? nodePos.x - HALF - GAP : nodePos.x + HALF + GAP;
   const defaultAnchor = isLeftHalf ? "end" : "start";
 
   const labelLines = (tx, anchor, baseY = nodePos.y) =>
     platform.label.map((line, li) => {
-      const lineH = 22;
-      const blockH = platform.label.length * lineH;
-      const lineY  = baseY - blockH / 2 + li * lineH + lineH * 0.72;
+      const lineH = 22, blockH = platform.label.length * lineH;
+      const lineY = baseY - blockH / 2 + li * lineH + lineH * 0.72;
       return (
         <text key={li} x={tx} y={lineY} textAnchor={anchor}
           fill="#fff" fontSize={19}
           fontFamily="'SF Pro Display', -apple-system, 'Helvetica Neue', sans-serif"
-          fontWeight={600} letterSpacing="-0.01em">
-          {line}
-        </text>
+          fontWeight={600} letterSpacing="-0.01em">{line}</text>
       );
     });
 
@@ -126,30 +112,15 @@ function PlatformNode({ platform, visible, index }) {
       transformOrigin: `${nodePos.x}px ${nodePos.y}px`,
     }}>
       {isLinkedIn ? (
-        <>
-          <PlatformIcon iconKey={platform.icon} x={liIconX} y={liIconY} size={ICON_SIZE} />
-          {labelLines(liTextX, "end")}
-        </>
+        <><PlatformIcon iconKey={platform.icon} x={liIconX} y={liIconY} size={ICON_SIZE} />{labelLines(liTextX, "end")}</>
       ) : isFacebook ? (
-        <>
-          <PlatformIcon iconKey={platform.icon} x={fbIconX} y={fbIconY} size={ICON_SIZE} />
-          {labelLines(fbTextX, "start", nodePos.y + fbYShift)}
-        </>
+        <><PlatformIcon iconKey={platform.icon} x={fbIconX} y={fbIconY} size={ICON_SIZE} />{labelLines(fbTextX, "start", nodePos.y + fbYShift)}</>
       ) : isInstagram ? (
-        <>
-          <PlatformIcon iconKey={platform.icon} x={igIconX} y={igIconY} size={ICON_SIZE} />
-          {labelLines(igTextX, "start")}
-        </>
+        <><PlatformIcon iconKey={platform.icon} x={igIconX} y={igIconY} size={ICON_SIZE} />{labelLines(igTextX, "start")}</>
       ) : isWhatsApp ? (
-        <>
-          <PlatformIcon iconKey={platform.icon} x={nodePos.x - HALF} y={nodePos.y - HALF} size={ICON_SIZE} />
-          {labelLines(waTextX, "end")}
-        </>
+        <><PlatformIcon iconKey={platform.icon} x={nodePos.x - HALF} y={nodePos.y - HALF} size={ICON_SIZE} />{labelLines(waTextX, "end")}</>
       ) : (
-        <>
-          <PlatformIcon iconKey={platform.icon} x={nodePos.x - HALF} y={nodePos.y - HALF} size={ICON_SIZE} />
-          {labelLines(defaultTextX, defaultAnchor)}
-        </>
+        <><PlatformIcon iconKey={platform.icon} x={nodePos.x - HALF} y={nodePos.y - HALF} size={ICON_SIZE} />{labelLines(defaultTextX, defaultAnchor)}</>
       )}
     </g>
   );
@@ -157,11 +128,10 @@ function PlatformNode({ platform, visible, index }) {
 
 export default function ContentFlywheel() {
   const [elapsed, setElapsed] = useState(0);
-  const [scrolled, setScrolled] = useState(0);
   const [visible, setVisible] = useState(Array(PLATFORMS.length).fill(false));
   const containerRef = useRef(null);
-  const rafRef = useRef(null);
-  const t0Ref = useRef(null);
+  const rafRef       = useRef(null);
+  const t0Ref        = useRef(null);
 
   useEffect(() => {
     function tick(ts) {
@@ -180,7 +150,6 @@ export default function ContentFlywheel() {
       const rect = el.getBoundingClientRect();
       const scrollable = el.scrollHeight - window.innerHeight;
       const s = Math.max(0, Math.min(1, -rect.top / Math.max(1, scrollable)));
-      setScrolled(s);
       setVisible(PLATFORMS.map((_, i) => s >= (i + 1) / (PLATFORMS.length + 1)));
     }
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -194,36 +163,68 @@ export default function ContentFlywheel() {
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap');
         html { scroll-behavior: smooth; }
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background: #000; }
-        .cfw-wrap { background: #000; min-height: 600vh; position: relative; }
+
+        .cfw-wrap {
+          background: #000;
+          min-height: 1000vh;
+          position: relative;
+          isolation: isolate;
+          z-index: 1;
+        }
+
+        /* The sticky panel fills the entire viewport — SVG + button both live here */
         .cfw-sticky {
-          position: sticky; top: 0; height: 100vh;
-          display: flex; align-items: center; justify-content: center; overflow: hidden;
+          position: sticky;
+          top: 0;
+          height: 100vh;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 28px;          /* space between SVG and button */
+          z-index: 2;
+          background: #000;
         }
-        .cfw-svg { width: min(96vw, 840px); height: min(96vw, 840px); overflow: visible; }
-        .cfw-hint {
-          position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
-          display: flex; flex-direction: column; align-items: center; gap: 10px;
-          transition: opacity 0.4s ease;
+
+        .cfw-svg {
+          display: block;
+          /* Shrink SVG slightly so button always fits inside the viewport */
+          width: min(96vw, 780px);
+          height: auto;
+          flex-shrink: 0;
         }
-        .cfw-hint-label {
-          font-family: 'Outfit', sans-serif; font-size: 10px;
-          letter-spacing: 0.35em; color: #444; text-transform: uppercase;
+
+        /* Button sits naturally BELOW the SVG inside the flex column — no negative margin */
+        .cfw-btn {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          background: #ff8c00;
+          color: #fff;
+          font-family: 'Outfit', -apple-system, sans-serif;
+          font-size: 18px;
+          font-weight: 700;
+          letter-spacing: 0.01em;
+          padding: 16px 52px;
+          border-radius: 50px;
+          border: none;
+          cursor: pointer;
+          transition: background 0.18s ease, transform 0.12s ease;
+          white-space: nowrap;
+          flex-shrink: 0;
         }
-        .cfw-chevron {
-          width: 18px; height: 18px;
-          border-right: 1.5px solid #444; border-bottom: 1.5px solid #444;
-          transform: rotate(45deg); animation: cfw-bounce 1.8s ease-in-out infinite;
-        }
-        @keyframes cfw-bounce {
-          0%, 100% { transform: rotate(45deg) translate(0,0); }
-          50%       { transform: rotate(45deg) translate(3px,3px); }
-        }
+        .cfw-btn:hover  { background: #e07b00; transform: scale(1.04); }
+        .cfw-btn:active { background: #c96d00; transform: scale(0.97); }
       `}</style>
 
       <div className="cfw-wrap" ref={containerRef}>
         <div className="cfw-sticky">
-          <svg className="cfw-svg" viewBox="0 0 800 800" aria-label="Content Flywheel">
+
+          <svg
+            className="cfw-svg"
+            viewBox="0 0 800 800"
+            aria-label="Content Flywheel"
+          >
             <circle cx={CX} cy={CY} r={180} fill="#000" />
             <HexRing elapsed={elapsed} />
             <circle cx={CX} cy={CY} r={152} fill="#000" />
@@ -237,10 +238,10 @@ export default function ContentFlywheel() {
               <PlatformNode key={p.id} platform={p} visible={visible[i]} index={i} />
             ))}
           </svg>
-          <div className="cfw-hint" style={{ opacity: scrolled > 0.06 ? 0 : 1 }}>
-            <span className="cfw-hint-label">Scroll to reveal</span>
-            <div className="cfw-chevron" />
-          </div>
+
+          {/* Button is a direct flex child — always visible inside the sticky viewport */}
+          <button className="cfw-btn">Get Started</button>
+
         </div>
       </div>
     </>
