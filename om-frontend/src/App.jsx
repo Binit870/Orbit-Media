@@ -1,39 +1,26 @@
 import React from 'react';
-import ContentFlywheel from './components/sections/ContentFlywheel';
+import Navbar from './components/layout/Navbar';
 import Hero from './components/sections/Hero';
 import TrustedBy from './components/sections/TrustedBy';
 import Stats from './components/sections/Stats';
-import ShortFormSection from './components/sections/ShortFormSection';
-import ViralAndTrailersSections from './components/sections/Viralandtrailerssections';
-import HeroVideo from './components/sections/LaunchWithImpact';
-import ProcessCard from './components/sections/Process';
-import ShortTestimonials from './components/sections/ShortTestimonials';
+
 import FAQ from './components/sections/FAQ';
 import Footer from './components/layout/Footer';
-import ProblemsSolved from './components/sections/ProblemsSolved';
-import TheGoal from './components/sections/TheGoal';
-import Testimonials from './components/sections/Testimonials';
-import ThreeVerticles from './components/sections/ThreeVerticles';
+
+import OrbitServices from './components/sections/OrbitServices';
 import HowItWorks from './components/sections/HowItWorks';
-import CaseStudy from './components/sections/CaseStudy';
+import ReceiptsSection from './components/sections/ReceiptsSection';
+
 function App() {
   return (
     <div className="App">
+      <Navbar />
       <Hero />
       <TrustedBy/>
       <Stats/>
-      <ThreeVerticles/>
+      <OrbitServices/>
       <HowItWorks/>
-      <CaseStudy/>
-      <ShortFormSection/>
-      <ContentFlywheel/>
-      <ViralAndTrailersSections/>
-      <HeroVideo/>
-      <ShortTestimonials/>
-      <ProcessCard/>
-      <ProblemsSolved/>
-      <TheGoal/>
-      <Testimonials/>
+      <ReceiptsSection/>
       <FAQ/>
       <Footer/> 
     </div>

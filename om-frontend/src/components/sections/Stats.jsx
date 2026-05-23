@@ -58,7 +58,7 @@ const stats = [
 export default function StatsSection() {
   return (
     <section
-      className="relative overflow-hidden py-28"
+      className="relative overflow-hidden py-20"
       style={{
         background:
           "linear-gradient(90deg, rgba(41,18,107,1) 0%, rgba(4,18,40,1) 30%, rgba(3,19,44,1) 100%)",
@@ -86,7 +86,7 @@ export default function StatsSection() {
 
           {/* Top label */}
           <p
-            className="mb-8 text-[20px] text-[#F5B52E]"
+            className="mb-8 text-[20px] text-purple-500"
             style={{
               fontFamily: "'Caveat', cursive",
             }}
@@ -105,7 +105,7 @@ export default function StatsSection() {
             <br />
 
             into{" "}
-            <span className="text-[#F5B52E]">
+            <span className="text-purple-500">
               niche authorities
             </span>
             .
@@ -164,26 +164,23 @@ export default function StatsSection() {
             >
 
               {/* Number */}
-              <h3
-                className="
-                  text-[72px]
-                  font-black
-                  leading-none
-                  tracking-[-0.06em]
-                "
-                style={{
-                  fontFamily: "'Inter', sans-serif",
-                  background:
-                    "linear-gradient(90deg, #F5B52E 0%, #D96BE8 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                }}
-              >
-                <CountUp
-                  end={stat.value}
-                  suffix={stat.suffix}
-                />
-              </h3>
+             <h3
+  className="
+    text-[72px]
+    font-black
+    leading-none
+    tracking-[-0.06em]
+    text-purple-500
+  "
+  style={{
+    fontFamily: "'Inter', sans-serif",
+  }}
+>
+  <CountUp
+    end={stat.value}
+    suffix={stat.suffix}
+  />
+</h3>
 
               {/* Label */}
               <p className="mt-5 text-[20px] font-medium text-white/60">
