@@ -1,94 +1,200 @@
-import { Eye, Star, Video } from "lucide-react";
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
-const stats = [
-  {
-    icon: <Eye strokeWidth={2.5} className="h-7 w-7" />,
-    badgeColor: "#D9F5C5",
-    iconColor: "#0B0F1A",
-    title: "500M+ views generated",
-  },
-  {
-    icon: <Star strokeWidth={2.5} className="h-7 w-7" fill="currentColor" />,
-    badgeColor: "#B8B5FF",
-    iconColor: "#0B0F1A",
-    title: "3 Years of Building Brands",
-  },
-  {
-    icon: <Video strokeWidth={2.5} className="h-7 w-7" fill="currentColor" />,
-    badgeColor: "#F5E663",
-    iconColor: "#0B0F1A",
-    title: "6000+ Videos Created",
-  },
-];
+// Counter Animation
+function CountUp({ end, suffix = "", duration = 2000 }) {
+  const [count, setCount] = useState(0);
 
-// Badge Component
-function ScallopedBadge({ color, children, iconColor }) {
+  useEffect(() => {
+    let start = 0;
+
+    const increment = end / (duration / 16);
+
+    const timer = setInterval(() => {
+      start += increment;
+
+      if (start >= end) {
+        setCount(end);
+        clearInterval(timer);
+      } else {
+        setCount(Math.floor(start));
+      }
+    }, 16);
+
+    return () => clearInterval(timer);
+  }, [end, duration]);
+
   return (
-    <div className="relative h-[88px] w-[88px]">
-      <svg
-        viewBox="0 0 100 100"
-        className="absolute inset-0 h-full w-full"
-      >
-        <path
-          fill={color}
-          d="M50 2 L58 8 L67 5 L72 13 L82 14 L83 24 L91 30 L88 39 L94 47 L88 55 L92 65 L84 70 L83 80 L73 81 L67 89 L58 86 L50 92 L42 86 L33 89 L27 81 L17 80 L16 70 L8 65 L12 55 L6 47 L12 39 L9 30 L17 24 L18 14 L28 13 L33 5 L42 8 Z"
-        />
-      </svg>
-
-      <div
-        className="absolute inset-0 flex items-center justify-center"
-        style={{ color: iconColor }}
-      >
-        {children}
-      </div>
-    </div>
+    <span>
+      {count}
+      {suffix}
+    </span>
   );
 }
 
-// Main Component
-function StatsSection() {
+const stats = [
+  {
+    value: 250,
+    suffix: "M+",
+    label: "Impressions Curated",
+  },
+  {
+    value: 80,
+    suffix: "+",
+    label: "Founders Scaled",
+  },
+  {
+    value: 12,
+    suffix: "M+",
+    label: "Followers Gained",
+  },
+  {
+    value: 4,
+    suffix: "X",
+    label: "Avg. Engagement Lift",
+  },
+];
+
+export default function StatsSection() {
   return (
     <section
-      className="relative w-full overflow-hidden py-16"
+      className="relative overflow-hidden py-28"
       style={{
-        backgroundColor: "#0A0E1A",
-        backgroundImage:
-          "linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)",
-        backgroundSize: "44px 44px",
+        background:
+          "linear-gradient(90deg, rgba(41,18,107,1) 0%, rgba(4,18,40,1) 30%, rgba(3,19,44,1) 100%)",
       }}
     >
-      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-6 md:grid-cols-3">
+      {/* Grid overlay */}
+      <div
+        className="absolute inset-0 opacity-[0.06]"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(255,255,255,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.4) 1px, transparent 1px)",
+          backgroundSize: "48px 48px",
+        }}
+      />
 
-        {stats.map((stat, index) => (
-          <motion.div
-            key={stat.title}
-            initial={{ opacity: 0, y: 60 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{
-              duration: 0.6,
-              delay: index * 0.2,
-              ease: "easeOut",
+      <div className="relative z-10 mx-auto grid max-w-7xl grid-cols-1 items-center gap-20 px-6 lg:grid-cols-2">
+
+        {/* LEFT CONTENT */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
+          viewport={{ once: true }}
+        >
+
+          {/* Top label */}
+          <p
+            className="mb-8 text-[20px] text-[#F5B52E]"
+            style={{
+              fontFamily: "'Caveat', cursive",
             }}
-            viewport={{ once: true }}
-            className="flex flex-col items-start gap-6 px-2"
           >
-            <ScallopedBadge
-              color={stat.badgeColor}
-              iconColor={stat.iconColor}
+            — Our Philosophy
+          </p>
+
+          {/* Heading */}
+          <h2
+            className="max-w-[680px] text-[68px] font-black leading-[0.95] tracking-[-0.06em] text-white"
+            style={{
+              fontFamily: "'Inter', sans-serif",
+            }}
+          >
+            We turn founders
+            <br />
+
+            into{" "}
+            <span className="text-[#F5B52E]">
+              niche authorities
+            </span>
+            .
+          </h2>
+
+          {/* Paragraph */}
+          <p className="mt-10 max-w-[720px] text-[20px] leading-[1.8] text-white/60">
+            Orbit is not just a content shop. We engineer
+            organic growth systems — a cinematic blend of
+            storytelling, distribution and founder positioning
+            that compounds trust, attention and inbound demand.
+            No ads. No noise. Just authority.
+          </p>
+
+          {/* Pills */}
+          <div className="mt-10 flex flex-wrap gap-4">
+
+            {[
+              "Founder-led storytelling",
+              "Content systems",
+              "Distribution-first",
+              "Long-term moat",
+            ].map((item) => (
+              <div
+                key={item}
+                className="rounded-full border border-white/10 bg-white/[0.03] px-6 py-3 text-[18px] text-white/80 backdrop-blur-sm"
+              >
+                {item}
+              </div>
+            ))}
+
+          </div>
+        </motion.div>
+
+        {/* RIGHT STATS GRID */}
+        <div className="grid grid-cols-2 gap-6">
+
+          {stats.map((stat, index) => (
+            <motion.div
+              key={stat.label}
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 0.7,
+                delay: index * 0.15,
+              }}
+              viewport={{ once: true }}
+              className="
+                rounded-[34px]
+                border border-white/10
+                bg-white/[0.03]
+                p-10
+                backdrop-blur-md
+                shadow-[0_0_40px_rgba(0,0,0,0.25)]
+              "
             >
-              {stat.icon}
-            </ScallopedBadge>
 
-            <h3 className="max-w-[260px] text-2xl font-bold leading-snug text-white">
-              {stat.title}
-            </h3>
-          </motion.div>
-        ))}
+              {/* Number */}
+              <h3
+                className="
+                  text-[72px]
+                  font-black
+                  leading-none
+                  tracking-[-0.06em]
+                "
+                style={{
+                  fontFamily: "'Inter', sans-serif",
+                  background:
+                    "linear-gradient(90deg, #F5B52E 0%, #D96BE8 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                <CountUp
+                  end={stat.value}
+                  suffix={stat.suffix}
+                />
+              </h3>
 
+              {/* Label */}
+              <p className="mt-5 text-[20px] font-medium text-white/60">
+                {stat.label}
+              </p>
+
+            </motion.div>
+          ))}
+
+        </div>
       </div>
     </section>
   );
 }
-
-export default StatsSection;

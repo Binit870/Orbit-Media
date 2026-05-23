@@ -13,12 +13,18 @@ import Footer from './components/layout/Footer';
 import ProblemsSolved from './components/sections/ProblemsSolved';
 import TheGoal from './components/sections/TheGoal';
 import Testimonials from './components/sections/Testimonials';
+import ThreeVerticles from './components/sections/ThreeVerticles';
+import HowItWorks from './components/sections/HowItWorks';
+import CaseStudy from './components/sections/CaseStudy';
 function App() {
   return (
     <div className="App">
       <Hero />
-      <Stats/>
       <TrustedBy/>
+      <Stats/>
+      <ThreeVerticles/>
+      <HowItWorks/>
+      <CaseStudy/>
       <ShortFormSection/>
       <ContentFlywheel/>
       <ViralAndTrailersSections/>
