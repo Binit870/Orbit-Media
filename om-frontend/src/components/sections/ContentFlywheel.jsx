@@ -17,7 +17,7 @@ const PLATFORMS = [
 ];
 
 const RING_COLORS = ["#FFE500","#AAFF00","#44FF88","#00FFCC","#00BBFF","#4488FF","#9955FF","#FF44CC","#FF0055"];
-const CX = 400, CY = 400, NODE_RADIUS = 235;
+const CX = 450, CY = 450, NODE_RADIUS = 320;
 
 function buildWavePath(baseR, amplitude, phaseOffset, t, sides = 6) {
   const STEPS = 180, points = [];
@@ -39,14 +39,14 @@ function polar(angleDeg, r) {
 }
 
 function HexRing({ elapsed }) {
-  const t = elapsed * 0.00065, BASE = 182;
+  const t = elapsed * 0.00065, BASE = 210;
   return (
     <g style={{ mixBlendMode: "screen" }}>
       {RING_COLORS.map((color, i) => {
         const phase = (i / RING_COLORS.length) * Math.PI * 1.5;
-        const amp = 22 - i * 1.2;
-        return <path key={i} d={buildWavePath(BASE - i * 2, amp, phase, t)}
-          fill="none" stroke={color} strokeWidth={1.6} strokeOpacity={0.9 - i * 0.025} />;
+        const amp = 26 - i * 1.4;
+        return <path key={i} d={buildWavePath(BASE - i * 2.2, amp, phase, t)}
+          fill="none" stroke={color} strokeWidth={1.8} strokeOpacity={0.9 - i * 0.025} />;
       })}
     </g>
   );
@@ -66,55 +66,41 @@ function PlatformIcon({ iconKey, x, y, size = 56 }) {
 function PlatformNode({ platform, visible, index }) {
   const nodePos = polar(platform.angle, NODE_RADIUS);
   const a = platform.angle;
-
   const isLinkedIn  = platform.id === "linkedin_posts";
   const isFacebook  = platform.id === "facebook_posts";
   const isInstagram = platform.id === "instagram_reels";
   const isWhatsApp  = platform.id === "whatsapp";
   const isLeftHalf  = a > 95 && a < 265;
+  const ICON_SIZE = 56, HALF = ICON_SIZE / 2, GAP = 12;
 
-  const ICON_SIZE = 56;
-  const HALF = ICON_SIZE / 2;
-  const GAP = 12;
-
-  // ── LinkedIn: icon RIGHT, text LEFT, group nudged left away from ring ──────
-  const liShiftX = -52;                          // 🔧 controls how far left from ring edge
+  const liShiftX = -52;
   const liIconX  = nodePos.x + GAP + liShiftX;
   const liIconY  = nodePos.y - HALF;
   const liTextX  = nodePos.x - GAP + liShiftX;
 
-  // ── Facebook: nudged right + shifted UP ───────────────────────────────────
-  const fbNudge  = 30;
-  const fbYShift = -18;
-  const fbIconX  = nodePos.x - HALF + fbNudge;
-  const fbIconY  = nodePos.y - HALF + fbYShift;
-  const fbTextX  = fbIconX + ICON_SIZE + GAP;
+  const fbNudge = 30, fbYShift = -18;
+  const fbIconX = nodePos.x - HALF + fbNudge;
+  const fbIconY = nodePos.y - HALF + fbYShift;
+  const fbTextX = fbIconX + ICON_SIZE + GAP;
 
-  // ── Instagram: shifted RIGHT ──────────────────────────────────────────────
-  const igShift  = 20;
-  const igIconX  = nodePos.x - HALF + igShift;
-  const igIconY  = nodePos.y - HALF;
-  const igTextX  = igIconX + ICON_SIZE + GAP;
+  const igShift = 20;
+  const igIconX = nodePos.x - HALF + igShift;
+  const igIconY = nodePos.y - HALF;
+  const igTextX = igIconX + ICON_SIZE + GAP;
 
-  // ── WhatsApp: icon centered, text left (end) ──────────────────────────────
-  const waTextX  = nodePos.x - HALF - GAP;
-
-  // Default (YouTube)
+  const waTextX       = nodePos.x - HALF - GAP;
   const defaultTextX  = isLeftHalf ? nodePos.x - HALF - GAP : nodePos.x + HALF + GAP;
   const defaultAnchor = isLeftHalf ? "end" : "start";
 
   const labelLines = (tx, anchor, baseY = nodePos.y) =>
     platform.label.map((line, li) => {
-      const lineH = 22;
-      const blockH = platform.label.length * lineH;
-      const lineY  = baseY - blockH / 2 + li * lineH + lineH * 0.72;
+      const lineH = 22, blockH = platform.label.length * lineH;
+      const lineY = baseY - blockH / 2 + li * lineH + lineH * 0.72;
       return (
         <text key={li} x={tx} y={lineY} textAnchor={anchor}
           fill="#fff" fontSize={19}
           fontFamily="'SF Pro Display', -apple-system, 'Helvetica Neue', sans-serif"
-          fontWeight={600} letterSpacing="-0.01em">
-          {line}
-        </text>
+          fontWeight={800} letterSpacing="-0.01em">{line}</text>
       );
     });
 
@@ -126,30 +112,15 @@ function PlatformNode({ platform, visible, index }) {
       transformOrigin: `${nodePos.x}px ${nodePos.y}px`,
     }}>
       {isLinkedIn ? (
-        <>
-          <PlatformIcon iconKey={platform.icon} x={liIconX} y={liIconY} size={ICON_SIZE} />
-          {labelLines(liTextX, "end")}
-        </>
+        <><PlatformIcon iconKey={platform.icon} x={liIconX} y={liIconY} size={ICON_SIZE} />{labelLines(liTextX, "end")}</>
       ) : isFacebook ? (
-        <>
-          <PlatformIcon iconKey={platform.icon} x={fbIconX} y={fbIconY} size={ICON_SIZE} />
-          {labelLines(fbTextX, "start", nodePos.y + fbYShift)}
-        </>
+        <><PlatformIcon iconKey={platform.icon} x={fbIconX} y={fbIconY} size={ICON_SIZE} />{labelLines(fbTextX, "start", nodePos.y + fbYShift)}</>
       ) : isInstagram ? (
-        <>
-          <PlatformIcon iconKey={platform.icon} x={igIconX} y={igIconY} size={ICON_SIZE} />
-          {labelLines(igTextX, "start")}
-        </>
+        <><PlatformIcon iconKey={platform.icon} x={igIconX} y={igIconY} size={ICON_SIZE} />{labelLines(igTextX, "start")}</>
       ) : isWhatsApp ? (
-        <>
-          <PlatformIcon iconKey={platform.icon} x={nodePos.x - HALF} y={nodePos.y - HALF} size={ICON_SIZE} />
-          {labelLines(waTextX, "end")}
-        </>
+        <><PlatformIcon iconKey={platform.icon} x={nodePos.x - HALF} y={nodePos.y - HALF} size={ICON_SIZE} />{labelLines(waTextX, "end")}</>
       ) : (
-        <>
-          <PlatformIcon iconKey={platform.icon} x={nodePos.x - HALF} y={nodePos.y - HALF} size={ICON_SIZE} />
-          {labelLines(defaultTextX, defaultAnchor)}
-        </>
+        <><PlatformIcon iconKey={platform.icon} x={nodePos.x - HALF} y={nodePos.y - HALF} size={ICON_SIZE} />{labelLines(defaultTextX, defaultAnchor)}</>
       )}
     </g>
   );
@@ -157,11 +128,10 @@ function PlatformNode({ platform, visible, index }) {
 
 export default function ContentFlywheel() {
   const [elapsed, setElapsed] = useState(0);
-  const [scrolled, setScrolled] = useState(0);
   const [visible, setVisible] = useState(Array(PLATFORMS.length).fill(false));
   const containerRef = useRef(null);
-  const rafRef = useRef(null);
-  const t0Ref = useRef(null);
+  const rafRef       = useRef(null);
+  const t0Ref        = useRef(null);
 
   useEffect(() => {
     function tick(ts) {
@@ -180,7 +150,6 @@ export default function ContentFlywheel() {
       const rect = el.getBoundingClientRect();
       const scrollable = el.scrollHeight - window.innerHeight;
       const s = Math.max(0, Math.min(1, -rect.top / Math.max(1, scrollable)));
-      setScrolled(s);
       setVisible(PLATFORMS.map((_, i) => s >= (i + 1) / (PLATFORMS.length + 1)));
     }
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -194,53 +163,121 @@ export default function ContentFlywheel() {
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap');
         html { scroll-behavior: smooth; }
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background: #000; }
-        .cfw-wrap { background: #000; min-height: 600vh; position: relative; }
+
+        .cfw-wrap {
+          background: #000;
+          min-height: 1000vh;
+          position: relative;
+          isolation: isolate;
+          z-index: 1;
+        }
+
         .cfw-sticky {
-          position: sticky; top: 0; height: 100vh;
-          display: flex; align-items: center; justify-content: center; overflow: hidden;
+          position: sticky;
+          top: 0;
+          height: 100vh;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 0;
+          z-index: 2;
+          background: #000;
+          padding: 16px 60px 24px;
         }
-        .cfw-svg { width: min(96vw, 840px); height: min(96vw, 840px); overflow: visible; }
-        .cfw-hint {
-          position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
-          display: flex; flex-direction: column; align-items: center; gap: 10px;
-          transition: opacity 0.4s ease;
+
+        .cfw-heading {
+          width: 100%;
+          max-width: 900px;
+          text-align: left;
+          flex-shrink: 0;
+          margin-bottom: 4px;
+          align-self: flex-start;
         }
-        .cfw-hint-label {
-          font-family: 'Outfit', sans-serif; font-size: 10px;
-          letter-spacing: 0.35em; color: #444; text-transform: uppercase;
+
+        .cfw-heading h2 {
+          font-family: 'Outfit', -apple-system, sans-serif;
+          font-size: clamp(28px, 4vw, 48px);
+          font-weight: 700;
+          color: #fff;
+          letter-spacing: -0.025em;
+          line-height: 1.15;
+          margin: 0 0 8px;
         }
-        .cfw-chevron {
-          width: 18px; height: 18px;
-          border-right: 1.5px solid #444; border-bottom: 1.5px solid #444;
-          transform: rotate(45deg); animation: cfw-bounce 1.8s ease-in-out infinite;
+
+        .cfw-heading h2 span {
+          color: #ff8c00;
         }
-        @keyframes cfw-bounce {
-          0%, 100% { transform: rotate(45deg) translate(0,0); }
-          50%       { transform: rotate(45deg) translate(3px,3px); }
+
+        .cfw-heading p {
+          font-family: 'Outfit', -apple-system, sans-serif;
+          font-size: clamp(13px, 1.6vw, 17px);
+          font-weight: 400;
+          color: rgba(255,255,255,0.55);
+          line-height: 1.5;
+          margin: 0;
         }
+
+        .cfw-svg {
+          display: block;
+          width: min(99vw, 1300px);
+          height: min(88vh, 980px);
+          flex-shrink: 1;
+          margin-left: -0;
+        }
+
+        .cfw-btn {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          background: #ff8c00;
+          color: #fff;
+          font-family: 'Outfit', -apple-system, sans-serif;
+          font-size: 18px;
+          font-weight: 700;
+          letter-spacing: 0.01em;
+          padding: 14px 52px;
+          border-radius: 50px;
+          border: none;
+          cursor: pointer;
+          transition: background 0.18s ease, transform 0.12s ease;
+          white-space: nowrap;
+          flex-shrink: 0;
+          margin-top: 6px;
+        }
+        .cfw-btn:hover  { background: #e07b00; transform: scale(1.04); }
+        .cfw-btn:active { background: #c96d00; transform: scale(0.97); }
       `}</style>
 
       <div className="cfw-wrap" ref={containerRef}>
         <div className="cfw-sticky">
-          <svg className="cfw-svg" viewBox="0 0 800 800" aria-label="Content Flywheel">
-            <circle cx={CX} cy={CY} r={180} fill="#000" />
+
+          <div className="cfw-heading">
+            <h2>High Level <span>Repurposing</span></h2>
+            <p>We build bulletproof content flywheels for personal brands to grow<br />on multiple platforms with high volume of content</p>
+          </div>
+
+          <svg
+            className="cfw-svg"
+            viewBox="0 0 900 900"
+            aria-label="Content Flywheel"
+          >
+            <circle cx={CX} cy={CY} r={205} fill="#000" />
             <HexRing elapsed={elapsed} />
-            <circle cx={CX} cy={CY} r={152} fill="#000" />
-            <text x={CX} y={CY - 16} textAnchor="middle" fill="#fff"
-              fontSize={40} fontFamily="'SF Pro Display', -apple-system, sans-serif"
+            <circle cx={CX} cy={CY} r={175} fill="#000" />
+            <text x={CX} y={CY - 18} textAnchor="middle" fill="#fff"
+              fontSize={46} fontFamily="'SF Pro Display', -apple-system, sans-serif"
               fontWeight={700} letterSpacing="-0.025em">Content</text>
-            <text x={CX} y={CY + 36} textAnchor="middle" fill="#ff8c00"
-              fontSize={40} fontFamily="'SF Pro Display', -apple-system, sans-serif"
+            <text x={CX} y={CY + 42} textAnchor="middle" fill="#ff8c00"
+              fontSize={46} fontFamily="'SF Pro Display', -apple-system, sans-serif"
               fontWeight={700} letterSpacing="-0.025em">Flywheel</text>
             {PLATFORMS.map((p, i) => (
               <PlatformNode key={p.id} platform={p} visible={visible[i]} index={i} />
             ))}
           </svg>
-          <div className="cfw-hint" style={{ opacity: scrolled > 0.06 ? 0 : 1 }}>
-            <span className="cfw-hint-label">Scroll to reveal</span>
-            <div className="cfw-chevron" />
-          </div>
+
+          <button className="cfw-btn">Get Started</button>
+
         </div>
       </div>
     </>

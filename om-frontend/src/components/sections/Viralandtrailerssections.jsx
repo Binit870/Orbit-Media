@@ -1,7 +1,6 @@
 import { useRef, useState } from "react";
 import { FaPlay, FaPause } from "react-icons/fa";
 
-// Replace with your actual video imports
 const video1 = "https://www.w3schools.com/html/mov_bbb.mp4";
 const video2 = "https://www.w3schools.com/html/mov_bbb.mp4";
 const video3 = "https://www.w3schools.com/html/mov_bbb.mp4";
@@ -124,10 +123,11 @@ const viralItems = [
 ];
 
 const ViralVideosSection = () => (
-  <section id="work" className="relative py-24 lg:py-32 bg-[#0d1117]">
+  /* KEY FIX: position:relative + z-index:0 so it does NOT stack above the
+     ContentFlywheel sticky. The sticky's z-index:2 will always win. */
+  <section id="work" className="relative py-24 lg:py-32 bg-[#0d1117]" style={{ position: "relative", zIndex: 0 }}>
     <div className="px-8 sm:px-12 lg:px-24 xl:px-32">
 
-      {/* Single-line fluid heading */}
       <h2
         className="font-extrabold tracking-tight leading-none whitespace-nowrap"
         style={{ fontSize: "clamp(1.4rem, 4vw, 2.6rem)" }}
@@ -169,10 +169,9 @@ const trailerItems = [
 ];
 
 const TrailersSection = () => (
-  <section id="trailers" className="relative py-24 lg:py-32 bg-[#0d1117]">
+  <section id="trailers" className="relative py-24 lg:py-32 bg-[#0d1117]" style={{ position: "relative", zIndex: 0 }}>
     <div className="px-8 sm:px-12 lg:px-24 xl:px-32">
 
-      {/* Single-line fluid heading */}
       <h2
         className="font-extrabold tracking-tight leading-none whitespace-nowrap"
         style={{ fontSize: "clamp(1.4rem, 4vw, 2.6rem)" }}
