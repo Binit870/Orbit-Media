@@ -1,30 +1,21 @@
-import React from 'react';
-import Navbar from './components/layout/Navbar';
-import Hero from './components/sections/Hero';
-import TrustedBy from './components/sections/TrustedBy';
-import Stats from './components/sections/Stats';
+import { Routes, Route } from "react-router-dom";
+import Layout from "./components/layout/Layout";
+import Home from "./pages/Home";
+import ServicePage from "./pages/ServicePage";
+import CaseStudies from "./pages/CaseStudies";
+import Contact from "./pages/Contact";
+import NotFound from "./pages/NotFound";
 
-import FAQ from './components/sections/FAQ';
-import Footer from './components/layout/Footer';
-
-import OrbitServices from './components/sections/OrbitServices';
-import HowItWorks from './components/sections/HowItWorks';
-import ReceiptsSection from './components/sections/ReceiptsSection';
-
-function App() {
+export default function App() {
   return (
-    <div className="App">
-      <Navbar />
-      <Hero />
-      <TrustedBy/>
-      <Stats/>
-      <OrbitServices/>
-      <HowItWorks/>
-      <ReceiptsSection/>
-      <FAQ/>
-      <Footer/> 
-    </div>
+    <Routes>
+      <Route element={<Layout />}>
+        <Route path="/" element={<Home />} />
+        <Route path="/services/:slug" element={<ServicePage />} />
+        <Route path="/case-studies" element={<CaseStudies />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="*" element={<NotFound />} />
+      </Route>
+    </Routes>
   );
 }
-
-export default App;

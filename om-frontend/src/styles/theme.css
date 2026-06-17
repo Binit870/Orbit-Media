@@ -1,0 +1,279 @@
+/* ============================================================
+   ORBIT MEDIA — THEME SYSTEM
+   Dark theme is the brand default (mirrors the Atomik reference).
+   Light theme is a fully designed alternate, toggled via the
+   sun/moon button and persisted to localStorage.
+   ============================================================ */
+
+:root,
+[data-theme="dark"] {
+  /* surfaces */
+  --bg: #060605;
+  --bg-soft: #0d0c0a;
+  --bg-elevated: #121110;
+  --hairline: rgba(255, 255, 255, 0.08);
+  --border-gold: rgba(212, 179, 108, 0.18);
+
+  /* text */
+  --text: #ece7da;
+  --text-body: #a4a096;
+  --text-muted: #767266;
+  --text-faint: #4b4842;
+
+  /* accent */
+  --gold: #d4b36c;
+  --gold-strong: #e8cb8c;
+  --gold-soft: rgba(212, 179, 108, 0.12);
+
+  /* fixed brand button colors (constant across themes) */
+  --btn-gold: #d4b36c;
+  --btn-gold-hover: #e2c483;
+  --btn-text: #15110a;
+
+  --shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.6);
+  --overlay-scrim: rgba(6, 6, 5, 0.72);
+}
+
+[data-theme="light"] {
+  --bg: #faf6ee;
+  --bg-soft: #f2ead9;
+  --bg-elevated: #ffffff;
+  --hairline: rgba(20, 17, 9, 0.08);
+  --border-gold: rgba(164, 124, 59, 0.28);
+
+  --text: #1a160d;
+  --text-body: #5c574c;
+  --text-muted: #847d6d;
+  --text-faint: #a89f8c;
+
+  --gold: #a47c3b;
+  --gold-strong: #8c6a33;
+  --gold-soft: rgba(164, 124, 59, 0.1);
+
+  --btn-gold: #d4b36c;
+  --btn-gold-hover: #c49f57;
+  --btn-text: #15110a;
+
+  --shadow: 0 24px 60px -24px rgba(20, 17, 9, 0.18);
+  --overlay-scrim: rgba(250, 246, 238, 0.78);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.35s ease, color 0.35s ease;
+}
+
+a {
+  color: inherit;
+}
+
+::selection {
+  background: var(--gold-soft);
+  color: var(--text);
+}
+
+/* ---------- shared layout/typography utilities ---------- */
+
+.om-container {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+@media (min-width: 768px) {
+  .om-container {
+    padding: 0 40px;
+  }
+}
+
+.om-eyebrow {
+  font-family: "Inter", sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.om-heading {
+  font-family: "Playfair Display", Georgia, serif;
+  color: var(--text);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.08;
+}
+
+.om-heading-italic {
+  font-family: "Playfair Display", Georgia, serif;
+  font-style: italic;
+  color: var(--gold);
+  font-weight: 500;
+  line-height: 1.08;
+}
+
+.om-body {
+  font-family: "Inter", sans-serif;
+  color: var(--text-body);
+  line-height: 1.7;
+  font-weight: 400;
+}
+
+.om-link-gold {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-decoration: none;
+  transition: gap 0.2s ease, opacity 0.2s ease;
+}
+
+.om-link-gold:hover {
+  gap: 12px;
+  opacity: 0.85;
+}
+
+.om-link-gold svg {
+  transition: transform 0.2s ease;
+}
+
+.om-link-gold:hover svg {
+  transform: translateX(2px);
+}
+
+.om-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: "Inter", sans-serif;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  border-radius: 999px;
+  padding: 13px 26px;
+  background: var(--btn-gold);
+  color: var(--btn-text);
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.om-btn:hover {
+  background: var(--btn-gold-hover);
+  transform: translateY(-1px);
+}
+
+.om-btn:active {
+  transform: translateY(0);
+}
+
+.om-btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: "Inter", sans-serif;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid var(--border-gold);
+  border-radius: 999px;
+  padding: 13px 26px;
+  background: transparent;
+  color: var(--text);
+  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+}
+
+.om-btn-outline:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: var(--gold-soft);
+}
+
+.om-card {
+  background: var(--bg-soft);
+  border: 1px solid var(--hairline);
+  border-radius: 18px;
+}
+
+.om-hairline {
+  border-color: var(--hairline);
+}
+
+/* ---------- focus states (accessibility) ---------- */
+a:focus-visible,
+button:focus-visible {
+  outline: 1.5px solid var(--gold);
+  outline-offset: 3px;
+}
+
+/* ---------- decorative slow spin for hero ornament ---------- */
+@keyframes om-spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.om-spin-slow {
+  animation: om-spin-slow 140s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .om-spin-slow {
+    animation: none;
+  }
+}
+
+/* ---------- marquee ---------- */
+.om-marquee-track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  will-change: transform;
+}
+
+.om-marquee-fade {
+  position: relative;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%);
+}
+
+/* ---------- skeleton/placeholder shimmer ---------- */
+.om-skeleton {
+  background: linear-gradient(120deg, var(--bg-soft) 30%, var(--hairline) 50%, var(--bg-soft) 70%);
+  background-size: 200% 100%;
+  animation: om-shimmer 2.6s ease infinite;
+}
+
+@keyframes om-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
