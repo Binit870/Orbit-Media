@@ -47,7 +47,7 @@ export default function WhatWeDo() {
               </div>
 
               <div>
-                <VideoCard title={`${s.name} reel`} variant={i} />
+                <VideoCard title={`${s.name} reel`} variant={i} src={s.videos?.[0]} aspectRatio="1 / 1" hideBorder />
               </div>
             </Motion.div>
           ))}
