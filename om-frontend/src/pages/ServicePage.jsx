@@ -16,6 +16,10 @@ export default function ServicePage() {
   const featured = videos[0];
   const gridVideos = videos.slice(1);
 
+  // these services show ALL videos as vertical grid, no horizontal featured
+  const verticalOnlyServices = ["founder-brands", "motion-graphics", "ai-ugc-commercials"];
+  const isVerticalOnly = verticalOnlyServices.includes(slug);
+
   return (
     <>
       <section style={{ padding: "72px 24px 0" }}>
@@ -31,35 +35,68 @@ export default function ServicePage() {
       {videos.length > 0 && (
         <section style={{ padding: "56px 0 0" }}>
           <div className="om-container">
-            {/* featured video — full width, 9:16 centered */}
-            <div style={{ maxWidth: 380, margin: "0 auto 24px" }}>
-              <VideoCard
-                src={featured}
-                title={`${service.name} — reel`}
-                variant={0}
-              />
-            </div>
 
-            {/* grid — remaining videos */}
-            {gridVideos.length > 0 && (
+            {/* vertical-only services — all videos in a 3-col grid */}
+            {isVerticalOnly && (
               <div
                 className="om-svc-video-grid"
                 style={{
                   display: "grid",
                   gridTemplateColumns: "repeat(3, 1fr)",
-                  gap: 18,
+                  gap: 22,
+                  maxWidth: 1180,
+                  margin: "0 auto",
                 }}
               >
-                {gridVideos.map((src, i) => (
+                {videos.map((src, i) => (
                   <VideoCard
                     key={src}
                     src={src}
-                    title={`${service.name} — ${i + 2}`}
-                    variant={i + 1}
+                    title={`${service.name} — ${i + 1}`}
+                    variant={i}
+                    aspectRatio="1080 / 1920"
                   />
                 ))}
               </div>
             )}
+
+            {/* other services — 1 horizontal featured + vertical grid below */}
+            {!isVerticalOnly && (
+              <>
+                <div style={{ maxWidth: 1180, margin: "0 auto 24px" }}>
+                  <VideoCard
+                    src={featured}
+                    title={`${service.name} — reel`}
+                    variant={0}
+                    aspectRatio="auto"
+                  />
+                </div>
+
+                {gridVideos.length > 0 && (
+                  <div
+                    className="om-svc-video-grid"
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "repeat(3, 1fr)",
+                      gap: 22,
+                      maxWidth: 1180,
+                      margin: "0 auto",
+                    }}
+                  >
+                    {gridVideos.map((src, i) => (
+                      <VideoCard
+                        key={src}
+                        src={src}
+                        title={`${service.name} — ${i + 2}`}
+                        variant={i + 1}
+                        aspectRatio="1080 / 1920"
+                      />
+                    ))}
+                  </div>
+                )}
+              </>
+            )}
+
           </div>
         </section>
       )}
@@ -68,15 +105,15 @@ export default function ServicePage() {
       {videos.length === 0 && (
         <section style={{ padding: "56px 0 0" }}>
           <div className="om-container">
-            <div style={{ maxWidth: 380, margin: "0 auto 24px" }}>
-              <VideoCard title={`${service.name} — featured`} variant={0} />
+            <div style={{ maxWidth: 1180, margin: "0 auto 24px" }}>
+              <VideoCard title={`${service.name} — featured`} variant={0} aspectRatio="1920 / 620" fit="cover" />
             </div>
             <div
               className="om-svc-video-grid"
-              style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 18 }}
+              style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 22, maxWidth: 1180, margin: "0 auto" }}
             >
               {[1, 2, 3].map((n, i) => (
-                <VideoCard key={n} title={`${service.name} — sample ${n}`} variant={i + 1} />
+                <VideoCard key={n} title={`${service.name} — sample ${n}`} variant={i + 1} aspectRatio="1080 / 1920" />
               ))}
             </div>
           </div>
@@ -123,11 +160,11 @@ export default function ServicePage() {
 
       <style>{`
         @media (max-width: 820px) {
-          .om-svc-video-grid { grid-template-columns: 1fr !important; }
+          .om-svc-video-grid { grid-template-columns: repeat(2, 1fr) !important; }
           .om-other-svc-grid { grid-template-columns: 1fr !important; }
         }
         @media (max-width: 540px) {
-          .om-svc-video-grid { grid-template-columns: 1fr !important; }
+          .om-svc-video-grid { grid-template-columns: repeat(2, 1fr) !important; }
         }
       `}</style>
     </>

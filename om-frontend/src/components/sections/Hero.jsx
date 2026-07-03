@@ -30,7 +30,7 @@ export default function Hero() {
             margin: 0,
           }}
         >
-          Shaping
+          Distributing
           <br />
           <span className="om-heading-italic">Tech Media</span>
         </h1>
