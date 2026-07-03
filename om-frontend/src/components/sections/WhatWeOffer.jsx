@@ -73,7 +73,7 @@ export default function WhatWeOffer({ service }) {
   };
 
   return (
-    <section style={{ padding: "96px 0" }}>
+    <section style={{ padding: "86px 0" }}>
       <div className="om-container">
         <div style={{ textAlign: "center", marginBottom: 64 }}>
           <p className="om-eyebrow" style={{ marginBottom: 16 }}>Complete Service</p>
@@ -104,33 +104,56 @@ export default function WhatWeOffer({ service }) {
             className="om-offer-visual"
             style={{ position: "sticky", top: 120, display: "flex", flexDirection: "column", alignItems: "center", gap: 22 }}
           >
-            <div
-              style={{
-                width: "100%",
-                aspectRatio: "1 / 1",
-                maxWidth: 420,
-                borderRadius: 20,
-                background: "linear-gradient(160deg, var(--gold-soft), transparent 70%)",
-                border: "1px solid var(--border-gold)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                overflow: "hidden",
-              }}
-            >
+            <div style={{ width: "100%", maxWidth: 420 }}>
               <AnimatePresence mode="wait">
                 {(() => {
+                  const activeItem = items[active];
+                  const image = activeItem?.image;
+
+                  if (image) {
+                    return (
+                      <Motion.div
+                        key={active}
+                        initial={{ opacity: 0, scale: 0.96 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.96 }}
+                        transition={{ duration: 0.35, ease: "easeOut" }}
+                        style={{ width: "105%", aspectRatio: "9 / 5", borderRadius: 14, overflow: "hidden" }}
+                      >
+                        <img
+                          src={image}
+                          alt={activeItem.title ?? ""}
+                          style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                        />
+                      </Motion.div>
+                    );
+                  }
+
                   const Icon = ICONS[active % ICONS.length];
                   return (
-                    <Motion.div
-                      key={active}
-                      initial={{ opacity: 0, scale: 0.85 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.85 }}
-                      transition={{ duration: 0.35, ease: "easeOut" }}
+                    <div
+                      style={{
+                        width: "100%",
+                        aspectRatio: "9 / 5",
+                        borderRadius: 20,
+                        background: "linear-gradient(160deg, var(--gold-soft), transparent 70%)",
+                        border: "1px solid var(--border-gold)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        overflow: "hidden",
+                      }}
                     >
-                      <Icon size={72} color="var(--gold)" strokeWidth={1.4} />
-                    </Motion.div>
+                      <Motion.div
+                        key={active}
+                        initial={{ opacity: 0, scale: 0.85 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.85 }}
+                        transition={{ duration: 0.35, ease: "easeOut" }}
+                      >
+                        <Icon size={72} color="var(--gold)" strokeWidth={1.4} />
+                      </Motion.div>
+                    </div>
                   );
                 })()}
               </AnimatePresence>

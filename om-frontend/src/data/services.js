@@ -12,6 +12,9 @@ export const services = [
       "Distribution across Spotify, YouTube & every major platform",
     ],
     videos: [
+      "https://res.cloudinary.com/db2ehmua9/video/upload/v1782937599/Recent_work_for_notorious_foodie_elevatorgoods_podcast_trailers_1_fs2jdr.mp4",
+      "https://res.cloudinary.com/db2ehmua9/video/upload/v1782935765/snapsave-app_3874285282319700756_62710447170_qjgour.mp4",
+      "https://res.cloudinary.com/db2ehmua9/video/upload/v1782935761/snapsave-app_3871386275889272246_62710447170_lj33cf.mp4",
       "https://res.cloudinary.com/db2ehmua9/video/upload/v1782062959/Recent_work_for_notorious_foodie_elevatorgoods_podcast_trailers_1_fs2jdr.mp4",
     ],
     offer: [
@@ -19,21 +22,29 @@ export const services = [
         title: "Guest Research & Bookings",
         description:
           "We source, vet, and book guests who fit your show's positioning, then dig into deep pre-interview research so every conversation lands with sharp questions and quotable moments.",
+        image:
+          "https://res.cloudinary.com/db2ehmua9/image/upload/v1782801029/Gemini_Generated_Image_9ej1iv9ej1iv9ej1_lfvevy.png",
       },
       {
         title: "Recording Logistics",
         description:
           "Professional multi-camera setups whether you're recording in-studio or connecting with remote guests anywhere in the world — zero technical friction on your end.",
+        image:
+          "https://res.cloudinary.com/db2ehmua9/image/upload/v1782800987/Recording_Logistics_czmtrz.jpg",
       },
       {
         title: "Post Production",
         description:
           "Every episode is cut, mixed, and color-graded to feel premium — clean audio, tight pacing, and a consistent visual identity episode after episode.",
+        image:
+          "https://res.cloudinary.com/db2ehmua9/image/upload/v1782800990/Post_Production_ckh545.jpg",
       },
       {
         title: "Publishing & Distribution",
         description:
           "We handle uploads, metadata, and optimization across Spotify, YouTube, and every major platform your audience already lives on.",
+        image:
+          "https://res.cloudinary.com/db2ehmua9/image/upload/v1782801006/Gemini_Generated_Image_bel2e4bel2e4bel2_uhdqke.png",
       },
     ],
   },
@@ -49,27 +60,37 @@ export const services = [
       "Guaranteed view thresholds on X & LinkedIn",
       "Real-time distribution on launch day",
     ],
-    videos: [],
+    videos: [
+      "https://res.cloudinary.com/db2ehmua9/video/upload/v1782936533/snapsave-app_3889129015434886320_74753095231_w6ngxx.mp4",
+      "https://res.cloudinary.com/db2ehmua9/video/upload/v1782936570/snapsave-app_3929377201126544045_74753095231_juzaou.mp4",
+      "https://res.cloudinary.com/db2ehmua9/video/upload/v1782936554/snapsave-app_3860702596688385982_74753095231_eikjkm.mp4",
+      "https://res.cloudinary.com/db2ehmua9/video/upload/v1782936552/snapsave-app_3907912043153851976_74753095231_ftcqsx.mp4",
+      "https://res.cloudinary.com/db2ehmua9/video/upload/v1782936425/snapsave-app_3856446934878143193_66631538702_ktuizn.mp4",
+    ],
     offer: [
       {
         title: "Pre-Launch Strategy",
         description:
           "We build the narrative arc and teaser content that builds anticipation before launch day, so your audience is already primed to engage.",
+        image: "https://res.cloudinary.com/db2ehmua9/image/upload/v1782938941/Gemini_Generated_Image_4resa84resa84res_xcvpr2.png",
       },
       {
         title: "Cinematic Production",
         description:
           "High-end shooting and direction that makes your launch feel like an event, not an announcement.",
+        image: "https://res.cloudinary.com/db2ehmua9/image/upload/v1782938944/Gemini_Generated_Image_a6yidba6yidba6yi_lbquym.png",
       },
       {
         title: "Guaranteed Reach",
         description:
           "We commit to view thresholds on X and LinkedIn, backed by paid amplification and platform-native optimization.",
+        image: "https://res.cloudinary.com/db2ehmua9/image/upload/v1782938936/Gemini_Generated_Image_a1cl55a1cl55a1cl_zzt8df.png",
       },
       {
         title: "Real-Time Distribution",
         description:
           "On launch day, we're live, pushing content across every channel as the moment happens — no delays, no missed windows.",
+        image: "https://res.cloudinary.com/db2ehmua9/image/upload/v1782938936/Gemini_Generated_Image_eegtkpeegtkpeegt_irnk1r.png",
       },
     ],
   },
@@ -87,6 +108,9 @@ export const services = [
     ],
     videos: [
       "https://res.cloudinary.com/db2ehmua9/video/upload/v1782064059/Drop_a_follow_rn_to_stay_ahead_of_the_curve._orbitmedia_viral_motiongrohics._bbb1bm.mp4",
+      "https://res.cloudinary.com/db2ehmua9/video/upload/v1782851087/snapsave-app_3793425405127082179_74753095231_auqwde.mp4",
+      "https://res.cloudinary.com/db2ehmua9/video/upload/v1782851008/snapsave-app_3773712887991501535_45133244619_ucylrw.mp4",
+      "https://res.cloudinary.com/db2ehmua9/video/upload/v1782851051/snapsave-app_3760777504433528150_74753095231_mymivm.mp4",
     ],
     offer: [
       {
@@ -125,6 +149,7 @@ export const services = [
     ],
     videos: [
       "https://res.cloudinary.com/db2ehmua9/video/upload/v1781968762/AI_-_UGC_ads_for_an_brand_highdrp.co100_Ai_video_dm_to_get_your_UGC_videos_and_increase_ROAS_aozpoe.mp4",
+      "https://res.cloudinary.com/db2ehmua9/video/upload/v1782848883/AI_UGC_Commercial_2_ioxbi2.mp4",
       "https://res.cloudinary.com/db2ehmua9/video/upload/v1781857773/Comment_Brand_to_get_exact_roadmad_and_stay_ahead_of_curve._aiugc_ugc_viral_flmfpg.mp4",
       "https://res.cloudinary.com/db2ehmua9/video/upload/v1781856812/AI-UGC_is_getting_out_of_hand_orbit.media.in_uwukmo.mp4",
       "https://res.cloudinary.com/db2ehmua9/video/upload/v1781856757/AQPzRttId5cCfdcdWJ5pu4F4qmU2YA6x2yLxKvtI4htBuKMdpA1fxNbTJa7mM7nJ8ZodX2qv8PYqlFCpZM60oW_871DRhayF_pls7zs.mp4",

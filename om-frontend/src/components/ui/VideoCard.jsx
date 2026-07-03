@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { Play, Volume2, VolumeX } from "lucide-react";
 import OrbitIcon from "./OrbitIcon";
 
-export default function VideoCard({ title = "Sample reel", tag = "Orbit Media", variant = 0, src, aspectRatio = "9 / 16", hideBorder = false }) {
+export default function VideoCard({ title = "Sample reel", tag = "Orbit Media", variant = 0, src, aspectRatio = "9 / 16", hideBorder = false, fit = "cover" }) {
   const videoRef = useRef(null);
   const [playing, setPlaying] = useState(false);
   const [muted, setMuted] = useState(true);
@@ -29,12 +29,13 @@ export default function VideoCard({ title = "Sample reel", tag = "Orbit Media", 
 
   /* ── real video ── */
   if (src) {
+    const isNatural = aspectRatio === "auto";
     return (
       <div
         style={{
           position: "relative",
           width: "100%",
-          aspectRatio,
+          ...(isNatural ? {} : { aspectRatio }),
           borderRadius: 14,
           overflow: "hidden",
           border: hideBorder ? "none" : "1px solid var(--border-gold)",
@@ -49,7 +50,12 @@ export default function VideoCard({ title = "Sample reel", tag = "Orbit Media", 
           loop
           muted
           playsInline
-          style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+          style={{
+            width: "100%",
+            height: isNatural ? "auto" : "100%",
+            objectFit: isNatural ? "fill" : fit,
+            display: "block",
+          }}
         />
 
         {/* gradient overlay — fades when playing */}
