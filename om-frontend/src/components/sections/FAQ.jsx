@@ -21,8 +21,8 @@ export default function FAQ() {
           overflow: hidden;
           transition: border-color 0.2s ease;
         }
-        .om-faq-item:hover { border-color: var(--border-gold); }
-        .om-faq-item.open { border-color: var(--border-gold); }
+        .om-faq-item:hover { border-color: var(--border-accent); }
+        .om-faq-item.open { border-color: var(--border-accent); }
         .om-faq-question {
           display: flex;
           justify-content: space-between;
@@ -30,7 +30,7 @@ export default function FAQ() {
           gap: 16px;
           padding: 18px 20px;
           color: var(--text);
-          font-family: 'Inter', sans-serif;
+          font-family: 'Switzer', sans-serif;
           font-size: 15px;
           font-weight: 500;
           width: 100%;
@@ -44,14 +44,14 @@ export default function FAQ() {
           width: 24px;
           height: 24px;
           border-radius: 50%;
-          border: 1px solid var(--border-gold);
+          border: 1px solid var(--border-accent);
           display: flex;
           align-items: center;
           justify-content: center;
-          color: var(--gold);
+          color: var(--accent);
           transition: transform 0.3s ease, background 0.2s ease;
         }
-        .om-faq-item.open .om-faq-icon { background: var(--gold-soft); transform: rotate(45deg); }
+        .om-faq-item.open .om-faq-icon { background: var(--accent-soft); transform: rotate(45deg); }
         .om-faq-answer-wrap {
           display: grid;
           grid-template-rows: 0fr;
@@ -62,7 +62,7 @@ export default function FAQ() {
         .om-faq-answer {
           padding: 0 20px 18px;
           color: var(--text-body);
-          font-family: 'Inter', sans-serif;
+          font-family: 'Switzer', sans-serif;
           font-size: 14px;
           line-height: 1.7;
           border-top: 1px solid var(--hairline);

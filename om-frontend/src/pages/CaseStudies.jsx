@@ -55,7 +55,7 @@ export default function CaseStudies() {
                 </div>
                 <span
                   style={{
-                    fontFamily: "Inter, sans-serif",
+                    fontFamily: "Switzer, sans-serif",
                     fontSize: 10.5,
                     fontWeight: 700,
                     letterSpacing: "0.14em",

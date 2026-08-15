@@ -20,10 +20,10 @@ export default function Testimonials() {
         <div className="om-testi-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24, maxWidth: 920, margin: "0 auto" }}>
           {testimonials.map((t, i) => (
             <div key={i} className="om-card" style={{ padding: 28 }}>
-              <Quote size={20} color="var(--gold)" style={{ marginBottom: 14 }} />
+              <Quote size={20} color="var(--accent)" style={{ marginBottom: 14 }} />
               <p className="om-body" style={{ fontSize: 14.5, marginBottom: 18 }}>{t.quote}</p>
-              <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 15, color: "var(--text)" }}>{t.name}</div>
-              <div style={{ fontFamily: "Inter, sans-serif", fontSize: 12.5, color: "var(--text-faint)" }}>{t.role}</div>
+              <div style={{ fontFamily: "'Switzer', sans-serif", fontSize: 15, color: "var(--text)" }}>{t.name}</div>
+              <div style={{ fontFamily: "Switzer, sans-serif", fontSize: 12.5, color: "var(--text-faint)" }}>{t.role}</div>
             </div>
           ))}
         </div>

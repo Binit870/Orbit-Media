@@ -1,8 +1,9 @@
 # Orbit Media — Website
 
-A React + Vite site for Orbit Media, restyled to match the Atomik Growth
-reference: dark/gold theme, Playfair Display + Inter typography, and a
-light/dark toggle.
+A React + Vite site for Orbit Media: black/white base with an orange
+(primary) + violet (secondary) accent system, Playfair Display + Inter
+typography, and a light/dark toggle. Routes below `/` are code-split
+(`React.lazy`) so the landing page ships a small first-load bundle.
 
 ## Getting started
 
@@ -27,6 +28,27 @@ Colors and fonts live in `src/styles/theme.css` as CSS variables under
 `[data-theme="dark"]` / `[data-theme="light"]`. The toggle button
 (`src/components/ui/ThemeToggle.jsx`) flips `data-theme` on `<html>` and
 persists the choice to `localStorage` via `src/context/ThemeContext.jsx`.
+
+Every component reads color through the variables below — never a hardcoded
+hex — so the whole site re-themes from this one file:
+
+| Token | Role |
+| --- | --- |
+| `--bg` / `--bg-soft` / `--bg-elevated` | black → white surfaces (theme-dependent) |
+| `--text` / `--text-body` / `--text-muted` / `--text-faint` | type hierarchy |
+| `--accent`, `--accent-strong`, `--accent-soft` | primary orange (buttons, links, italic type) |
+| `--accent-2`, `--accent-2-strong`, `--accent-2-soft` | secondary violet (gradients, ornament glow) |
+| `--btn-accent` / `--btn-accent-hover` / `--btn-text` | fixed brand button colors (same in both themes) |
+
+`.om-heading-gradient` melts orange into violet across text (`background-clip`)
+for the one or two spots per page that need extra weight — used on the hero's
+second line. Don't overuse it; it's a signature, not a default heading style.
+
+The hero's ambient animation (`src/components/ui/HeroOrnament.jsx`) reuses the
+same broken-arc shape as `OrbitIcon`/the favicon, scaled up into three rings
+that drift at different speeds behind a slow-breathing orange→violet glow —
+pure CSS `@keyframes`, no per-frame JS, and it turns off under
+`prefers-reduced-motion`.
 
 ## What's still a placeholder
 

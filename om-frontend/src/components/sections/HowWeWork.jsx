@@ -48,8 +48,8 @@ export default function HowWeWork() {
                     width: 64,
                     height: 64,
                     borderRadius: "50%",
-                    border: "1px solid var(--border-gold)",
-                    background: "var(--gold-soft)",
+                    border: "1px solid var(--border-accent)",
+                    background: "var(--accent-soft)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -57,7 +57,7 @@ export default function HowWeWork() {
                     position: "relative",
                   }}
                 >
-                  <Icon size={24} color="var(--gold)" strokeWidth={1.6} />
+                  <Icon size={24} color="var(--accent)" strokeWidth={1.6} />
                   <span
                     style={{
                       position: "absolute",
@@ -67,14 +67,14 @@ export default function HowWeWork() {
                       height: 22,
                       borderRadius: "50%",
                       background: "var(--bg)",
-                      border: "1px solid var(--border-gold)",
+                      border: "1px solid var(--border-accent)",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
                       fontSize: 10,
-                      fontFamily: "Inter, sans-serif",
+                      fontFamily: "Switzer, sans-serif",
                       fontWeight: 700,
-                      color: "var(--gold)",
+                      color: "var(--accent)",
                     }}
                   >
                     {i + 1}

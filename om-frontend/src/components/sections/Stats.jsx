@@ -50,7 +50,7 @@ export default function Stats() {
           >
             <div
               className="om-heading"
-              style={{ fontSize: "clamp(34px, 5vw, 56px)", color: "var(--gold)" }}
+              style={{ fontSize: "clamp(34px, 5vw, 56px)", color: "var(--accent)" }}
             >
               <Counter value={s.value} suffix={s.suffix} />
             </div>

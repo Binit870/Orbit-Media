@@ -38,7 +38,7 @@ export default function VideoCard({ title = "Sample reel", tag = "Orbit Media", 
           ...(isNatural ? {} : { aspectRatio }),
           borderRadius: 14,
           overflow: "hidden",
-          border: hideBorder ? "none" : "1px solid var(--border-gold)",
+          border: hideBorder ? "none" : "1px solid var(--border-accent)",
           background: "var(--bg-soft)",
           cursor: "pointer",
         }}
@@ -80,8 +80,8 @@ export default function VideoCard({ title = "Sample reel", tag = "Orbit Media", 
             width: 54,
             height: 54,
             borderRadius: "50%",
-            border: "1px solid var(--border-gold)",
-            background: "var(--gold)",
+            border: "1px solid var(--border-accent)",
+            background: "var(--accent)",
             color: "var(--btn-text)",
             display: "flex",
             alignItems: "center",
@@ -109,7 +109,7 @@ export default function VideoCard({ title = "Sample reel", tag = "Orbit Media", 
         >
           <span
             style={{
-              fontFamily: "Inter, sans-serif",
+              fontFamily: "Switzer, sans-serif",
               fontSize: 12.5,
               fontWeight: 500,
               color: "#fff",
@@ -160,7 +160,7 @@ export default function VideoCard({ title = "Sample reel", tag = "Orbit Media", 
         aspectRatio,
         borderRadius: 14,
         overflow: "hidden",
-        border: hideBorder ? "none" : "1px solid var(--border-gold)",
+        border: hideBorder ? "none" : "1px solid var(--border-accent)",
         background: `linear-gradient(${angle}deg, var(--bg-soft) 0%, var(--bg-elevated) 55%, var(--bg-soft) 100%)`,
       }}
     >
@@ -175,7 +175,7 @@ export default function VideoCard({ title = "Sample reel", tag = "Orbit Media", 
         }}
         aria-hidden="true"
       >
-        <OrbitIcon size={220} style={{ color: "var(--gold)" }} />
+        <OrbitIcon size={220} style={{ color: "var(--accent)" }} />
       </div>
 
       <div style={{ position: "absolute", top: 14, left: 14, display: "flex", alignItems: "center", gap: 8 }}>
@@ -185,15 +185,15 @@ export default function VideoCard({ title = "Sample reel", tag = "Orbit Media", 
             height: 24,
             borderRadius: "50%",
             background: "var(--bg)",
-            border: "1px solid var(--border-gold)",
+            border: "1px solid var(--border-accent)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
           }}
         >
-          <OrbitIcon size={13} style={{ color: "var(--gold)" }} />
+          <OrbitIcon size={13} style={{ color: "var(--accent)" }} />
         </div>
-        <span style={{ fontFamily: "Inter, sans-serif", fontSize: 12, fontWeight: 600, color: "var(--text)" }}>
+        <span style={{ fontFamily: "Switzer, sans-serif", fontSize: 12, fontWeight: 600, color: "var(--text)" }}>
           {tag}
         </span>
       </div>
@@ -209,8 +209,8 @@ export default function VideoCard({ title = "Sample reel", tag = "Orbit Media", 
           width: 54,
           height: 54,
           borderRadius: "50%",
-          border: "1px solid var(--border-gold)",
-          background: "var(--gold)",
+          border: "1px solid var(--border-accent)",
+          background: "var(--accent)",
           color: "var(--btn-text)",
           display: "flex",
           alignItems: "center",
@@ -233,12 +233,12 @@ export default function VideoCard({ title = "Sample reel", tag = "Orbit Media", 
           gap: 10,
         }}
       >
-        <span style={{ fontFamily: "Inter, sans-serif", fontSize: 12.5, fontWeight: 500, color: "var(--text-body)", maxWidth: "65%" }}>
+        <span style={{ fontFamily: "Switzer, sans-serif", fontSize: 12.5, fontWeight: 500, color: "var(--text-body)", maxWidth: "65%" }}>
           {title}
         </span>
         <span
           style={{
-            fontFamily: "Inter, sans-serif",
+            fontFamily: "Switzer, sans-serif",
             fontSize: 9,
             fontWeight: 700,
             letterSpacing: "0.14em",

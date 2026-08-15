@@ -32,8 +32,8 @@ export default function WhatWeDo() {
             >
               <div>
                 <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 18 }}>
-                  <span style={{ width: 1, height: 22, background: "var(--gold)" }} />
-                  <span style={{ fontFamily: "Inter, sans-serif", fontSize: 13, color: "var(--gold)", fontWeight: 600 }}>
+                  <span style={{ width: 1, height: 22, background: "var(--accent)" }} />
+                  <span style={{ fontFamily: "Switzer, sans-serif", fontSize: 13, color: "var(--accent)", fontWeight: 600 }}>
                     {s.number}
                   </span>
                 </div>

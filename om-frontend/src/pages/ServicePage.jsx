@@ -149,7 +149,7 @@ export default function ServicePage() {
                 className="om-card"
                 style={{ display: "block", padding: 24, textDecoration: "none" }}
               >
-                <span style={{ fontFamily: "Inter, sans-serif", fontSize: 11, color: "var(--gold)", fontWeight: 600 }}>{s.number}</span>
+                <span style={{ fontFamily: "Switzer, sans-serif", fontSize: 11, color: "var(--accent)", fontWeight: 600 }}>{s.number}</span>
                 <h3 className="om-heading" style={{ fontSize: 22, margin: "8px 0 14px" }}>{s.name}</h3>
                 <ArrowLink to={`/services/${s.slug}`}>Explore</ArrowLink>
               </Link>
