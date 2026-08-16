@@ -44,7 +44,8 @@ export default function MediaOrbit({ size = 220 }) {
         />
       </Motion.svg>
 
-      {ICONS.map(({ Icon, angle, size: iconSize, dx, dy, duration }, i) => {
+      {ICONS.map((iconDef, i) => {
+        const { Icon, angle, size: iconSize, dx, dy, duration } = iconDef;
         const rad = (angle * Math.PI) / 180;
         const baseX = center + distance * Math.cos(rad);
         const baseY = center + distance * Math.sin(rad);

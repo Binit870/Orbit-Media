@@ -9,13 +9,23 @@ export default function Navbar() {
   const [servicesOpen, setServicesOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  // Once the grow-in animation has finished, the pill no longer needs to
+  // clip its own contents — this lets the services dropdown and the
+  // mobile menu panel render outside the pill's box instead of being cut
+  // off by `overflow: hidden`.
+  const [revealed, setRevealed] = useState(false);
   const dropdownRef = useRef(null);
   const closeTimer = useRef(null);
 
   useEffect(() => {
     // trigger the grow-in animation just after mount
     const t = setTimeout(() => setLoaded(true), 80);
-    return () => clearTimeout(t);
+    // matches the longest transition on .om-navbar-inner (0.75s) + buffer
+    const t2 = setTimeout(() => setRevealed(true), 900);
+    return () => {
+      clearTimeout(t);
+      clearTimeout(t2);
+    };
   }, []);
 
   const closeMenus = () => {
@@ -34,7 +44,7 @@ export default function Navbar() {
   return (
     <div className="om-navbar-outer">
       <header
-        className={`om-navbar-inner ${loaded ? "loaded" : ""} ${mobileOpen ? "menu-open" : ""}`}
+        className={`om-navbar-inner ${loaded ? "loaded" : ""} ${mobileOpen ? "menu-open" : ""} ${revealed ? "revealed" : ""}`}
       >
         <style>{`
           .om-navbar-outer {
@@ -50,6 +60,7 @@ export default function Navbar() {
           }
 
           .om-navbar-inner {
+            position: relative;
             width: 100%;
             background: color-mix(in srgb, var(--bg-elevated) 55%, transparent);
             backdrop-filter: blur(20px) saturate(180%);
@@ -82,6 +93,13 @@ export default function Navbar() {
 
           .om-navbar-inner.menu-open {
             border-radius: 28px;
+          }
+
+          /* Allow the services dropdown and mobile panel (both positioned
+             below the pill) to render outside its bounds once the initial
+             grow-in animation has completed. */
+          .om-navbar-inner.revealed {
+            overflow: visible;
           }
 
           .om-navbar-row {
@@ -157,14 +175,26 @@ export default function Navbar() {
           }
 
           .om-mobile-panel {
+            position: absolute;
+            top: calc(100% + 10px);
+            left: 0;
+            right: 0;
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.35s ease;
-            border-top: 1px solid transparent;
+            opacity: 0;
+            visibility: hidden;
+            background: color-mix(in srgb, var(--bg-elevated) 92%, transparent);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--hairline);
+            border-radius: 22px;
+            box-shadow: var(--shadow);
+            transition: max-height 0.35s ease, opacity 0.25s ease, visibility 0.35s;
           }
           .om-mobile-panel.open {
             max-height: 600px;
-            border-top: 1px solid var(--hairline);
+            opacity: 1;
+            visibility: visible;
           }
 
           @media (min-width: 920px) {

@@ -2,7 +2,7 @@ import { useParams, Link, Navigate } from "react-router-dom";
 import { services, getServiceBySlug } from "../data/services";
 import VideoCard from "../components/ui/VideoCard";
 import WhatWeOffer from "../components/sections/WhatWeOffer";
-import CTASection from "../components/sections/CTASection";
+
 import { ArrowLink } from "../components/ui/Button";
 
 export default function ServicePage() {
@@ -130,10 +130,7 @@ export default function ServicePage() {
 
       <WhatWeOffer service={service} />
 
-      <CTASection
-        heading={`Want to start with ${service.name}?`}
-        subheading="Book a free call and we'll map out what this looks like for your brand."
-      />
+     
 
       <section style={{ padding: "72px 0", borderTop: "1px solid var(--hairline)" }}>
         <div className="om-container">

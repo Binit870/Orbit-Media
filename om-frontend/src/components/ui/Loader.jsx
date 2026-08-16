@@ -8,7 +8,9 @@ import { stats } from "../../data/stats";
 
 const SESSION_KEY = "om-loader-seen";
 const CALENDLY_URL = "https://cal.com/ayush-kumar-ujqipk/15min";
-const PORTFOLIO_ROUTE = "/case-studies";
+// "See portfolio" takes people into the main site, not the (placeholder)
+// case studies route.
+const PORTFOLIO_ROUTE = "/";
 
 const CLIENTS = [
   "Northwind",
@@ -128,216 +130,243 @@ export default function Loader({ onDone }) {
             width: "100vw",
             background: "var(--bg)",
             display: "flex",
+            flexDirection: "column",
             alignItems: "center",
-            justifyContent: "center",
+            // pinned to the top, not centered in the viewport
+            justifyContent: "flex-start",
+            overflowY: "auto",
           }}
         >
-          {/* flanking media-icon animation, left + right — kept fully on-screen */}
+          {/*
+            Single centered column, pinned to the top of the viewport:
+            logo/wordmark → space → tagline + stats + buttons → space →
+            client logos. The side "media orbit" graphics are purely
+            decorative and absolutely positioned against the viewport
+            center, so they never affect the vertical rhythm of the
+            content column above.
+          */}
           <div
-            aria-hidden="true"
             className="hidden lg:block"
-            style={{ position: "absolute", top: "50%", left: "clamp(12px, 4vw, 64px)", transform: "translateY(-50%)", pointerEvents: "none" }}
+            style={{
+              position: "absolute",
+              left: "clamp(24px, 6vw, 96px)",
+              top: "50%",
+              transform: "translateY(-50%)",
+              pointerEvents: "none",
+            }}
+            aria-hidden="true"
           >
             <MediaOrbit size={220} />
           </div>
           <div
-            aria-hidden="true"
             className="hidden lg:block"
-            style={{ position: "absolute", top: "50%", right: "clamp(12px, 4vw, 64px)", transform: "translateY(-50%)", pointerEvents: "none" }}
+            style={{
+              position: "absolute",
+              right: "clamp(24px, 6vw, 96px)",
+              top: "50%",
+              transform: "translateY(-50%)",
+              pointerEvents: "none",
+            }}
+            aria-hidden="true"
           >
             <MediaOrbit size={220} />
           </div>
 
-          {/* content column — vertically centered */}
+          {/* content column — top center */}
           <div
             style={{
               position: "relative",
               zIndex: 1,
-              maxWidth: 720,
+              maxWidth: 640,
               width: "100%",
-              margin: "0 auto",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
               textAlign: "center",
-              gap: 26,
-              padding: "24px",
-              maxHeight: "100dvh",
-              overflowY: "auto",
+              padding: "0 24px",
+              // pinned near the top of the viewport, not vertically centered
+              paddingTop: "clamp(56px, 12vh, 120px)",
+              paddingBottom: 56,
             }}
           >
-            {/* logo + wordmark, top center */}
-            <Motion.div
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, ease: [0.6, 0, 0.4, 1] }}
-              style={{ display: "flex", alignItems: "center", gap: 14 }}
-            >
-              <OrbitIcon size={42} style={{ color: "var(--accent)" }} />
-              <span
-                style={{
-                  fontFamily: "'Switzer', sans-serif",
-                  fontSize: 32,
-                  fontWeight: 700,
-                  color: "var(--text)",
-                  letterSpacing: "-0.01em",
-                }}
+              {/* logo + wordmark */}
+              <Motion.div
+                initial={{ opacity: 0, y: -8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, ease: [0.6, 0, 0.4, 1] }}
+                style={{ display: "flex", alignItems: "center", gap: 14 }}
               >
-                Orbit <span style={{ color: "var(--accent)" }}>Media</span>
-              </span>
-            </Motion.div>
-
-            {/* tagline */}
-            <Motion.p
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.08, ease: [0.6, 0, 0.4, 1] }}
-              style={{
-                fontFamily: "'Switzer', sans-serif",
-                fontSize: "clamp(15px, 1.8vw, 18px)",
-                color: "var(--text-muted)",
-                maxWidth: 480,
-                lineHeight: 1.55,
-                margin: 0,
-              }}
-            >
-              We create content that performs — podcasts, launch videos and
-              founder brands, produced and distributed.
-            </Motion.p>
-
-            {/* stats */}
-            <Motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.16, ease: [0.6, 0, 0.4, 1] }}
-              style={{ display: "flex", gap: 32, marginTop: 4 }}
-            >
-              {stats.map((s, i) => (
-                <div
-                  key={s.label}
+                <OrbitIcon size={42} style={{ color: "var(--accent)" }} />
+                <span
                   style={{
-                    textAlign: "center",
-                    paddingLeft: i === 0 ? 0 : 24,
-                    borderLeft: i === 0 ? "none" : "1px solid var(--hairline)",
+                    fontFamily: "'Switzer', sans-serif",
+                    fontSize: 32,
+                    fontWeight: 700,
+                    color: "var(--text)",
+                    letterSpacing: "-0.01em",
                   }}
                 >
-                  <div
-                    style={{
-                      fontFamily: "'Switzer', sans-serif",
-                      fontWeight: 700,
-                      fontSize: "clamp(20px, 2.6vw, 28px)",
-                      color: "var(--accent)",
-                    }}
-                  >
-                    <StatCounter value={s.value} suffix={s.suffix} />
-                  </div>
-                  <div
-                    style={{
-                      fontFamily: "'Switzer', sans-serif",
-                      fontSize: 11,
-                      letterSpacing: "0.03em",
-                      color: "var(--text-faint)",
-                      marginTop: 4,
-                    }}
-                  >
-                    {s.label}
-                  </div>
-                </div>
-              ))}
-            </Motion.div>
+                  Orbit <span style={{ color: "var(--accent)" }}>Media</span>
+                </span>
+              </Motion.div>
 
-            {/* buttons */}
-            <Motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.24, ease: [0.6, 0, 0.4, 1] }}
-              style={{ display: "flex", gap: 14, flexWrap: "wrap", justifyContent: "center", marginTop: 6 }}
-            >
-              <button
-                onClick={goToPortfolio}
-                style={{
-                  fontFamily: "'Switzer', sans-serif",
-                  fontSize: 15,
-                  fontWeight: 600,
-                  color: "var(--text)",
-                  background: "var(--bg)",
-                  border: "1px solid var(--hairline)",
-                  borderRadius: 10,
-                  padding: "13px 26px",
-                  cursor: "pointer",
-                  transition: "border-color 0.2s ease",
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.borderColor = "var(--accent)")}
-                onMouseLeave={(e) => (e.currentTarget.style.borderColor = "var(--hairline)")}
-              >
-                See portfolio
-              </button>
-              <button
-                onClick={openCalendly}
-                style={{
-                  fontFamily: "'Switzer', sans-serif",
-                  fontSize: 15,
-                  fontWeight: 600,
-                  color: "#fff",
-                  background: "var(--accent)",
-                  border: "1px solid var(--accent)",
-                  borderRadius: 10,
-                  padding: "13px 26px",
-                  cursor: "pointer",
-                  transition: "opacity 0.2s ease",
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.88")}
-                onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
-              >
-                Book a call
-              </button>
-            </Motion.div>
+              {/* space between logo and the text/stats/buttons group */}
+              <div style={{ height: "clamp(40px, 7vh, 76px)" }} aria-hidden="true" />
 
-            {/* client logos */}
-            <Motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.32, ease: [0.6, 0, 0.4, 1] }}
-              style={{ marginTop: 14, width: "100%" }}
-            >
-              <div
-                style={{
-                  fontFamily: "'Switzer', sans-serif",
-                  fontSize: 12,
-                  fontWeight: 500,
-                  letterSpacing: "0.03em",
-                  color: "var(--text-faint)",
-                  marginBottom: 16,
-                }}
-              >
-                Our clients
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  columnGap: 32,
-                  rowGap: 12,
-                }}
-              >
-                {CLIENTS.map((name) => (
-                  <span
-                    key={name}
+              {/* tagline + stats + buttons, grouped together */}
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 22 }}>
+                <Motion.p
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.08, ease: [0.6, 0, 0.4, 1] }}
+                  style={{
+                    fontFamily: "'Switzer', sans-serif",
+                    fontSize: "clamp(15px, 1.8vw, 18px)",
+                    color: "var(--text-muted)",
+                    maxWidth: 480,
+                    lineHeight: 1.55,
+                    margin: 0,
+                  }}
+                >
+                  We create content that performs — podcasts, launch videos and
+                  founder brands, produced and distributed.
+                </Motion.p>
+
+                <Motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.16, ease: [0.6, 0, 0.4, 1] }}
+                  style={{ display: "flex", gap: 32 }}
+                >
+                  {stats.map((s, i) => (
+                    <div
+                      key={s.label}
+                      style={{
+                        textAlign: "center",
+                        paddingLeft: i === 0 ? 0 : 24,
+                        borderLeft: i === 0 ? "none" : "1px solid var(--hairline)",
+                      }}
+                    >
+                      <div
+                        style={{
+                          fontFamily: "'Switzer', sans-serif",
+                          fontWeight: 700,
+                          fontSize: "clamp(20px, 2.6vw, 28px)",
+                          color: "var(--accent)",
+                        }}
+                      >
+                        <StatCounter value={s.value} suffix={s.suffix} />
+                      </div>
+                      <div
+                        style={{
+                          fontFamily: "'Switzer', sans-serif",
+                          fontSize: 11,
+                          letterSpacing: "0.03em",
+                          color: "var(--text-faint)",
+                          marginTop: 4,
+                        }}
+                      >
+                        {s.label}
+                      </div>
+                    </div>
+                  ))}
+                </Motion.div>
+
+                <Motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.24, ease: [0.6, 0, 0.4, 1] }}
+                  style={{ display: "flex", gap: 14, flexWrap: "wrap", justifyContent: "center" }}
+                >
+                  <button
+                    onClick={goToPortfolio}
                     style={{
                       fontFamily: "'Switzer', sans-serif",
                       fontSize: 15,
                       fontWeight: 600,
                       color: "var(--text)",
-                      opacity: 0.4,
+                      background: "var(--bg)",
+                      border: "1px solid var(--hairline)",
+                      borderRadius: 10,
+                      padding: "13px 26px",
+                      cursor: "pointer",
+                      transition: "border-color 0.2s ease",
                     }}
+                    onMouseEnter={(e) => (e.currentTarget.style.borderColor = "var(--accent)")}
+                    onMouseLeave={(e) => (e.currentTarget.style.borderColor = "var(--hairline)")}
                   >
-                    {name}
-                  </span>
-                ))}
+                    See portfolio
+                  </button>
+                  <button
+                    onClick={openCalendly}
+                    style={{
+                      fontFamily: "'Switzer', sans-serif",
+                      fontSize: 15,
+                      fontWeight: 600,
+                      color: "#fff",
+                      background: "var(--accent)",
+                      border: "1px solid var(--accent)",
+                      borderRadius: 10,
+                      padding: "13px 26px",
+                      cursor: "pointer",
+                      transition: "opacity 0.2s ease",
+                    }}
+                    onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.88")}
+                    onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
+                  >
+                    Book a call
+                  </button>
+                </Motion.div>
               </div>
-            </Motion.div>
+
+              {/* space between the buttons and the clients row */}
+              <div style={{ height: "clamp(40px, 7vh, 76px)" }} aria-hidden="true" />
+
+              {/* client logos */}
+              <Motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.32, ease: [0.6, 0, 0.4, 1] }}
+                style={{ width: "100%" }}
+              >
+                <div
+                  style={{
+                    fontFamily: "'Switzer', sans-serif",
+                    fontSize: 12,
+                    fontWeight: 500,
+                    letterSpacing: "0.03em",
+                    color: "var(--text-faint)",
+                    marginBottom: 16,
+                  }}
+                >
+                  Our clients
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    columnGap: 32,
+                    rowGap: 12,
+                  }}
+                >
+                  {CLIENTS.map((name) => (
+                    <span
+                      key={name}
+                      style={{
+                        fontFamily: "'Switzer', sans-serif",
+                        fontSize: 15,
+                        fontWeight: 600,
+                        color: "var(--text)",
+                        opacity: 0.4,
+                      }}
+                    >
+                      {name}
+                    </span>
+                  ))}
+                </div>
+              </Motion.div>
           </div>
         </Motion.div>
       )}

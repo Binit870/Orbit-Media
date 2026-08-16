@@ -1,10 +1,118 @@
-import { useRef } from "react";
-import { motion as Motion, useScroll, useTransform } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { motion as Motion, AnimatePresence, useScroll, useTransform, useInView } from "framer-motion";
 import { Mic, Rocket, UserRound, Sparkles, Wand2, ArrowUpRight } from "lucide-react";
 import { services } from "../../data/services";
 import { Link } from "react-router-dom";
 
 const ICONS = [Mic, Rocket, UserRound, Sparkles, Wand2];
+const SLIDE_INTERVAL = 4200;
+
+/**
+ * Auto-cycling video preview for a service card. Videos only start loading
+ * once the card is near the viewport (so we're not streaming five clips at
+ * once on page load), then crossfade to the next clip in the service's
+ * `videos` list on a timer — a lightweight "sliding" showcase per card.
+ */
+function ServiceCardMedia({ videos, name }) {
+  const wrapRef = useRef(null);
+  const inView = useInView(wrapRef, { once: true, margin: "200px" });
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    if (!inView || !videos || videos.length < 2) return;
+    const t = setInterval(() => {
+      setIndex((i) => (i + 1) % videos.length);
+    }, SLIDE_INTERVAL);
+    return () => clearInterval(t);
+  }, [inView, videos]);
+
+  if (!videos || videos.length === 0) return null;
+
+  return (
+    <div
+      ref={wrapRef}
+      style={{
+        position: "relative",
+        width: "100%",
+        height: 200,
+        borderRadius: 16,
+        overflow: "hidden",
+        marginBottom: 22,
+        background: "var(--bg)",
+        flexShrink: 0,
+      }}
+    >
+      {inView && (
+        <AnimatePresence mode="wait">
+          <Motion.video
+            key={videos[index]}
+            src={videos[index]}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            initial={{ opacity: 0, scale: 1.04 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.98 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            style={{
+              position: "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+            }}
+          />
+        </AnimatePresence>
+      )}
+
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          inset: 0,
+          background: "linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 55%)",
+          pointerEvents: "none",
+        }}
+      />
+
+      {videos.length > 1 && (
+        <div style={{ position: "absolute", bottom: 10, left: 12, display: "flex", gap: 5 }} aria-hidden="true">
+          {videos.map((v, i) => (
+            <div
+              key={v}
+              style={{
+                width: i === index ? 16 : 5,
+                height: 5,
+                borderRadius: 3,
+                background: i === index ? "var(--accent)" : "rgba(255,255,255,0.5)",
+                transition: "width 0.3s ease, background 0.3s ease",
+              }}
+            />
+          ))}
+        </div>
+      )}
+
+      <span
+        style={{
+          position: "absolute",
+          top: 10,
+          right: 12,
+          fontFamily: "Switzer, sans-serif",
+          fontSize: 10,
+          fontWeight: 600,
+          letterSpacing: "0.06em",
+          textTransform: "uppercase",
+          color: "#fff",
+          opacity: 0.85,
+        }}
+      >
+        {name}
+      </span>
+    </div>
+  );
+}
 
 /**
  * Scroll-linked horizontal card rail. The section is pinned for the height
@@ -72,12 +180,12 @@ export default function Services() {
                 style={{
                   position: "relative",
                   width: "min(78vw, 420px)",
-                  minHeight: 420,
+                  minHeight: 560,
                   flexShrink: 0,
                   borderRadius: 22,
                   border: "1px solid var(--hairline)",
                   background: "var(--bg-soft)",
-                  padding: 36,
+                  padding: 20,
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "space-between",
@@ -86,45 +194,49 @@ export default function Services() {
                 }}
               >
                 <div>
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      marginBottom: 28,
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontFamily: "Switzer, sans-serif",
-                        fontSize: 13,
-                        fontWeight: 600,
-                        color: "var(--accent)",
-                      }}
-                    >
-                      {s.number}
-                    </span>
+                  <ServiceCardMedia videos={s.videos} name={s.name} />
+
+                  <div style={{ padding: "0 16px" }}>
                     <div
                       style={{
-                        width: 46,
-                        height: 46,
-                        borderRadius: 14,
-                        background: "var(--accent-soft)",
                         display: "flex",
                         alignItems: "center",
-                        justifyContent: "center",
+                        justifyContent: "space-between",
+                        marginBottom: 20,
                       }}
                     >
-                      <Icon size={20} color="var(--accent)" strokeWidth={1.6} />
+                      <span
+                        style={{
+                          fontFamily: "Switzer, sans-serif",
+                          fontSize: 13,
+                          fontWeight: 600,
+                          color: "var(--accent)",
+                        }}
+                      >
+                        {s.number}
+                      </span>
+                      <div
+                        style={{
+                          width: 40,
+                          height: 40,
+                          borderRadius: 12,
+                          background: "var(--accent-soft)",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <Icon size={18} color="var(--accent)" strokeWidth={1.6} />
+                      </div>
                     </div>
-                  </div>
 
-                  <h3 className="om-heading" style={{ fontSize: "clamp(24px, 2.6vw, 30px)", marginBottom: 14 }}>
-                    {s.name}
-                  </h3>
-                  <p className="om-body" style={{ fontSize: 15, lineHeight: 1.6 }}>
-                    {s.shortDescription}
-                  </p>
+                    <h3 className="om-heading" style={{ fontSize: "clamp(22px, 2.4vw, 28px)", marginBottom: 12 }}>
+                      {s.name}
+                    </h3>
+                    <p className="om-body" style={{ fontSize: 14.5, lineHeight: 1.6 }}>
+                      {s.shortDescription}
+                    </p>
+                  </div>
                 </div>
 
                 <div
@@ -136,6 +248,7 @@ export default function Services() {
                     fontSize: 14.5,
                     fontWeight: 600,
                     color: "var(--text)",
+                    padding: "0 16px 12px",
                   }}
                 >
                   Explore service

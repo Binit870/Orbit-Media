@@ -1,5 +1,4 @@
 import { Image as ImageIcon } from "lucide-react";
-import CTASection from "../components/sections/CTASection";
 
 const placeholders = Array.from({ length: 6 }, (_, i) => i);
 
@@ -71,10 +70,6 @@ export default function CaseStudies() {
         </div>
       </section>
 
-      <CTASection
-        heading="Want to be our next case study?"
-        subheading="Book a call and let's talk about what growth could look like for your brand."
-      />
 
       <style>{`
         @media (max-width: 820px) {
