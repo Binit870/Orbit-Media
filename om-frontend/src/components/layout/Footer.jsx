@@ -48,7 +48,13 @@ const socials = [
 
 export default function Footer() {
   return (
-    <footer style={{ background: "var(--bg-soft)", borderTop: "1px solid var(--hairline)" }}>
+    <footer
+      style={{
+        background: "#6D28D9",
+        borderTop: "1px solid rgba(255,255,255,0.15)",
+        color: "#fff",
+      }}
+    >
       <style>{`
         .om-footer-heading {
           font-family: 'Switzer', sans-serif;
@@ -56,19 +62,24 @@ export default function Footer() {
           font-weight: 600;
           letter-spacing: 0.22em;
           text-transform: uppercase;
-          color: var(--text-muted);
+          color: rgba(255,255,255,0.65);
           margin-bottom: 18px;
         }
+
         .om-footer-link {
           display: block;
           font-family: 'Switzer', sans-serif;
           font-size: 14.5px;
-          color: var(--text-body);
+          color: rgba(255,255,255,0.9);
           text-decoration: none;
           padding: 6px 0;
           transition: color 0.2s ease;
         }
-        .om-footer-link:hover { color: var(--accent); }
+
+        .om-footer-link:hover {
+          color: #000;
+        }
+
         .om-social-btn {
           display: flex;
           align-items: center;
@@ -76,13 +87,46 @@ export default function Footer() {
           width: 36px;
           height: 36px;
           border-radius: 50%;
-          color: var(--text-body);
+          color: #fff;
           background: transparent;
-          border: 1px solid var(--hairline);
+          border: 1px solid rgba(255,255,255,0.35);
           text-decoration: none;
-          transition: color 0.2s, border-color 0.2s;
+          transition: color 0.2s, border-color 0.2s, background 0.2s;
         }
-        .om-social-btn:hover { color: var(--accent); border-color: var(--border-accent); }
+
+        .om-social-btn:hover {
+          color: #000;
+          background: #fff;
+          border-color: #fff;
+        }
+
+        .om-footer-description {
+          color: rgba(255,255,255,0.8) !important;
+        }
+
+        .om-footer-bottom-text {
+          color: rgba(255,255,255,0.65) !important;
+        }
+
+        .om-footer-credit {
+          color: #fff !important;
+        }
+
+        .om-footer-credit:hover {
+          color: #000 !important;
+        }
+
+        @media (max-width: 760px) {
+          .om-footer-grid {
+            grid-template-columns: 1fr 1fr !important;
+          }
+        }
+
+        @media (max-width: 520px) {
+          .om-footer-grid {
+            grid-template-columns: 1fr !important;
+          }
+        }
       `}</style>
 
       <div className="om-container" style={{ padding: "64px 24px 40px" }}>
@@ -96,18 +140,50 @@ export default function Footer() {
         >
           {/* Brand column */}
           <div>
-            <Link to="/" style={{ display: "flex", alignItems: "center", gap: 9, textDecoration: "none", marginBottom: 16 }}>
-              <OrbitIcon size={28} style={{ color: "var(--accent)" }} />
-              <span style={{ fontFamily: "'Switzer', sans-serif", fontSize: 21, color: "var(--text)" }}>
-                Orbit <span style={{ color: "var(--accent)" }}>Media</span>
+            <Link
+              to="/"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 9,
+                textDecoration: "none",
+                marginBottom: 16,
+              }}
+            >
+              <OrbitIcon size={28} style={{ color: "#fff" }} />
+
+              <span
+                style={{
+                  fontFamily: "'Switzer', sans-serif",
+                  fontSize: 21,
+                  color: "#fff",
+                }}
+              >
+                Orbit <span style={{ color: "#000" }}>Media</span>
               </span>
             </Link>
-            <p className="om-body" style={{ fontSize: 14.5, maxWidth: 320, marginBottom: 22 }}>
+
+            <p
+              className="om-body om-footer-description"
+              style={{
+                fontSize: 14.5,
+                maxWidth: 320,
+                marginBottom: 22,
+              }}
+            >
               The media engine for founders, startups &amp; venture-backed brands.
             </p>
+
             <div style={{ display: "flex", gap: 8 }}>
               {socials.map((s) => (
-                <a key={s.label} href={s.href} className="om-social-btn" aria-label={s.label} target="_blank" rel="noreferrer">
+                <a
+                  key={s.label}
+                  href={s.href}
+                  className="om-social-btn"
+                  aria-label={s.label}
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   {s.icon}
                 </a>
               ))}
@@ -117,48 +193,80 @@ export default function Footer() {
           {/* Explore column */}
           <div>
             <div className="om-footer-heading">Explore</div>
-            <Link to="/" className="om-footer-link">Home</Link>
-            <Link to="/case-studies" className="om-footer-link">Case Studies</Link>
-            <a
-              href="https://cal.com/ayush-kumar-ujqipk/15min"
-              target="_blank"
-              rel="noreferrer"
-              className="om-footer-link"
-            >
-              Contact
-            </a>
+
+            <Link to="/" className="om-footer-link">
+              Home
+            </Link>
+
+            <Link to="/case-studies" className="om-footer-link">
+              Case Studies
+            </Link>
+
+            
           </div>
 
           {/* Services column */}
           <div>
             <div className="om-footer-heading">Services</div>
+
             {services.map((s) => (
-              <Link key={s.slug} to={`/services/${s.slug}`} className="om-footer-link">{s.name}</Link>
+              <Link
+                key={s.slug}
+                to={`/services/${s.slug}`}
+                className="om-footer-link"
+              >
+                {s.name}
+              </Link>
             ))}
           </div>
         </div>
       </div>
 
-      <div className="om-container" style={{ borderTop: "1px solid var(--hairline)", padding: "20px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
-        <span style={{ fontFamily: "Switzer, sans-serif", fontSize: 13, color: "var(--text-faint)" }}>
+      {/* Bottom bar */}
+      <div
+        className="om-container"
+        style={{
+          borderTop: "1px solid rgba(255,255,255,0.15)",
+          padding: "20px 24px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: 16,
+          flexWrap: "wrap",
+        }}
+      >
+        <span
+          className="om-footer-bottom-text"
+          style={{
+            fontFamily: "Switzer, sans-serif",
+            fontSize: 13,
+          }}
+        >
           © {new Date().getFullYear()} Orbit Media. All rights reserved.
         </span>
-        <span style={{ fontFamily: "Switzer, sans-serif", fontSize: 13, color: "var(--text-faint)" }}>
+
+        <span
+          className="om-footer-bottom-text"
+          style={{
+            fontFamily: "Switzer, sans-serif",
+            fontSize: 13,
+          }}
+        >
           Designed &amp; Developed by{" "}
-          <a href="https://technivaran.in" target="_blank" rel="noreferrer" style={{ color: "var(--text-muted)" }}>
+          <a
+            href="https://technivaran.in"
+            target="_blank"
+            rel="noreferrer"
+            className="om-footer-credit"
+            style={{
+              color: "#fff",
+              textDecoration: "none",
+            }}
+          >
             Tech Nivaran
           </a>
         </span>
       </div>
-
-      <style>{`
-        @media (max-width: 760px) {
-          .om-footer-grid { grid-template-columns: 1fr 1fr !important; }
-        }
-        @media (max-width: 520px) {
-          .om-footer-grid { grid-template-columns: 1fr !important; }
-        }
-      `}</style>
     </footer>
   );
 }

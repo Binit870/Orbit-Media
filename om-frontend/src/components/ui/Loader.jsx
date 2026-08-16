@@ -6,7 +6,7 @@ import OrbitIcon from "./OrbitIcon";
 import MediaOrbit from "./MediaOrbit";
 import { stats } from "../../data/stats";
 
-const SESSION_KEY = "om-loader-seen";
+export const SESSION_KEY = "om-loader-seen";
 const CALENDLY_URL = "https://cal.com/ayush-kumar-ujqipk/15min";
 // "See portfolio" takes people into the main site, not the (placeholder)
 // case studies route.
@@ -48,6 +48,52 @@ function StatCounter({ value, suffix }) {
       {display}
       {suffix}
     </span>
+  );
+}
+
+const WORDMARK = "Orbit Media";
+const ACCENT_FROM_INDEX = 6; // "Orbit " is 6 chars — "Media" onward is accent-colored
+
+const wordmarkContainer = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.035, delayChildren: 0.35 },
+  },
+};
+const letterVariants = {
+  hidden: { opacity: 0, y: 8 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.6, 0, 0.4, 1] } },
+};
+
+function Wordmark() {
+  return (
+    <Motion.div
+      variants={wordmarkContainer}
+      initial="hidden"
+      animate="visible"
+      style={{
+        fontFamily: "'Switzer', sans-serif",
+        fontSize: 32,
+        fontWeight: 700,
+        color: "var(--text)",
+        letterSpacing: "-0.01em",
+        display: "flex",
+      }}
+      aria-label={WORDMARK}
+    >
+      {WORDMARK.split("").map((ch, i) => (
+        <Motion.span
+          key={i}
+          variants={letterVariants}
+          style={{
+            display: "inline-block",
+            color: i >= ACCENT_FROM_INDEX ? "var(--accent)" : "inherit",
+          }}
+        >
+          {ch === " " ? "\u00A0" : ch}
+        </Motion.span>
+      ))}
+    </Motion.div>
   );
 }
 
@@ -138,12 +184,12 @@ export default function Loader({ onDone }) {
           }}
         >
           {/*
-            Single centered column, pinned to the top of the viewport:
-            logo/wordmark → space → tagline + stats + buttons → space →
-            client logos. The side "media orbit" graphics are purely
-            decorative and absolutely positioned against the viewport
-            center, so they never affect the vertical rhythm of the
-            content column above.
+            Three-zone vertical layout, pinned to the full viewport height:
+            logo/wordmark at the very top → tagline + stats + buttons
+            vertically centered in the remaining space → client logos
+            pinned to the bottom edge. The side "media orbit" graphics are
+            purely decorative and absolutely positioned against the
+            viewport center, so they never affect this rhythm.
           */}
           <div
             className="hidden lg:block"
@@ -172,53 +218,49 @@ export default function Loader({ onDone }) {
             <MediaOrbit size={220} />
           </div>
 
-          {/* content column — top center */}
+          {/* content column */}
           <div
             style={{
               position: "relative",
               zIndex: 1,
               maxWidth: 640,
               width: "100%",
+              minHeight: "100vh",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
               textAlign: "center",
-              padding: "0 24px",
-              // pinned near the top of the viewport, not vertically centered
-              paddingTop: "clamp(56px, 12vh, 120px)",
-              paddingBottom: 56,
+              padding: "clamp(20px, 3vh, 32px) 24px 40px",
             }}
           >
-              {/* logo + wordmark */}
-              <Motion.div
-                initial={{ opacity: 0, y: -8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, ease: [0.6, 0, 0.4, 1] }}
-                style={{ display: "flex", alignItems: "center", gap: 14 }}
-              >
-                <OrbitIcon size={42} style={{ color: "var(--accent)" }} />
-                <span
-                  style={{
-                    fontFamily: "'Switzer', sans-serif",
-                    fontSize: 32,
-                    fontWeight: 700,
-                    color: "var(--text)",
-                    letterSpacing: "-0.01em",
-                  }}
+              {/* logo + wordmark — top of the screen */}
+              <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+                <Motion.div
+                  initial={{ opacity: 0, scale: 0.6, rotate: -20 }}
+                  animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                 >
-                  Orbit <span style={{ color: "var(--accent)" }}>Media</span>
-                </span>
-              </Motion.div>
+                  <OrbitIcon size={42} style={{ color: "var(--accent)" }} />
+                </Motion.div>
+                <Wordmark />
+              </div>
 
-              {/* space between logo and the text/stats/buttons group */}
-              <div style={{ height: "clamp(40px, 7vh, 76px)" }} aria-hidden="true" />
-
-              {/* tagline + stats + buttons, grouped together */}
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 22 }}>
+              {/* tagline + stats + buttons — vertically centered in the
+                  space left between the logo above and the clients below */}
+              <div
+                style={{
+                  flex: 1,
+                  width: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 22 }}>
                 <Motion.p
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.08, ease: [0.6, 0, 0.4, 1] }}
+                  transition={{ duration: 0.5, delay: 0.85, ease: [0.6, 0, 0.4, 1] }}
                   style={{
                     fontFamily: "'Switzer', sans-serif",
                     fontSize: "clamp(15px, 1.8vw, 18px)",
@@ -235,7 +277,7 @@ export default function Loader({ onDone }) {
                 <Motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.16, ease: [0.6, 0, 0.4, 1] }}
+                  transition={{ duration: 0.5, delay: 0.95, ease: [0.6, 0, 0.4, 1] }}
                   style={{ display: "flex", gap: 32 }}
                 >
                   {stats.map((s, i) => (
@@ -275,7 +317,7 @@ export default function Loader({ onDone }) {
                 <Motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.24, ease: [0.6, 0, 0.4, 1] }}
+                  transition={{ duration: 0.5, delay: 1.05, ease: [0.6, 0, 0.4, 1] }}
                   style={{ display: "flex", gap: 14, flexWrap: "wrap", justifyContent: "center" }}
                 >
                   <button
@@ -317,16 +359,14 @@ export default function Loader({ onDone }) {
                     Book a call
                   </button>
                 </Motion.div>
+                </div>
               </div>
 
-              {/* space between the buttons and the clients row */}
-              <div style={{ height: "clamp(40px, 7vh, 76px)" }} aria-hidden="true" />
-
-              {/* client logos */}
+              {/* client logos — pinned to the bottom */}
               <Motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.32, ease: [0.6, 0, 0.4, 1] }}
+                transition={{ duration: 0.5, delay: 1.15, ease: [0.6, 0, 0.4, 1] }}
                 style={{ width: "100%" }}
               >
                 <div
