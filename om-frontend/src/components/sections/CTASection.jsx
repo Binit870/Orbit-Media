@@ -1,4 +1,4 @@
-import { GoldButton } from "../ui/Button";
+import { AccentButton } from "../ui/Button";
 
 export default function CTASection({
   heading = "Ready to grow your audience?",
@@ -19,7 +19,9 @@ export default function CTASection({
       <p className="om-body" style={{ fontSize: 15.5, maxWidth: 460, margin: "0 auto 32px" }}>
         {subheading}
       </p>
-      <GoldButton to="/contact">Book a Call</GoldButton>
+ <AccentButton to="https://cal.com/ayush-kumar-ujqipk/15min">
+  Book a Call
+</AccentButton>
     </section>
   );
 }

@@ -1,4 +1,4 @@
-import { GoldButton } from "../components/ui/Button";
+import { AccentButton } from "../components/ui/Button";
 
 export default function NotFound() {
   return (
@@ -10,7 +10,7 @@ export default function NotFound() {
       <p className="om-body" style={{ fontSize: 15.5, marginBottom: 32 }}>
         That page doesn't exist. Let's get you back on track.
       </p>
-      <GoldButton to="/">Back to Home</GoldButton>
+      <AccentButton to="/">Back to Home</AccentButton>
     </section>
   );
 }

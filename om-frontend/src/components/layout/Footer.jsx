@@ -51,7 +51,7 @@ export default function Footer() {
     <footer style={{ background: "var(--bg-soft)", borderTop: "1px solid var(--hairline)" }}>
       <style>{`
         .om-footer-heading {
-          font-family: 'Inter', sans-serif;
+          font-family: 'Switzer', sans-serif;
           font-size: 11px;
           font-weight: 600;
           letter-spacing: 0.22em;
@@ -61,14 +61,14 @@ export default function Footer() {
         }
         .om-footer-link {
           display: block;
-          font-family: 'Inter', sans-serif;
+          font-family: 'Switzer', sans-serif;
           font-size: 14.5px;
           color: var(--text-body);
           text-decoration: none;
           padding: 6px 0;
           transition: color 0.2s ease;
         }
-        .om-footer-link:hover { color: var(--gold); }
+        .om-footer-link:hover { color: var(--accent); }
         .om-social-btn {
           display: flex;
           align-items: center;
@@ -82,7 +82,7 @@ export default function Footer() {
           text-decoration: none;
           transition: color 0.2s, border-color 0.2s;
         }
-        .om-social-btn:hover { color: var(--gold); border-color: var(--border-gold); }
+        .om-social-btn:hover { color: var(--accent); border-color: var(--border-accent); }
       `}</style>
 
       <div className="om-container" style={{ padding: "64px 24px 40px" }}>
@@ -97,9 +97,9 @@ export default function Footer() {
           {/* Brand column */}
           <div>
             <Link to="/" style={{ display: "flex", alignItems: "center", gap: 9, textDecoration: "none", marginBottom: 16 }}>
-              <OrbitIcon size={28} style={{ color: "var(--gold)" }} />
-              <span style={{ fontFamily: "'Playfair Display', serif", fontSize: 21, color: "var(--text)" }}>
-                Orbit <span style={{ fontStyle: "italic", color: "var(--gold)" }}>Media</span>
+              <OrbitIcon size={28} style={{ color: "var(--accent)" }} />
+              <span style={{ fontFamily: "'Switzer', sans-serif", fontSize: 21, color: "var(--text)" }}>
+                Orbit <span style={{ color: "var(--accent)" }}>Media</span>
               </span>
             </Link>
             <p className="om-body" style={{ fontSize: 14.5, maxWidth: 320, marginBottom: 22 }}>
@@ -119,7 +119,14 @@ export default function Footer() {
             <div className="om-footer-heading">Explore</div>
             <Link to="/" className="om-footer-link">Home</Link>
             <Link to="/case-studies" className="om-footer-link">Case Studies</Link>
-            <Link to="/contact" className="om-footer-link">Contact</Link>
+            <a
+              href="https://cal.com/ayush-kumar-ujqipk/15min"
+              target="_blank"
+              rel="noreferrer"
+              className="om-footer-link"
+            >
+              Contact
+            </a>
           </div>
 
           {/* Services column */}
@@ -133,10 +140,10 @@ export default function Footer() {
       </div>
 
       <div className="om-container" style={{ borderTop: "1px solid var(--hairline)", padding: "20px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
-        <span style={{ fontFamily: "Inter, sans-serif", fontSize: 13, color: "var(--text-faint)" }}>
+        <span style={{ fontFamily: "Switzer, sans-serif", fontSize: 13, color: "var(--text-faint)" }}>
           © {new Date().getFullYear()} Orbit Media. All rights reserved.
         </span>
-        <span style={{ fontFamily: "Inter, sans-serif", fontSize: 13, color: "var(--text-faint)" }}>
+        <span style={{ fontFamily: "Switzer, sans-serif", fontSize: 13, color: "var(--text-faint)" }}>
           Designed &amp; Developed by{" "}
           <a href="https://technivaran.in" target="_blank" rel="noreferrer" style={{ color: "var(--text-muted)" }}>
             Tech Nivaran

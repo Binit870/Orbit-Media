@@ -1,61 +1,39 @@
 /* ============================================================
    ORBIT MEDIA — THEME SYSTEM
-   Dark theme is the brand default (mirrors the Atomik reference).
-   Light theme is a fully designed alternate, toggled via the
-   sun/moon button and persisted to localStorage.
+   Fixed single theme: white background, black text, purple accent.
    ============================================================ */
 
-:root,
-[data-theme="dark"] {
+:root {
   /* surfaces */
-  --bg: #060605;
-  --bg-soft: #0d0c0a;
-  --bg-elevated: #121110;
-  --hairline: rgba(255, 255, 255, 0.08);
-  --border-gold: rgba(212, 179, 108, 0.18);
+  --bg: #ffffff;
+  --bg-soft: #f7f7f8;
+  --bg-elevated: #ffffff;
+  --hairline: rgba(10, 10, 10, 0.09);
+  --border-accent: rgba(124, 58, 237, 0.28);
 
   /* text */
-  --text: #ece7da;
-  --text-body: #a4a096;
-  --text-muted: #767266;
-  --text-faint: #4b4842;
+  --text: #0a0a0a;
+  --text-body: #2b2b30;
+  --text-muted: #6b6b72;
+  --text-faint: #9a9aa2;
 
-  /* accent */
-  --gold: #d4b36c;
-  --gold-strong: #e8cb8c;
-  --gold-soft: rgba(212, 179, 108, 0.12);
+  /* accent — purple (single accent, no secondary) */
+  --accent: #7c3aed;
+  --accent-strong: #6d28d9;
+  --accent-soft: rgba(124, 58, 237, 0.09);
 
-  /* fixed brand button colors (constant across themes) */
-  --btn-gold: #d4b36c;
-  --btn-gold-hover: #e2c483;
-  --btn-text: #15110a;
+  /* secondary accent kept equal to primary — no second color per brand rule */
+  --accent-2: #7c3aed;
+  --accent-2-strong: #6d28d9;
+  --accent-2-soft: rgba(124, 58, 237, 0.09);
 
-  --shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.6);
-  --overlay-scrim: rgba(6, 6, 5, 0.72);
-}
+  /* fixed brand button colors */
+  --btn-accent: #7c3aed;
+  --btn-accent-hover: #6d28d9;
+  --btn-text: #ffffff;
 
-[data-theme="light"] {
-  --bg: #faf6ee;
-  --bg-soft: #f2ead9;
-  --bg-elevated: #ffffff;
-  --hairline: rgba(20, 17, 9, 0.08);
-  --border-gold: rgba(164, 124, 59, 0.28);
-
-  --text: #1a160d;
-  --text-body: #5c574c;
-  --text-muted: #847d6d;
-  --text-faint: #a89f8c;
-
-  --gold: #a47c3b;
-  --gold-strong: #8c6a33;
-  --gold-soft: rgba(164, 124, 59, 0.1);
-
-  --btn-gold: #d4b36c;
-  --btn-gold-hover: #c49f57;
-  --btn-text: #15110a;
-
-  --shadow: 0 24px 60px -24px rgba(20, 17, 9, 0.18);
-  --overlay-scrim: rgba(250, 246, 238, 0.78);
+  --shadow: 0 24px 60px -24px rgba(10, 10, 10, 0.16);
+  --overlay-scrim: rgba(255, 255, 255, 0.86);
 }
 
 * {
@@ -70,9 +48,17 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: "Switzer", -apple-system, BlinkMacSystemFont, sans-serif;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
   transition: background-color 0.35s ease, color 0.35s ease;
+}
+
+img,
+svg,
+video {
+  max-width: 100%;
+  display: block;
 }
 
 a {
@@ -80,7 +66,7 @@ a {
 }
 
 ::selection {
-  background: var(--gold-soft);
+  background: var(--accent-soft);
   color: var(--text);
 }
 
@@ -99,7 +85,7 @@ a {
 }
 
 .om-eyebrow {
-  font-family: "Inter", sans-serif;
+  font-family: "Switzer", sans-serif;
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.32em;
@@ -108,52 +94,62 @@ a {
 }
 
 .om-heading {
-  font-family: "Playfair Display", Georgia, serif;
+  font-family: "Switzer", -apple-system, BlinkMacSystemFont, sans-serif;
   color: var(--text);
-  font-weight: 500;
-  letter-spacing: -0.01em;
+  font-weight: 600;
+  letter-spacing: -0.02em;
   line-height: 1.08;
 }
 
 .om-heading-italic {
-  font-family: "Playfair Display", Georgia, serif;
-  font-style: italic;
-  color: var(--gold);
-  font-weight: 500;
+  font-family: "Switzer", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-style: normal;
+  color: var(--accent);
+  font-weight: 600;
   line-height: 1.08;
 }
 
+/* signature emphasis type — solid purple, used sparingly
+   (hero emphasis word, section eyebrows that need extra weight) */
+.om-heading-gradient {
+  font-family: "Switzer", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1.08;
+  color: var(--accent);
+}
+
 .om-body {
-  font-family: "Inter", sans-serif;
+  font-family: "Switzer", sans-serif;
   color: var(--text-body);
   line-height: 1.7;
   font-weight: 400;
 }
 
-.om-link-gold {
+.om-link-accent {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-family: "Inter", sans-serif;
+  font-family: "Switzer", sans-serif;
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--gold);
+  color: var(--accent);
   text-decoration: none;
   transition: gap 0.2s ease, opacity 0.2s ease;
 }
 
-.om-link-gold:hover {
+.om-link-accent:hover {
   gap: 12px;
   opacity: 0.85;
 }
 
-.om-link-gold svg {
+.om-link-accent svg {
   transition: transform 0.2s ease;
 }
 
-.om-link-gold:hover svg {
+.om-link-accent:hover svg {
   transform: translateX(2px);
 }
 
@@ -162,7 +158,7 @@ a {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  font-family: "Inter", sans-serif;
+  font-family: "Switzer", sans-serif;
   font-size: 12.5px;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -173,14 +169,15 @@ a {
   border: none;
   border-radius: 999px;
   padding: 13px 26px;
-  background: var(--btn-gold);
+  background: var(--btn-accent);
   color: var(--btn-text);
   transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .om-btn:hover {
-  background: var(--btn-gold-hover);
+  background: var(--btn-accent-hover);
   transform: translateY(-1px);
+  box-shadow: 0 12px 28px -12px var(--accent-soft);
 }
 
 .om-btn:active {
@@ -192,7 +189,7 @@ a {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  font-family: "Inter", sans-serif;
+  font-family: "Switzer", sans-serif;
   font-size: 12.5px;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -200,7 +197,7 @@ a {
   white-space: nowrap;
   text-decoration: none;
   cursor: pointer;
-  border: 1px solid var(--border-gold);
+  border: 1px solid var(--border-accent);
   border-radius: 999px;
   padding: 13px 26px;
   background: transparent;
@@ -209,9 +206,9 @@ a {
 }
 
 .om-btn-outline:hover {
-  border-color: var(--gold);
-  color: var(--gold);
-  background: var(--gold-soft);
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-soft);
 }
 
 .om-card {
@@ -227,11 +224,11 @@ a {
 /* ---------- focus states (accessibility) ---------- */
 a:focus-visible,
 button:focus-visible {
-  outline: 1.5px solid var(--gold);
+  outline: 1.5px solid var(--accent);
   outline-offset: 3px;
 }
 
-/* ---------- decorative slow spin for hero ornament ---------- */
+/* ---------- decorative slow spin (generic, reused by ornaments) ---------- */
 @keyframes om-spin-slow {
   from {
     transform: rotate(0deg);

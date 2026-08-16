@@ -7,8 +7,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        serif: ["'Playfair Display'", "Georgia", "serif"],
-        sans: ["'Inter'", "-apple-system", "BlinkMacSystemFont", "sans-serif"],
+        serif: ["'Switzer'", "-apple-system", "BlinkMacSystemFont", "sans-serif"],
+        sans: ["'Switzer'", "-apple-system", "BlinkMacSystemFont", "sans-serif"],
       },
       maxWidth: {
         container: "1160px",

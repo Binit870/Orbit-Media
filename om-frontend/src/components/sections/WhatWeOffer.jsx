@@ -25,10 +25,10 @@ function Step({ index, title, description, active, onEnter, registerRef }) {
       <div style={{ display: "flex", gap: 22, alignItems: "flex-start" }}>
         <span
           style={{
-            fontFamily: "Inter, sans-serif",
+            fontFamily: "Switzer, sans-serif",
             fontSize: 13,
             fontWeight: 600,
-            color: "var(--gold)",
+            color: "var(--accent)",
             opacity: active ? 1 : 0.45,
             transition: "opacity 0.35s ease",
             paddingTop: 4,
@@ -136,8 +136,8 @@ export default function WhatWeOffer({ service }) {
                         width: "100%",
                         aspectRatio: "9 / 5",
                         borderRadius: 20,
-                        background: "linear-gradient(160deg, var(--gold-soft), transparent 70%)",
-                        border: "1px solid var(--border-gold)",
+                        background: "linear-gradient(160deg, var(--accent-soft), transparent 70%)",
+                        border: "1px solid var(--border-accent)",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
@@ -151,7 +151,7 @@ export default function WhatWeOffer({ service }) {
                         exit={{ opacity: 0, scale: 0.85 }}
                         transition={{ duration: 0.35, ease: "easeOut" }}
                       >
-                        <Icon size={72} color="var(--gold)" strokeWidth={1.4} />
+                        <Icon size={72} color="var(--accent)" strokeWidth={1.4} />
                       </Motion.div>
                     </div>
                   );
@@ -170,7 +170,7 @@ export default function WhatWeOffer({ service }) {
                     height: 7,
                     borderRadius: 4,
                     border: "none",
-                    background: active === i ? "var(--gold)" : "var(--border-gold)",
+                    background: active === i ? "var(--accent)" : "var(--border-accent)",
                     transition: "all 0.3s ease",
                     cursor: "pointer",
                     padding: 0,
@@ -179,7 +179,7 @@ export default function WhatWeOffer({ service }) {
               ))}
             </div>
 
-            <p className="om-body" style={{ fontSize: 12.5, opacity: 0.6, fontStyle: "italic" }}>
+            <p className="om-body" style={{ fontSize: 12.5, opacity: 0.6 }}>
               Scroll to explore each step
             </p>
           </div>
