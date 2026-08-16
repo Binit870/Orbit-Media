@@ -1,9 +1,10 @@
 import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ChevronDown, Menu, X } from "lucide-react";
+import { ChevronDown, Menu, X, ArrowLeft } from "lucide-react";
 import OrbitIcon from "../ui/OrbitIcon";
 import { AccentButton } from "../ui/Button";
 import { services } from "../../data/services";
+import { SESSION_KEY as LOADER_SESSION_KEY } from "../ui/Loader";
 
 export default function Navbar() {
   const [servicesOpen, setServicesOpen] = useState(false);
@@ -41,15 +42,62 @@ export default function Navbar() {
     closeTimer.current = setTimeout(() => setServicesOpen(false), 140);
   };
 
+  // Sends the visitor back to the intro loader. The loader only auto-skips
+  // once per session (see Loader.jsx), so clearing that flag and doing a
+  // full navigation is what makes it play again from the very start.
+  const backToIntro = () => {
+    try {
+      sessionStorage.removeItem(LOADER_SESSION_KEY);
+    } catch {
+      /* sessionStorage unavailable (privacy mode etc.) — ignore */
+    }
+    window.location.href = "/";
+  };
+
   return (
-    <div className="om-navbar-outer">
+    <>
+      <div className="om-back-outer">
+        <button className="om-back-btn" onClick={backToIntro} aria-label="Back to intro">
+          <ArrowLeft size={17} strokeWidth={2} />
+        </button>
+      </div>
+
+      <div className="om-navbar-outer">
       <header
         className={`om-navbar-inner ${loaded ? "loaded" : ""} ${mobileOpen ? "menu-open" : ""} ${revealed ? "revealed" : ""}`}
       >
         <style>{`
+          .om-back-outer {
+            position: fixed;
+            top: 26px;
+            left: 22px;
+            z-index: 51;
+          }
+          .om-back-btn {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.55);
+            background: rgba(255, 255, 255, 0.42);
+            backdrop-filter: blur(24px) saturate(200%);
+            -webkit-backdrop-filter: blur(24px) saturate(200%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text);
+            box-shadow: 0 8px 32px rgba(124,58,237,0.10), inset 0 1px 0 rgba(255,255,255,0.7);
+            transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+          }
+          .om-back-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateX(-2px);
+          }
+
           .om-navbar-outer {
             position: fixed;
-            top: 18px;
+            top: 22px;
             left: 50%;
             transform: translateX(-50%);
             z-index: 50;
@@ -62,12 +110,12 @@ export default function Navbar() {
           .om-navbar-inner {
             position: relative;
             width: 100%;
-            background: color-mix(in srgb, var(--bg-elevated) 55%, transparent);
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
-            border: 1px solid color-mix(in srgb, var(--hairline) 70%, transparent);
+            background: rgba(255, 255, 255, 0.42);
+            backdrop-filter: blur(24px) saturate(200%);
+            -webkit-backdrop-filter: blur(24px) saturate(200%);
+            border: 1px solid rgba(255, 255, 255, 0.55);
             border-radius: 999px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.14), inset 0 1px 0 rgba(255,255,255,0.06);
+            box-shadow: 0 8px 32px rgba(124,58,237,0.10), inset 0 1px 0 rgba(255,255,255,0.7);
             overflow: hidden;
 
             /* start state: small + invisible */
@@ -85,7 +133,7 @@ export default function Navbar() {
           }
 
           .om-navbar-inner.loaded {
-            height: 84px;
+            height: 76px;
             max-width: 1180px;
             opacity: 1;
             transform: translateY(0) scale(1);
@@ -103,17 +151,29 @@ export default function Navbar() {
           }
 
           .om-navbar-row {
-            display: flex;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
             align-items: center;
-            justify-content: space-between;
-            height: 84px;
-            padding: 0 22px 0 20px;
+            height: 76px;
+            padding: 0 10px 0 22px;
             white-space: nowrap;
+          }
+
+          .om-nav-logo {
+            justify-self: start;
+          }
+
+          .om-nav-links {
+            justify-self: center;
+          }
+
+          .om-nav-right {
+            justify-self: end;
           }
 
           .om-nav-link {
             font-family: 'Switzer', sans-serif;
-            font-size: 15.5px;
+            font-size: 15px;
             color: var(--text);
             text-decoration: none;
             opacity: 0.82;
@@ -127,7 +187,6 @@ export default function Navbar() {
             padding: 0;
           }
           .om-nav-link:hover { opacity: 1; color: var(--accent); }
-          .om-nav-divider { width: 1px; height: 16px; background: var(--hairline); }
 
           .om-dropdown {
             position: absolute;
@@ -210,15 +269,20 @@ export default function Navbar() {
         `}</style>
 
         <div className="om-navbar-row">
-          <Link to="/" onClick={closeMenus} style={{ display: "flex", alignItems: "center", gap: 9, textDecoration: "none" }}>
-            <OrbitIcon size={30} style={{ color: "var(--accent)" }} />
-            <span style={{ fontFamily: "'Switzer', sans-serif", fontSize: 23, color: "var(--text)", lineHeight: 1 }}>
+          <Link
+            to="/"
+            onClick={closeMenus}
+            className="om-nav-logo"
+            style={{ display: "flex", alignItems: "center", gap: 9, textDecoration: "none" }}
+          >
+            <OrbitIcon size={28} style={{ color: "var(--accent)" }} />
+            <span style={{ fontFamily: "'Switzer', sans-serif", fontSize: 22, color: "var(--text)", lineHeight: 1 }}>
               Orbit{" "}
               <span style={{ color: "var(--accent)" }}>Media</span>
             </span>
           </Link>
 
-          <nav style={{ display: "none", alignItems: "center", gap: 26 }} className="om-desktop-nav">
+          <nav style={{ display: "none", alignItems: "center", gap: 34 }} className="om-desktop-nav om-nav-links">
             <div
               ref={dropdownRef}
               style={{ position: "relative" }}
@@ -237,12 +301,10 @@ export default function Navbar() {
                 ))}
               </div>
             </div>
-            <div className="om-nav-divider" />
             <Link to="/case-studies" className="om-nav-link" onClick={closeMenus}>Case Studies</Link>
-            <div className="om-nav-divider" />
           </nav>
 
-          <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+          <div className="om-nav-right" style={{ display: "flex", alignItems: "center", gap: 14 }}>
             <div className="om-desktop-nav" style={{ display: "none" }}>
               <AccentButton to="https://cal.com/ayush-kumar-ujqipk/15min">
                 Book a Call
@@ -303,6 +365,7 @@ export default function Navbar() {
           </div>
         </div>
       </header>
-    </div>
+      </div>
+    </>
   );
 }

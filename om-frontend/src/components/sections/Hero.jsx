@@ -70,9 +70,9 @@ export default function Hero() {
           variants={lineVariants}
           className="om-body"
           style={{
-            fontSize: "clamp(15px, 2vw, 18px)",
-            marginTop: 28,
-            maxWidth: 520,
+            fontSize: "clamp(13.5px, 1.5vw, 15px)",
+            marginTop: 26,
+            maxWidth: 480,
             marginLeft: "auto",
             marginRight: "auto",
           }}
