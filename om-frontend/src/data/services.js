@@ -117,21 +117,26 @@ export const services = [
         title: "Brand Strategy",
         description:
           "We define your content pillars and positioning so every piece of content reinforces a consistent, recognisable voice.",
+          image: "https://res.cloudinary.com/db2ehmua9/image/upload/v1786963258/1_zpkjuh.jpg",
       },
+      
       {
         title: "Weekly Filming",
         description:
           "Recurring shoot days, fully planned and directed, so you show up and talk while we handle everything else.",
+          image: "https://res.cloudinary.com/db2ehmua9/image/upload/v1786963263/2_pean0w.jpg",
       },
       {
         title: "Ghostwritten Scripts",
         description:
           "Scripts written in your voice, informed by your actual opinions and experience, so nothing feels generic or AI-flavored.",
+          image: "https://res.cloudinary.com/db2ehmua9/image/upload/v1786963412/3_z3tlwh.jpg",
       },
       {
         title: "Growth Tracking",
         description:
           "Cross-platform posting paired with performance tracking, so we know exactly what's working and double down on it.",
+          image: "https://res.cloudinary.com/db2ehmua9/image/upload/v1786963417/4_qjmflc.jpg",
       },
     ],
   },
@@ -159,21 +164,25 @@ export const services = [
         title: "Variant Production",
         description:
           "A mix of AI-generated and real creator-shot UGC, giving you breadth of creative without the cost of a full production crew per variant.",
+          image: "https://res.cloudinary.com/db2ehmua9/image/upload/v1786963477/1_gzzw67.jpg",
       },
       {
         title: "Hook Testing",
         description:
           "We test multiple opening hooks and angles to find what actually stops the scroll for your specific audience.",
+          image: "https://res.cloudinary.com/db2ehmua9/image/upload/v1786963487/2_ihyyy8.jpg",
       },
       {
         title: "Platform-Ready Cuts",
         description:
           "Every video is formatted and paced for the platform it's running on — Meta, TikTok, and YouTube each get their own cut.",
+          image: "https://res.cloudinary.com/db2ehmua9/image/upload/v1786963517/3_zp8fmh.jpg",
       },
       {
         title: "Rapid Iteration",
         description:
           "We watch performance data and turn around new variants fast, so winning creative gets scaled before it fatigues.",
+          image: "https://res.cloudinary.com/db2ehmua9/image/upload/v1786963523/4_inbpyj.jpg",
       },
     ],
   },
@@ -201,21 +210,25 @@ export const services = [
         title: "Concept & Storyboarding",
         description:
           "We translate your message into a clear visual script and storyboard before any animation begins, so the final piece lands exactly on point.",
+          image: "https://res.cloudinary.com/db2ehmua9/image/upload/v1786962984/1_ols0sv.jpg",
       },
       {
         title: "Custom Animation",
         description:
           "Hand-crafted 2D/3D motion design — from explainer sequences to kinetic typography — built frame by frame to match your brand's look and feel.",
+          image: "https://res.cloudinary.com/db2ehmua9/image/upload/v1786963570/2_qrqxog.jpg",
       },
       {
         title: "Sound Design & Voiceover",
         description:
           "Original sound design, music selection, and voiceover direction layered in to make every animation feel polished and full-bodied.",
+          image: "https://res.cloudinary.com/db2ehmua9/image/upload/v1786963600/3_wcbvec.jpg",
       },
       {
         title: "Brand Motion System",
         description:
           "Reusable templates, intros, and lower-thirds so your team can keep producing on-brand motion content long after the first project wraps.",
+          image: "https://res.cloudinary.com/db2ehmua9/image/upload/v1786963604/4_hldnux.jpg",
       },
     ],
   },
