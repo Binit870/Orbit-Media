@@ -1,16 +1,30 @@
 import { Link } from "react-router-dom";
 import OrbitIcon from "../ui/OrbitIcon";
-import { services } from "../../data/services";
 
 const socials = [
   {
     label: "Instagram",
     href: "#",
     icon: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
         <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
         <circle cx="12" cy="12" r="4" />
-        <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+        <circle
+          cx="17.5"
+          cy="6.5"
+          r="1"
+          fill="currentColor"
+          stroke="none"
+        />
       </svg>
     ),
   },
@@ -27,7 +41,16 @@ const socials = [
     label: "LinkedIn",
     href: "#",
     icon: (
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <svg
+        width="15"
+        height="15"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
         <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
         <rect x="2" y="9" width="4" height="12" />
         <circle cx="4" cy="4" r="2" />
@@ -38,13 +61,46 @@ const socials = [
     label: "YouTube",
     href: "#",
     icon: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
         <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z" />
-        <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor" stroke="none" />
+        <polygon
+          points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"
+          fill="currentColor"
+          stroke="none"
+        />
       </svg>
     ),
   },
 ];
+
+// Snake-like zigzag arrow
+function ArrowUpRightIcon() {
+  return (
+    <svg
+      className="om-cta-arrow"
+      width="1em"
+      height="1em"
+      viewBox="0 0 40 40"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <polyline points="3 33 8 24 12 30 16 21 20 27 24 18 28 24 32 9" />
+      <polyline points="20 9 32 9 32 21" />
+    </svg>
+  );
+}
 
 export default function Footer() {
   return (
@@ -56,29 +112,7 @@ export default function Footer() {
       }}
     >
       <style>{`
-        .om-footer-heading {
-          font-family: 'Switzer', sans-serif;
-          font-size: 11px;
-          font-weight: 600;
-          letter-spacing: 0.22em;
-          text-transform: uppercase;
-          color: rgba(255,255,255,0.65);
-          margin-bottom: 18px;
-        }
-
-        .om-footer-link {
-          display: block;
-          font-family: 'Switzer', sans-serif;
-          font-size: 14.5px;
-          color: rgba(255,255,255,0.9);
-          text-decoration: none;
-          padding: 6px 0;
-          transition: color 0.2s ease;
-        }
-
-        .om-footer-link:hover {
-          color: #000;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,600&display=swap');
 
         .om-social-btn {
           display: flex;
@@ -116,27 +150,58 @@ export default function Footer() {
           color: #000 !important;
         }
 
-        @media (max-width: 760px) {
-          .om-footer-grid {
-            grid-template-columns: 1fr 1fr !important;
-          }
+        footer a.om-footer-cta {
+          display: inline-flex !important;
+          align-items: center !important;
+          gap: 0.3em !important;
+          font-family: 'Playfair Display', Georgia, 'Times New Roman', serif !important;
+          font-style: italic !important;
+          font-size: clamp(36px, 5.5vw, 64px) !important;
+          line-height: 1 !important;
+          font-weight: 600 !important;
+          letter-spacing: -0.01em !important;
+          color: #fff !important;
+          text-decoration: none !important;
+          white-space: nowrap;
         }
 
-        @media (max-width: 520px) {
+        .om-cta-arrow {
+          width: 0.85em !important;
+          height: 0.85em !important;
+          transform: rotate(0deg);
+          transition: transform 0.3s ease, color 0.3s ease;
+          flex-shrink: 0;
+        }
+
+        .om-footer-cta:hover {
+          color: #000 !important;
+        }
+
+        .om-footer-cta:hover .om-cta-arrow {
+          transform: rotate(6deg) translate(3px, -3px);
+        }
+
+        @media (max-width: 760px) {
           .om-footer-grid {
             grid-template-columns: 1fr !important;
+            gap: 44px !important;
+          }
+
+          footer a.om-footer-cta {
+            font-size: clamp(30px, 9vw, 44px) !important;
           }
         }
       `}</style>
 
       <div className="om-container" style={{ padding: "64px 24px 40px" }}>
         <div
+          className="om-footer-grid"
           style={{
             display: "grid",
-            gridTemplateColumns: "1.4fr 1fr 1fr",
+            gridTemplateColumns: "1fr auto",
+            alignItems: "center",
             gap: 40,
           }}
-          className="om-footer-grid"
         >
           {/* Brand column */}
           <div>
@@ -171,7 +236,8 @@ export default function Footer() {
                 marginBottom: 22,
               }}
             >
-              The media engine for founders, startups &amp; venture-backed brands.
+              The media engine for founders, startups &amp; venture-backed
+              brands.
             </p>
 
             <div style={{ display: "flex", gap: 8 }}>
@@ -190,35 +256,16 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Explore column */}
-          <div>
-            <div className="om-footer-heading">Explore</div>
-
-            <Link to="/" className="om-footer-link">
-              Home
-            </Link>
-
-            <Link to="/case-studies" className="om-footer-link">
-              Case Studies
-            </Link>
-
-            
-          </div>
-
-          {/* Services column */}
-          <div>
-            <div className="om-footer-heading">Services</div>
-
-            {services.map((s) => (
-              <Link
-                key={s.slug}
-                to={`/services/${s.slug}`}
-                className="om-footer-link"
-              >
-                {s.name}
-              </Link>
-            ))}
-          </div>
+          {/* Big CTA */}
+          <a
+            href="https://cal.com/ayush-kumar-ujqipk/15min"
+            className="om-footer-cta"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Start a Project
+            <ArrowUpRightIcon />
+          </a>
         </div>
       </div>
 
