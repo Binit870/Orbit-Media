@@ -1,243 +1,250 @@
+import { useEffect, useRef } from "react";
+import * as THREE from "three";
+
 /**
- * HeroOrnament
- * ------------------------------------------------------------------
- * Ambient scene behind the hero headline. Three layers:
- *   1. Slow-morphing "aurora" gradient blobs for atmosphere/depth.
- *   2. A ring of animated equalizer bars behind the copy — a live
- *      "voiceprint" halo, since podcasting/audio is the core of what
- *      Orbit Media does.
- *   3. A handful of floating glass cards, one per service line
- *      (podcasting, launch videos, founder brands, AI UGC), drifting
- *      gently around the edges.
+ * HeroOrnament — 3D "signal core" visual, split-layout version.
  *
- * Pure CSS animation + one-time JS to lay out the halo bars and
- * sparkle particles (randomized once on mount, not per-frame), so
- * it's cheap to keep running.
- * ------------------------------------------------------------------
+ * Renders INTO ITS OWN CONTAINER (not an absolute full-bleed layer), so it
+ * lives in one half of a two-column hero and never overlaps the headline.
+ * Because of that it can be fully visible/vivid again — no opacity tricks
+ * or masks needed to protect text legibility.
+ *
+ * Concept: a glassy faceted core (the "signal source") with a wireframe
+ * shell, three tilted broadcast rings, small orbiting nodes (distribution
+ * points), and an ambient particle field.
+ *
+ * Install once: npm install three
  */
-import { Mic, Video, UserRound, Sparkles } from "lucide-react";
-
-const HALO_COUNT = 64;
-const HALO_RADIUS = 250;
-
-// Randomized once at module load (not during render) — every mount of
-// HeroOrnament reuses this same layout, which keeps the component pure
-// while still giving the halo/sparkles an organic, non-repeating feel.
-const HALO_BARS = Array.from({ length: HALO_COUNT }, (_, i) => {
-  const angle = (360 / HALO_COUNT) * i;
-  return {
-    angle,
-    height: 10 + Math.round(Math.random() * 20),
-    duration: 0.7 + Math.random() * 0.9,
-    delay: Math.random() * 1.5,
-  };
-});
-
-const SPARKLES = Array.from({ length: 20 }, () => ({
-  top: Math.random() * 100,
-  left: Math.random() * 100,
-  duration: 2 + Math.random() * 3,
-  delay: Math.random() * 4,
-}));
-
-const CARDS = [
-  { Icon: Mic, label: "Podcasting", className: "om-fc-1" },
-  { Icon: Video, label: "Launch videos", className: "om-fc-2" },
-  { Icon: UserRound, label: "Founder brands", className: "om-fc-3" },
-  { Icon: Sparkles, label: "AI UGC", className: "om-fc-4" },
-];
-
 export default function HeroOrnament() {
+  const mountRef = useRef(null);
+
+  useEffect(() => {
+    const mount = mountRef.current;
+    if (!mount) return;
+
+    let width = mount.clientWidth;
+    let height = mount.clientHeight;
+
+    // ---- Scene / camera / renderer -----------------------------------
+    const scene = new THREE.Scene();
+
+    const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
+    camera.position.set(0, 0.3, 6.2);
+
+    const renderer = new THREE.WebGLRenderer({
+      antialias: true,
+      alpha: true,
+      powerPreference: "high-performance",
+    });
+    renderer.setSize(width, height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setClearColor(0x000000, 0);
+    mount.appendChild(renderer.domElement);
+
+    // ---- Palette --------------------------------------------------------
+    const colorCore = 0x8b7cff; // violet
+    const colorRing = 0x5ee7ff; // cyan
+    const colorGlow = 0x6c5ce7;
+    const colorNode = 0xd6d1ff;
+
+    // ---- Lighting -------------------------------------------------------
+    const ambient = new THREE.AmbientLight(0xffffff, 0.5);
+    scene.add(ambient);
+
+    const keyLight = new THREE.PointLight(colorCore, 18, 22, 2);
+    keyLight.position.set(3, 3, 4);
+    scene.add(keyLight);
+
+    const rimLight = new THREE.PointLight(colorRing, 12, 22, 2);
+    rimLight.position.set(-4, -2, -3);
+    scene.add(rimLight);
+
+    // ---- Core: faceted glass-like icosahedron + wireframe shell -------
+    const coreGroup = new THREE.Group();
+
+    const coreGeo = new THREE.IcosahedronGeometry(1.25, 1);
+    const coreMat = new THREE.MeshStandardMaterial({
+      color: colorCore,
+      metalness: 0.25,
+      roughness: 0.12,
+      emissive: colorGlow,
+      emissiveIntensity: 0.4,
+      transparent: true,
+      opacity: 0.68,
+      flatShading: true,
+    });
+    const core = new THREE.Mesh(coreGeo, coreMat);
+    coreGroup.add(core);
+
+    const shellGeo = new THREE.IcosahedronGeometry(1.46, 1);
+    const shellMat = new THREE.MeshBasicMaterial({
+      color: colorRing,
+      wireframe: true,
+      transparent: true,
+      opacity: 0.3,
+    });
+    const shell = new THREE.Mesh(shellGeo, shellMat);
+    coreGroup.add(shell);
+
+    scene.add(coreGroup);
+
+    // ---- Broadcast rings --------------------------------------------------
+    const ringGroup = new THREE.Group();
+    const ringDefs = [
+      { radius: 2.05, tube: 0.014, tilt: [Math.PI / 2.6, 0.4, 0], opacity: 0.55 },
+      { radius: 2.5, tube: 0.01, tilt: [Math.PI / 1.9, -0.6, 0.3], opacity: 0.35 },
+      { radius: 2.95, tube: 0.008, tilt: [Math.PI / 2.3, 1.1, -0.4], opacity: 0.22 },
+    ];
+
+    const rings = ringDefs.map(({ radius, tube, tilt, opacity }) => {
+      const geo = new THREE.TorusGeometry(radius, tube, 16, 120);
+      const mat = new THREE.MeshBasicMaterial({
+        color: colorRing,
+        transparent: true,
+        opacity,
+      });
+      const ring = new THREE.Mesh(geo, mat);
+      ring.rotation.set(...tilt);
+      ringGroup.add(ring);
+      return ring;
+    });
+    scene.add(ringGroup);
+
+    // ---- Orbiting distribution nodes ------------------------------------
+    const nodeCount = 5;
+    const nodeGeo = new THREE.SphereGeometry(0.05, 16, 16);
+    const nodeMat = new THREE.MeshBasicMaterial({ color: colorNode });
+    const nodes = Array.from({ length: nodeCount }, (_, i) => {
+      const mesh = new THREE.Mesh(nodeGeo, nodeMat);
+      const ring = rings[i % rings.length];
+      mesh.userData = {
+        radius: ring.geometry.parameters.radius,
+        tilt: ringDefs[i % ringDefs.length].tilt,
+        offset: (i / nodeCount) * Math.PI * 2,
+        speed: 0.35 + i * 0.05,
+      };
+      ringGroup.add(mesh);
+      return mesh;
+    });
+
+    // ---- Ambient particle field ------------------------------------------
+    const particleCount = 160;
+    const positions = new Float32Array(particleCount * 3);
+    for (let i = 0; i < particleCount; i++) {
+      const radius = 3.3 + Math.random() * 2.2;
+      const theta = Math.random() * Math.PI * 2;
+      const phi = Math.acos(2 * Math.random() - 1);
+      positions[i * 3] = radius * Math.sin(phi) * Math.cos(theta);
+      positions[i * 3 + 1] = radius * Math.sin(phi) * Math.sin(theta) * 0.6;
+      positions[i * 3 + 2] = radius * Math.cos(phi);
+    }
+    const particleGeo = new THREE.BufferGeometry();
+    particleGeo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+    const particleMat = new THREE.PointsMaterial({
+      color: 0xffffff,
+      size: 0.022,
+      transparent: true,
+      opacity: 0.55,
+      sizeAttenuation: true,
+    });
+    const particles = new THREE.Points(particleGeo, particleMat);
+    scene.add(particles);
+
+    // ---- Pointer parallax (scoped to this container only) ---------------
+    const pointer = { x: 0, y: 0 };
+    const handlePointerMove = (e) => {
+      const rect = mount.getBoundingClientRect();
+      pointer.x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+      pointer.y = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+    };
+    mount.addEventListener("pointermove", handlePointerMove);
+
+    // ---- Resize (observes the container, not the window) ----------------
+    const resizeObserver = new ResizeObserver((entries) => {
+      const entry = entries[0];
+      if (!entry) return;
+      width = entry.contentRect.width;
+      height = entry.contentRect.height;
+      if (width === 0 || height === 0) return;
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+      renderer.setSize(width, height);
+    });
+    resizeObserver.observe(mount);
+
+    // ---- Reduced motion ---------------------------------------------------
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    // ---- Animate ------------------------------------------------------
+    let frameId;
+    const clock = new THREE.Clock();
+
+    const animate = () => {
+      const t = clock.getElapsedTime();
+      const speed = prefersReducedMotion ? 0.15 : 1;
+
+      coreGroup.rotation.y = t * 0.25 * speed;
+      coreGroup.rotation.x = Math.sin(t * 0.3) * 0.1 * speed;
+      shell.rotation.y = -t * 0.18 * speed;
+
+      rings.forEach((ring, i) => {
+        ring.rotation.z = t * (0.1 + i * 0.035) * speed * (i % 2 === 0 ? 1 : -1);
+      });
+
+      nodes.forEach((node) => {
+        const { radius, tilt, offset, speed: nSpeed } = node.userData;
+        const angle = offset + t * nSpeed * speed;
+        const x = Math.cos(angle) * radius;
+        const y = Math.sin(angle) * radius;
+        // apply the same tilt as the ring it travels on
+        const v = new THREE.Vector3(x, y, 0);
+        const euler = new THREE.Euler(tilt[0], tilt[1], tilt[2]);
+        v.applyEuler(euler);
+        node.position.copy(v);
+      });
+
+      particles.rotation.y = t * 0.03 * speed;
+
+      const targetX = pointer.x * 0.4;
+      const targetY = 0.3 - pointer.y * 0.25 + Math.sin(t * 0.6) * 0.06;
+      camera.position.x += (targetX - camera.position.x) * 0.04;
+      camera.position.y += (targetY - camera.position.y) * 0.04;
+      camera.lookAt(0, 0, 0);
+
+      renderer.render(scene, camera);
+      frameId = requestAnimationFrame(animate);
+    };
+    animate();
+
+    // ---- Cleanup ------------------------------------------------------
+    return () => {
+      cancelAnimationFrame(frameId);
+      resizeObserver.disconnect();
+      mount.removeEventListener("pointermove", handlePointerMove);
+      mount.removeChild(renderer.domElement);
+
+      [coreGeo, shellGeo, particleGeo, nodeGeo, ...rings.map((r) => r.geometry)].forEach(
+        (g) => g.dispose()
+      );
+      [coreMat, shellMat, particleMat, nodeMat, ...rings.map((r) => r.material)].forEach(
+        (m) => m.dispose()
+      );
+      renderer.dispose();
+    };
+  }, []);
+
   return (
-    <div className="om-hero-ornament" aria-hidden="true">
-      <div className="om-blob om-blob-1" />
-      <div className="om-blob om-blob-2" />
-      <div className="om-blob om-blob-3" />
-
-      <div className="om-halo">
-        {HALO_BARS.map((bar, i) => (
-          <div
-            key={i}
-            className="om-hbar"
-            style={{
-              height: bar.height,
-              "--a": `${bar.angle}deg`,
-              "--r": `-${HALO_RADIUS}px`,
-              animationDuration: `${bar.duration}s`,
-              animationDelay: `${bar.delay}s`,
-            }}
-          />
-        ))}
-      </div>
-
-      {CARDS.map((card) => (
-        <div key={card.label} className={`om-float-card ${card.className}`}>
-          <div className="om-fc-icon">
-            <card.Icon size={14} strokeWidth={2} />
-          </div>
-          <div className="om-fc-label">{card.label}</div>
-        </div>
-      ))}
-
-      {SPARKLES.map((s, i) => (
-        <div
-          key={i}
-          className="om-spark"
-          style={{
-            top: `${s.top}%`,
-            left: `${s.left}%`,
-            animationDuration: `${s.duration}s`,
-            animationDelay: `${s.delay}s`,
-          }}
-        />
-      ))}
-
-      <style>{`
-        .om-hero-ornament {
-          position: absolute;
-          inset: 0;
-          overflow: hidden;
-          pointer-events: none;
-          z-index: 0;
-        }
-
-        /* ---- aurora blobs ---- */
-        .om-blob {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          border-radius: 50%;
-          filter: blur(70px);
-          will-change: transform;
-        }
-        .om-blob-1 {
-          width: 560px;
-          height: 560px;
-          margin: -280px 0 0 -280px;
-          background: radial-gradient(circle, rgba(124,58,237,0.30), rgba(124,58,237,0) 70%);
-          animation: om-blob-drift-1 16s ease-in-out infinite;
-        }
-        .om-blob-2 {
-          width: 420px;
-          height: 420px;
-          margin: -210px 0 0 -210px;
-          background: radial-gradient(circle, rgba(236,72,153,0.18), rgba(236,72,153,0) 70%);
-          animation: om-blob-drift-2 20s ease-in-out infinite;
-        }
-        .om-blob-3 {
-          width: 460px;
-          height: 460px;
-          margin: -230px 0 0 -230px;
-          background: radial-gradient(circle, rgba(59,130,246,0.14), rgba(59,130,246,0) 70%);
-          animation: om-blob-drift-3 24s ease-in-out infinite;
-        }
-        @keyframes om-blob-drift-1 {
-          0%, 100% { transform: translate(-40px, -20px) scale(1); }
-          50% { transform: translate(30px, 25px) scale(1.12); }
-        }
-        @keyframes om-blob-drift-2 {
-          0%, 100% { transform: translate(50px, 20px) scale(1); }
-          50% { transform: translate(-40px, -30px) scale(0.9); }
-        }
-        @keyframes om-blob-drift-3 {
-          0%, 100% { transform: translate(-20px, 30px) scale(1.05); }
-          50% { transform: translate(35px, -25px) scale(0.95); }
-        }
-
-        /* ---- live audio halo (equalizer ring) ---- */
-        .om-halo {
-          position: absolute;
-          left: 50%;
-          top: 50%;
-          width: 1px;
-          height: 1px;
-        }
-        .om-hbar {
-          position: absolute;
-          left: 0;
-          top: 0;
-          width: 2.5px;
-          border-radius: 2px;
-          background: var(--accent);
-          transform-origin: 50% 0;
-          animation-name: om-hbar-pulse;
-          animation-timing-function: ease-in-out;
-          animation-iteration-count: infinite;
-        }
-        @keyframes om-hbar-pulse {
-          0%, 100% { opacity: 0.16; transform: rotate(var(--a)) translateY(var(--r)) scaleY(0.5); }
-          50% { opacity: 0.6; transform: rotate(var(--a)) translateY(var(--r)) scaleY(1); }
-        }
-
-        /* ---- floating service cards ---- */
-        .om-float-card {
-          position: absolute;
-          width: 118px;
-          padding: 12px 14px;
-          border-radius: 16px;
-          background: rgba(255,255,255,0.55);
-          backdrop-filter: blur(18px) saturate(180%);
-          -webkit-backdrop-filter: blur(18px) saturate(180%);
-          border: 1px solid rgba(255,255,255,0.6);
-          box-shadow: 0 16px 40px -12px rgba(124,58,237,0.25);
-          animation-name: om-card-float;
-          animation-timing-function: ease-in-out;
-          animation-iteration-count: infinite;
-        }
-        .om-fc-icon {
-          width: 26px;
-          height: 26px;
-          border-radius: 8px;
-          background: var(--accent);
-          color: #fff;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          margin-bottom: 8px;
-        }
-        .om-fc-label {
-          font-family: 'Switzer', sans-serif;
-          font-size: 10.5px;
-          font-weight: 600;
-          color: var(--text);
-          letter-spacing: 0.01em;
-        }
-        .om-fc-1 { top: 16%; left: 8%; animation-duration: 7s; }
-        .om-fc-2 { bottom: 20%; left: 13%; animation-duration: 8.5s; animation-delay: 0.6s; }
-        .om-fc-3 { top: 18%; right: 8%; animation-duration: 7.5s; animation-delay: 1.1s; }
-        .om-fc-4 { bottom: 22%; right: 12%; animation-duration: 9s; animation-delay: 1.6s; }
-        @keyframes om-card-float {
-          0%, 100% { transform: translateY(0) rotate(0deg); }
-          50% { transform: translateY(-16px) rotate(-2deg); }
-        }
-
-        /* ---- sparkle particles ---- */
-        .om-spark {
-          position: absolute;
-          width: 3px;
-          height: 3px;
-          border-radius: 50%;
-          background: var(--accent);
-          animation-name: om-spark-twinkle;
-          animation-timing-function: ease-in-out;
-          animation-iteration-count: infinite;
-        }
-        @keyframes om-spark-twinkle {
-          0%, 100% { opacity: 0; transform: scale(0.6); }
-          50% { opacity: 0.65; transform: scale(1.4); }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          .om-blob-1, .om-blob-2, .om-blob-3, .om-hbar, .om-float-card, .om-spark {
-            animation: none;
-          }
-        }
-
-        @media (max-width: 767px) {
-          .om-float-card { display: none; }
-          .om-halo { transform: scale(0.7); }
-        }
-      `}</style>
-    </div>
+    <div
+      ref={mountRef}
+      aria-hidden="true"
+      style={{
+        position: "relative",
+        width: "100%",
+        height: "100%",
+        minHeight: 320,
+      }}
+    />
   );
 }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
-import Navbar from "./Navbar";
+// import Navbar from "./Navbar";
 import Footer from "./Footer";
 import Loader from "../ui/Loader";
 
@@ -23,7 +23,7 @@ export default function Layout() {
       {!loaderDone && <Loader onDone={() => setLoaderDone(true)} />}
 
       <ScrollToTop />
-      <Navbar />
+      {/* <Navbar /> */}
       <main style={{ flex: 1 }}>
         <Outlet />
       </main>
