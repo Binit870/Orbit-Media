@@ -15,7 +15,7 @@ export const SERVICES = [
 
 const ORBIT_CENTER_X = 4.2; // desktop offset — sits right of the text column
 const ENTRANCE_DURATION = 2.4;
-const COMPACT_BREAKPOINT = 540; // canvas pixel width, not viewport width
+const COMPACT_BREAKPOINT = 900; // canvas pixel width, not viewport width
 
 const COLOR_CORE = "#8b7cff";
 const COLOR_MID = "#a78bfa";
@@ -300,7 +300,7 @@ function SceneContent({ reduced }) {
   const { size } = useThree();
   const compact = size.width < COMPACT_BREAKPOINT;
   const centerX = compact ? 0 : ORBIT_CENTER_X;
-  const scale = compact ? 1.5 : 1;
+  const scale = compact ? 0.9 : 1;
 
   return (
     <>
