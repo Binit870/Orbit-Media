@@ -1,9 +1,11 @@
 import { useParams, Link, Navigate } from "react-router-dom";
+import { ArrowUpRight } from "lucide-react";
 import { services, getServiceBySlug } from "../data/services";
 import VideoCard from "../components/ui/VideoCard";
 import WhatWeOffer from "../components/sections/WhatWeOffer";
 
-import { ArrowLink } from "../components/ui/Button";
+const DEFAULT_THUMB =
+  "https://res.cloudinary.com/db2ehmua9/image/upload/v1782801029/Gemini_Generated_Image_9ej1iv9ej1iv9ej1_lfvevy.png";
 
 export default function ServicePage() {
   const { slug } = useParams();
@@ -22,12 +24,14 @@ export default function ServicePage() {
 
   return (
     <>
-      <section style={{ padding: "72px 24px 0" }}>
-        <div className="om-container" style={{ textAlign: "center" }}>
-          <p className="om-eyebrow" style={{ marginBottom: 18 }}>Service {service.number}</p>
-          <h1 className="om-heading" style={{ fontSize: "clamp(40px, 7vw, 72px)" }}>
-            {service.name}
-          </h1>
+      <section style={{ padding: "24px 24px 0" }}>
+        <div className="om-container">
+          <div style={{ textAlign: "center" }}>
+            <p className="om-eyebrow" style={{ marginBottom: 18 }}>Service</p>
+            <h1 className="om-heading" style={{ fontSize: "clamp(40px, 7vw, 72px)" }}>
+              {service.name}
+            </h1>
+          </div>
         </div>
       </section>
 
@@ -130,32 +134,141 @@ export default function ServicePage() {
 
       <WhatWeOffer service={service} />
 
-     
-
-      <section style={{ padding: "72px 0", borderTop: "1px solid var(--hairline)" }}>
+      <section style={{ padding: "80px 0", borderTop: "1px solid var(--hairline)" }}>
         <div className="om-container">
           <p className="om-eyebrow" style={{ textAlign: "center", marginBottom: 32 }}>Explore Other Services</p>
           <div
             className="om-other-svc-grid"
-            style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}
+            style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 28 }}
           >
-            {others.map((s) => (
-              <Link
-                key={s.slug}
-                to={`/services/${s.slug}`}
-                className="om-card"
-                style={{ display: "block", padding: 24, textDecoration: "none" }}
-              >
-                <span style={{ fontFamily: "Switzer, sans-serif", fontSize: 11, color: "var(--accent)", fontWeight: 600 }}>{s.number}</span>
-                <h3 className="om-heading" style={{ fontSize: 22, margin: "8px 0 14px" }}>{s.name}</h3>
-                <ArrowLink to={`/services/${s.slug}`}>Explore</ArrowLink>
-              </Link>
-            ))}
+            {others.map((s) => {
+              const thumb = s.offer?.[0]?.image || DEFAULT_THUMB;
+              return (
+                <Link
+                  key={s.slug}
+                  to={`/services/${s.slug}`}
+                  className="om-other-svc-card"
+                  style={{
+                    display: "block",
+                    borderRadius: 22,
+                    textDecoration: "none",
+                    height: 340,
+                  }}
+                >
+                  <div className="om-flip-inner">
+                    {/* front face */}
+                    <div className="om-flip-face om-flip-front">
+                      <img
+                        src={thumb}
+                        alt={s.name}
+                        loading="lazy"
+                        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+                      />
+                      <div
+                        aria-hidden="true"
+                        style={{
+                          position: "absolute",
+                          inset: 0,
+                          background: "linear-gradient(to top, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.1) 55%, transparent 75%)",
+                        }}
+                      />
+                      <div style={{ position: "absolute", left: 28, right: 28, bottom: 24 }}>
+                        <h3 className="om-heading" style={{ fontSize: "clamp(24px, 2.6vw, 32px)", color: "#fff" }}>
+                          {s.name}
+                        </h3>
+                      </div>
+                    </div>
+
+                    {/* back face */}
+                    <div className="om-flip-face om-flip-back">
+                      <img
+                        src={thumb}
+                        alt=""
+                        aria-hidden="true"
+                        style={{
+                          position: "absolute",
+                          inset: 0,
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
+                          filter: "blur(16px) brightness(0.55)",
+                          transform: "scale(1.15)",
+                        }}
+                      />
+                      <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.3)" }} />
+                      <div
+                        style={{
+                          position: "absolute",
+                          inset: 0,
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          gap: 16,
+                          padding: "0 24px",
+                          textAlign: "center",
+                        }}
+                      >
+                        <h3 className="om-heading" style={{ fontSize: "clamp(20px, 2.2vw, 26px)", color: "#fff" }}>
+                          {s.name}
+                        </h3>
+                        <span className="om-explore-now-btn">
+                          Explore Now
+                          <ArrowUpRight size={15} strokeWidth={2.4} />
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>
 
       <style>{`
+        .om-other-svc-card {
+          perspective: 1200px;
+        }
+        .om-flip-inner {
+          position: relative;
+          width: 100%;
+          height: 100%;
+          transform-style: preserve-3d;
+          transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
+        }
+        .om-other-svc-card:hover .om-flip-inner {
+          transform: rotateY(180deg);
+        }
+        .om-flip-face {
+          position: absolute;
+          inset: 0;
+          border-radius: 22px;
+          overflow: hidden;
+          backface-visibility: hidden;
+          -webkit-backface-visibility: hidden;
+        }
+        .om-flip-back {
+          transform: rotateY(180deg);
+        }
+        .om-explore-now-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          font-family: Switzer, sans-serif;
+          font-size: 13px;
+          font-weight: 700;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          color: #111;
+          background: #fff;
+          padding: 12px 24px;
+          border-radius: 999px;
+          transition: transform 0.3s ease;
+        }
+        .om-other-svc-card:hover .om-explore-now-btn {
+          transform: translateY(-3px);
+        }
         @media (max-width: 820px) {
           .om-svc-video-grid { grid-template-columns: repeat(2, 1fr) !important; }
           .om-other-svc-grid { grid-template-columns: 1fr !important; }

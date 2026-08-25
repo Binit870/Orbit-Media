@@ -16,106 +16,76 @@ function InstagramIcon({ size = 15 }) {
 // `instagram` — the Instagram post/profile link opened when the "Case Study" hover button is clicked.
 const caseStudies = [
   {
-    slug: "acme-corp",
+    slug: "xandhq",
     title: "XANDHQ",
     tag: "Product Design",
     summary: "Cut onboarding time by 40% with a redesigned signup flow.",
     coverImage: "https://res.cloudinary.com/db2ehmua9/image/upload/v1783431581/716809898_18594307168018326_7416983103768432065_n_vmwleh.jpg",
     instagram: "https://www.instagram.com/xandhq",
-    gallery: [
-      "https://res.cloudinary.com/xxx/acme-1.jpg",
-      "https://res.cloudinary.com/xxx/acme-2.jpg",
-    ],
     problem: "Long paragraph here...",
     approach: "Long paragraph here...",
     result: "Long paragraph here...",
-    stack: ["React", "Node.js", "MongoDB"],
-    href: "https://client-live-site.com",
+    deliverables: ["Podcast Series", "Launch Video", "Distribution"],
   },
   {
-    slug: "acme-corp",
+    slug: "the-next-big-thing",
     title: "The Next Big Thing",
     tag: "Product Design",
     summary: "Cut onboarding time by 40% with a redesigned signup flow.",
     coverImage: "https://res.cloudinary.com/db2ehmua9/image/upload/v1783431397/461937792_454077200374598_7043214370768099542_n_qlhio6.jpg",
     instagram: "https://www.instagram.com/thenextbigthing",
-    gallery: [
-      "https://res.cloudinary.com/xxx/acme-1.jpg",
-      "https://res.cloudinary.com/xxx/acme-2.jpg",
-    ],
     problem: "Long paragraph here...",
     approach: "Long paragraph here...",
     result: "Long paragraph here...",
-    stack: ["React", "Node.js", "MongoDB"],
-    href: "https://client-live-site.com",
+    deliverables: ["Founder Brand", "Short-Form Content", "AI UGC"],
   },
   {
-    slug: "acme-corp",
+    slug: "elevator-goods",
     title: "Elevator Goods",
     tag: "Product Design",
     summary: "Cut onboarding time by 40% with a redesigned signup flow.",
     coverImage: "https://res.cloudinary.com/db2ehmua9/image/upload/v1783431658/681623840_18585858838057902_8146540992922266948_n_hq2amv.jpg",
     instagram: "https://www.instagram.com/elevatorgoods",
-    gallery: [
-      "https://res.cloudinary.com/xxx/acme-1.jpg",
-      "https://res.cloudinary.com/xxx/acme-2.jpg",
-    ],
     problem: "Long paragraph here...",
     approach: "Long paragraph here...",
     result: "Long paragraph here...",
-    stack: ["React", "Node.js", "MongoDB"],
-    href: "https://client-live-site.com",
+    deliverables: ["Launch Video", "Motion Graphics"],
   },
   {
-    slug: "acme-corp",
+    slug: "ace-me",
     title: "ACE.ME",
     tag: "Product Design",
     summary: "Cut onboarding time by 40% with a redesigned signup flow.",
     coverImage: "https://res.cloudinary.com/db2ehmua9/image/upload/v1783431484/657252874_17932121712218703_332628719443195031_n_kuhm5u.jpg",
     instagram: "https://www.instagram.com/aceme",
-    gallery: [
-      "https://res.cloudinary.com/xxx/acme-1.jpg",
-      "https://res.cloudinary.com/xxx/acme-2.jpg",
-    ],
     problem: "Long paragraph here...",
     approach: "Long paragraph here...",
     result: "Long paragraph here...",
-    stack: ["React", "Node.js", "MongoDB"],
-    href: "https://client-live-site.com",
+    deliverables: ["Podcast Series", "Distribution"],
   },
   {
-    slug: "acme-corp",
+    slug: "high-drop",
     title: "High Drop",
     tag: "Product Design",
     summary: "Cut onboarding time by 40% with a redesigned signup flow.",
     coverImage: "https://res.cloudinary.com/db2ehmua9/image/upload/v1783431776/freedrop.co_pkedrw.jpg",
     instagram: "https://www.instagram.com/highdrop",
-    gallery: [
-      "https://res.cloudinary.com/xxx/acme-1.jpg",
-      "https://res.cloudinary.com/xxx/acme-2.jpg",
-    ],
     problem: "Long paragraph here...",
     approach: "Long paragraph here...",
     result: "Long paragraph here...",
-    stack: ["React", "Node.js", "MongoDB"],
-    href: "https://client-live-site.com",
+    deliverables: ["AI UGC / Commercials", "Motion Graphics"],
   },
   {
-    slug: "acme-corp",
+    slug: "the-next-big-thing-2",
     title: "The Next Big Thing",
     tag: "Product Design",
     summary: "Cut onboarding time by 40% with a redesigned signup flow.",
     coverImage: "https://res.cloudinary.com/db2ehmua9/image/upload/v1787123653/Copy_of_554120797_18538599004005339_6790072577319082499_n_mjvqp3.jpg",
     instagram: "https://www.instagram.com/thenextbigthing2",
-    gallery: [
-      "https://res.cloudinary.com/xxx/acme-1.jpg",
-      "https://res.cloudinary.com/xxx/acme-2.jpg",
-    ],
     problem: "Long paragraph here...",
     approach: "Long paragraph here...",
     result: "Long paragraph here...",
-    stack: ["React", "Node.js", "MongoDB"],
-    href: "https://client-live-site.com",
+    deliverables: ["Founder Brand", "Launch Video"],
   },
 ];
 
@@ -172,23 +142,33 @@ function CaseStudyCard({ study, onOpen, fixedWidth }) {
         flexShrink: 0,
       }}
     >
-      <div style={{ width: "100%", aspectRatio: "3 / 2", background: "var(--bg-soft)", overflow: "hidden", position: "relative", borderRadius: 20 }}>
+      <div
+        style={{
+          width: "100%",
+          background: "var(--bg-soft)",
+          overflow: "hidden",
+          position: "relative",
+          borderRadius: 20,
+          lineHeight: 0,
+        }}
+      >
         {study.coverImage ? (
           <img
             src={study.coverImage}
             alt={study.title}
             draggable={false}
+            loading="lazy"
             style={{
+              display: "block",
               width: "100%",
-              height: "100%",
-              objectFit: "cover",
+              height: "auto",
               filter: hovered ? "blur(6px)" : "blur(0px)",
               transform: hovered ? "scale(1.06)" : "scale(1)",
               transition: "filter 0.35s ease, transform 0.35s ease",
             }}
           />
         ) : (
-          <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <div style={{ width: "100%", aspectRatio: "3 / 2", display: "flex", alignItems: "center", justifyContent: "center" }}>
             <ImageIcon size={18} color="var(--text-faint)" strokeWidth={1.5} />
           </div>
         )}
@@ -391,27 +371,31 @@ function CaseStudyModal({ study, onClose }) {
                   src={src}
                   alt={`${study.title} detail ${i + 1}`}
                   style={{ width: "100%", borderRadius: 10, objectFit: "cover", aspectRatio: "4 / 3" }}
+                  loading="lazy"
                 />
               ))}
             </div>
           )}
 
-          {study.stack && study.stack.length > 0 && (
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: study.href ? 28 : 0 }}>
-              {study.stack.map((tech) => (
-                <span
-                  key={tech}
-                  style={{
-                    fontSize: 12,
-                    padding: "6px 12px",
-                    borderRadius: 999,
-                    border: "1px solid var(--hairline)",
-                    color: "var(--text-faint)",
-                  }}
-                >
-                  {tech}
-                </span>
-              ))}
+          {study.deliverables && study.deliverables.length > 0 && (
+            <div style={{ marginBottom: study.href ? 28 : 0 }}>
+              <TagPill>Deliverables</TagPill>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 10 }}>
+                {study.deliverables.map((item) => (
+                  <span
+                    key={item}
+                    style={{
+                      fontSize: 12,
+                      padding: "6px 12px",
+                      borderRadius: 999,
+                      border: "1px solid var(--hairline)",
+                      color: "var(--text-faint)",
+                    }}
+                  >
+                    {item}
+                  </span>
+                ))}
+              </div>
             </div>
           )}
 
@@ -420,8 +404,8 @@ function CaseStudyModal({ study, onClose }) {
               href={study.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-primary"
-              style={{ display: "inline-block", textDecoration: "none" }}
+              className="om-btn"
+              style={{ display: "inline-flex", marginTop: 24 }}
             >
               Visit Live Site
             </a>
@@ -441,10 +425,13 @@ export default function CaseStudies() {
     ...Array.from({ length: emptySlots }, (_, i) => ({ type: "placeholder", key: i })),
   ];
 
-  // Split into two columns matching the original 2-col grid's row-major order:
-  // index 0,2,4... -> left column, index 1,3,5... -> right column.
-  const leftColumn = allCards.filter((_, i) => i % 2 === 0);
-  const rightColumn = allCards.filter((_, i) => i % 2 === 1);
+  // Both columns use the same forward-ordered list (1 → N). The left track's
+  // "up" animation plays it forward (1, 2, 3… at the top), and the right
+  // track's "down" animation naturally plays the same list in reverse — so
+  // item 1 appears on the left at the same moment the last item appears on
+  // the right.
+  const leftColumn = allCards;
+  const rightColumn = allCards;
 
   const renderCard = (item, key, fixedWidth) =>
     item.type === "study" ? (
@@ -455,7 +442,7 @@ export default function CaseStudies() {
 
   return (
     <>
-      <section style={{ padding: "80px 24px 0", textAlign: "center" }}>
+      <section id="work" style={{ padding: "80px 24px 0", textAlign: "center" }}>
         <p className="om-eyebrow" style={{ marginBottom: 18 }}>Our Work</p>
         <h1 className="om-heading" style={{ fontSize: "clamp(40px, 7vw, 68px)", marginBottom: 18 }}>
           Case Studies
@@ -469,7 +456,9 @@ export default function CaseStudies() {
       <section style={{ padding: "64px 0 96px" }}>
         <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 24px", boxSizing: "border-box" }}>
 
-          {/* ── Large screens: two columns, continuously drifting vertically, opposite directions ── */}
+          {/* ── Large screens: two columns, continuously drifting vertically, opposite directions.
+               Both columns share the same list — the up/down direction alone
+               makes item 1 (left) and the last item (right) start together. ── */}
           <div
             className="om-cs-grid-desktop"
             style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 28 }}
@@ -546,10 +535,17 @@ export default function CaseStudies() {
         }
 
         /* Desktop vertical marquee columns */
-        .om-cs-grid-desktop { display: grid; }
+        .om-cs-grid-desktop {
+          display: grid;
+          --om-cs-gap: 28px;
+        }
         .om-cs-viewport {
           overflow: hidden;
-          height: clamp(480px, 78vh, 760px);
+          /* Images now render at their natural aspect ratio, so card height
+             varies per image — this clamp approximates a 2-card window rather
+             than pinning it exactly. Nudge the clamp if your source images
+             run noticeably taller/shorter than a typical Instagram post. */
+          height: clamp(560px, 74vh, 820px);
           position: relative;
           -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 24px, #000 calc(100% - 24px), transparent 100%);
           mask-image: linear-gradient(to bottom, transparent 0, #000 24px, #000 calc(100% - 24px), transparent 100%);
@@ -561,8 +557,8 @@ export default function CaseStudies() {
         .om-cs-track-half {
           display: flex;
           flex-direction: column;
-          gap: 28px;
-          padding-bottom: 28px;
+          gap: var(--om-cs-gap);
+          padding-bottom: var(--om-cs-gap);
           flex-shrink: 0;
         }
         .om-cs-track--up { animation: om-marquee-up ${VERTICAL_LOOP_SECONDS}s linear infinite; }
