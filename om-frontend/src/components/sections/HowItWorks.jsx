@@ -91,7 +91,7 @@ export default function ProcessSection() {
         }
 
         .ps-eyebrow {
-          font-family: 'Caveat', cursive;
+          font-family: 'Inter Tight', cursive;
           font-size: 22px;
           font-weight: 500;
           color: #a78bfa;
@@ -108,7 +108,7 @@ export default function ProcessSection() {
         }
 
         .ps-heading-accent {
-          font-family: 'Caveat', cursive;
+          font-family: 'Inter Tight', cursive;
           font-weight: 500;
           font-size: clamp(44px, 6.5vw, 78px);
           color: #c4b5fd;
@@ -175,7 +175,7 @@ export default function ProcessSection() {
           font-size: 11px;
           font-weight: 700;
           color: #c4b5fd;
-          font-family: 'Bricolage Grotesque', sans-serif;
+          font-family: 'Inter Tight', sans-serif;
         }
 
         .ps-step-label {

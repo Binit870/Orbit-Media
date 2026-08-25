@@ -12,7 +12,7 @@ import { services } from "../../data/services";
 // handles the scroll after navigation.
 const NAV_LINKS = [
   { label: "Services", hash: "services", hasDropdown: true },
-  { label: "Work", hash: "work", hasDropdown: false },
+  { label: "Case Studies", hash: "case-studies", hasDropdown: false },
 ];
 
 export default function Navbar() {
@@ -92,7 +92,7 @@ export default function Navbar() {
         }
 
         .om-navbar-logo-text {
-          font-family: "Switzer", sans-serif;
+          font-family: "Inter Tight", sans-serif;
           font-size: 23px;
           font-weight: 600;
           letter-spacing: -0.01em;
@@ -119,7 +119,7 @@ export default function Navbar() {
           display: inline-flex;
           align-items: center;
           gap: 5px;
-          font-family: "Switzer", sans-serif;
+          font-family: "Inter Tight", sans-serif;
           font-size: 14.5px;
           font-weight: 500;
           color: var(--text-body);
@@ -199,7 +199,7 @@ export default function Navbar() {
         }
 
         .om-services-dropdown-name {
-          font-family: "Switzer", sans-serif;
+          font-family: "Inter Tight", sans-serif;
           font-size: 14.5px;
           font-weight: 600;
         }
@@ -261,7 +261,7 @@ export default function Navbar() {
           }
 
           .om-navbar-mobile-link {
-            font-family: "Switzer", sans-serif;
+            font-family: "Inter Tight", sans-serif;
             font-size: 16px;
             font-weight: 500;
             color: var(--text);
@@ -278,7 +278,7 @@ export default function Navbar() {
           }
 
           .om-navbar-mobile-services-link {
-            font-family: "Switzer", sans-serif;
+            font-family: "Inter Tight", sans-serif;
             font-size: 14px;
             font-weight: 500;
             color: var(--text-muted);
