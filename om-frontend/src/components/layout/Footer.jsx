@@ -256,16 +256,12 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Big CTA */}
-          <a
-            href="https://cal.com/ayush-kumar-ujqipk/15min"
-            className="om-footer-cta"
-            target="_blank"
-            rel="noreferrer"
-          >
+          {/* Big CTA — routes to the internal booking page so the whole
+              booking flow (and its analytics) stays on-site. */}
+          <Link to="/book-a-call" className="om-footer-cta">
             Start a Project
             <ArrowUpRightIcon />
-          </a>
+          </Link>
         </div>
       </div>
 
@@ -290,6 +286,23 @@ export default function Footer() {
           }}
         >
           © {new Date().getFullYear()} Orbit Media. All rights reserved.
+        </span>
+
+        <span
+          className="om-footer-bottom-text"
+          style={{
+            fontFamily: "Switzer, sans-serif",
+            fontSize: 13,
+            display: "flex",
+            gap: 16,
+          }}
+        >
+          <Link to="/privacy" className="om-footer-credit" style={{ color: "rgba(255,255,255,0.65)", textDecoration: "none" }}>
+            Privacy Policy
+          </Link>
+          <Link to="/terms" className="om-footer-credit" style={{ color: "rgba(255,255,255,0.65)", textDecoration: "none" }}>
+            Terms
+          </Link>
         </span>
 
         <span

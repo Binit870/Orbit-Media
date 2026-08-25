@@ -1,17 +1,15 @@
 import { useEffect, useRef, useState } from "react";
-import { motion as Motion, AnimatePresence, useScroll, useTransform, useInView } from "framer-motion";
-import { Mic, Rocket, UserRound, Sparkles, Wand2, ArrowUpRight } from "lucide-react";
+import { motion as Motion, AnimatePresence, useInView } from "framer-motion";
+import { ArrowUpRight } from "lucide-react";
 import { services } from "../../data/services";
 import { Link } from "react-router-dom";
 
-const ICONS = [Mic, Rocket, UserRound, Sparkles, Wand2];
-const SLIDE_INTERVAL = 4200;
+const SLIDE_INTERVAL = 200;
+const DEFAULT_THUMB =
+  "https://res.cloudinary.com/db2ehmua9/image/upload/v1782801029/Gemini_Generated_Image_9ej1iv9ej1iv9ej1_lfvevy.png";
 
 /**
- * Auto-cycling video preview for a service card. Videos only start loading
- * once the card is near the viewport (so we're not streaming five clips at
- * once on page load), then crossfade to the next clip in the service's
- * `videos` list on a timer — a lightweight "sliding" showcase per card.
+ * Auto-cycling video preview for a service card's front face.
  */
 function ServiceCardMedia({ videos, name }) {
   const wrapRef = useRef(null);
@@ -29,19 +27,7 @@ function ServiceCardMedia({ videos, name }) {
   if (!videos || videos.length === 0) return null;
 
   return (
-    <div
-      ref={wrapRef}
-      style={{
-        position: "relative",
-        width: "100%",
-        height: 200,
-        borderRadius: 16,
-        overflow: "hidden",
-        marginBottom: 22,
-        background: "var(--bg)",
-        flexShrink: 0,
-      }}
-    >
+    <div ref={wrapRef} style={{ position: "absolute", inset: 0 }}>
       {inView && (
         <AnimatePresence mode="wait">
           <Motion.video
@@ -56,29 +42,20 @@ function ServiceCardMedia({ videos, name }) {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.98 }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            style={{
-              position: "absolute",
-              inset: 0,
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-            }}
+            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
           />
         </AnimatePresence>
       )}
-
       <div
         aria-hidden="true"
         style={{
           position: "absolute",
           inset: 0,
-          background: "linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 55%)",
-          pointerEvents: "none",
+          background: "linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.15) 45%, transparent 70%)",
         }}
       />
-
       {videos.length > 1 && (
-        <div style={{ position: "absolute", bottom: 10, left: 12, display: "flex", gap: 5 }} aria-hidden="true">
+        <div style={{ position: "absolute", bottom: 14, left: 20, display: "flex", gap: 5 }} aria-hidden="true">
           {videos.map((v, i) => (
             <div
               key={v}
@@ -93,205 +70,161 @@ function ServiceCardMedia({ videos, name }) {
           ))}
         </div>
       )}
-
-      <span
-        style={{
-          position: "absolute",
-          top: 10,
-          right: 12,
-          fontFamily: "Switzer, sans-serif",
-          fontSize: 10,
-          fontWeight: 600,
-          letterSpacing: "0.06em",
-          textTransform: "uppercase",
-          color: "#fff",
-          opacity: 0.85,
-        }}
-      >
-        {name}
-      </span>
     </div>
   );
 }
 
-/**
- * Scroll-linked horizontal card rail. The section is pinned for the height
- * of one extra viewport while the user scrolls, and that vertical scroll
- * distance is mapped onto horizontal translation of the card track — the
- * same technique used for premium agency "services" sections.
- */
-export default function Services() {
-  const sectionRef = useRef(null);
-  const trackRef = useRef(null);
-
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end end"],
-  });
-
-  // how far the track needs to travel horizontally = its scrollWidth - viewport
-  const x = useTransform(scrollYProgress, [0, 1], ["1%", "-62%"]);
+function ServiceCard({ service }) {
+  const thumbnail = service.offer?.[0]?.image || DEFAULT_THUMB;
 
   return (
-    <section
-      ref={sectionRef}
-      style={{ position: "relative", height: "260vh" }}
-      id="services"
+    <Link
+      to={`/services/${service.slug}`}
+      className="om-service-card om-flip-card"
+      aria-label={`Explore ${service.name}`}
+      style={{
+        position: "relative",
+        flexShrink: 0,
+        width: "var(--om-svc-card-w)",
+        height: "var(--om-svc-card-h)",
+        marginRight: 24,
+        textDecoration: "none",
+        display: "block",
+      }}
     >
-      <div
-        style={{
-          position: "sticky",
-          top: 0,
-          height: "100vh",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          overflow: "hidden",
-        }}
-      >
-        <div className="om-container" style={{ marginBottom: 48 }}>
-          <p className="om-eyebrow" style={{ marginBottom: 18 }}>Services</p>
-          <h2 className="om-heading" style={{ fontSize: "clamp(34px, 5vw, 54px)", maxWidth: 620 }}>
-            What We Do
-          </h2>
-          <p className="om-body" style={{ fontSize: 16, maxWidth: 480, marginTop: 16 }}>
-            Five disciplines, one media engine. Scroll to move through them.
-          </p>
+      <div className="om-flip-card-inner">
+        {/* front face — video preview + title */}
+        <div
+          className="om-flip-face"
+          style={{
+            border: "1px solid var(--hairline)",
+            background: "var(--bg-soft)",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "flex-end",
+            padding: 24,
+          }}
+        >
+          <ServiceCardMedia videos={service.videos} name={service.name} />
+          <div style={{ position: "relative", zIndex: 1 }}>
+            <h3
+              className="om-heading"
+              style={{ fontSize: "clamp(22px, 2.4vw, 30px)", color: "#fff", marginBottom: 8 }}
+            >
+              {service.name}
+            </h3>
+            <p
+              style={{
+                fontFamily: "Switzer, sans-serif",
+                fontSize: 14,
+                lineHeight: 1.55,
+                color: "rgba(255,255,255,0.82)",
+                maxWidth: "88%",
+                margin: 0,
+              }}
+            >
+              {service.shortDescription}
+            </p>
+          </div>
         </div>
 
-        <Motion.div
-          ref={trackRef}
+        {/* back face — blurred still + Explore now, revealed on hover/flip */}
+        <div
+          className="om-flip-face om-flip-face-back"
           style={{
-            x,
+            position: "absolute",
+            inset: 0,
             display: "flex",
-            gap: 24,
-            padding: "4px 24px 4px calc(50vw - 340px)",
-            width: "max-content",
+            alignItems: "center",
+            justifyContent: "center",
           }}
-          className="om-services-track"
         >
-          {services.map((s, i) => {
-            const Icon = ICONS[i % ICONS.length];
-            return (
-              <Link
-                key={s.slug}
-                to={`/services/${s.slug}`}
-                className="om-service-card"
-                style={{
-                  position: "relative",
-                  width: "min(78vw, 420px)",
-                  minHeight: 560,
-                  flexShrink: 0,
-                  borderRadius: 22,
-                  border: "1px solid var(--hairline)",
-                  background: "var(--bg-soft)",
-                  padding: 20,
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
-                  textDecoration: "none",
-                  overflow: "hidden",
-                }}
-              >
-                <div>
-                  <ServiceCardMedia videos={s.videos} name={s.name} />
+          <div
+            aria-hidden="true"
+            style={{
+              position: "absolute",
+              inset: 0,
+              backgroundImage: `url(${thumbnail})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              filter: "blur(14px) brightness(0.55)",
+              transform: "scale(1.15)",
+            }}
+          />
+          <div aria-hidden="true" style={{ position: "absolute", inset: 0, background: "rgba(30, 20, 60, 0.35)" }} />
+          <div style={{ position: "relative", zIndex: 1, textAlign: "center", padding: 24 }}>
+            <h3 className="om-heading" style={{ fontSize: "clamp(20px, 2.2vw, 26px)", color: "#fff", marginBottom: 20 }}>
+              {service.name}
+            </h3>
+            <span
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                fontFamily: "Switzer, sans-serif",
+                fontSize: 14,
+                fontWeight: 700,
+                letterSpacing: "0.08em",
+                textTransform: "uppercase",
+                color: "#fff",
+                background: "var(--accent)",
+                borderRadius: 999,
+                padding: "13px 26px",
+              }}
+            >
+              Explore now
+              <ArrowUpRight size={16} strokeWidth={2.4} />
+            </span>
+          </div>
+        </div>
+      </div>
+    </Link>
+  );
+}
 
-                  <div style={{ padding: "0 16px" }}>
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        marginBottom: 20,
-                      }}
-                    >
-                      <span
-                        style={{
-                          fontFamily: "Switzer, sans-serif",
-                          fontSize: 13,
-                          fontWeight: 600,
-                          color: "var(--accent)",
-                        }}
-                      >
-                        {s.number}
-                      </span>
-                      <div
-                        style={{
-                          width: 40,
-                          height: 40,
-                          borderRadius: 12,
-                          background: "var(--accent-soft)",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                        }}
-                      >
-                        <Icon size={18} color="var(--accent)" strokeWidth={1.6} />
-                      </div>
-                    </div>
+/**
+ * Continuously auto-sliding horizontal rail. Card list is rendered twice
+ * back-to-back and the track animates to -50% on a linear infinite loop, so
+ * it wraps seamlessly. Hovering (or focusing) anywhere on the track pauses
+ * the animation via CSS — no scroll-jacking, no JS timers driving motion.
+ */
+export default function Services() {
+  return (
+    <section id="services" style={{ padding: "clamp(64px, 10vh, 120px) 0" }}>
+      <div className="om-container" style={{ marginBottom: 48, textAlign: "center" }}>
+        <p className="om-eyebrow" style={{ marginBottom: 18 }}>Services</p>
+        <h2 className="om-heading" style={{ fontSize: "clamp(34px, 5vw, 54px)", maxWidth: 620, margin: "0 auto" }}>
+          What We Do
+        </h2>
+        <p className="om-body" style={{ fontSize: 16, maxWidth: 480, marginTop: 16, margin: "16px auto 0" }}>
+          Five disciplines, one media engine. Hover a card to explore.
+        </p>
+      </div>
 
-                    <h3 className="om-heading" style={{ fontSize: "clamp(22px, 2.4vw, 28px)", marginBottom: 12 }}>
-                      {s.name}
-                    </h3>
-                    <p className="om-body" style={{ fontSize: 14.5, lineHeight: 1.6 }}>
-                      {s.shortDescription}
-                    </p>
-                  </div>
-                </div>
-
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 8,
-                    fontFamily: "Switzer, sans-serif",
-                    fontSize: 14.5,
-                    fontWeight: 600,
-                    color: "var(--text)",
-                    padding: "0 16px 12px",
-                  }}
-                >
-                  Explore service
-                  <ArrowUpRight size={16} strokeWidth={2.2} color="var(--accent)" />
-                </div>
-
-                <div className="om-service-card-glow" aria-hidden="true" />
-              </Link>
-            );
-          })}
-
-          {/* trailing spacer so the last card can fully clear the viewport edge */}
-          <div style={{ width: "1px", flexShrink: 0 }} />
-        </Motion.div>
+      <div className="om-marquee-fade" style={{ padding: "4px 0" }}>
+        <div className="om-marquee-track-auto om-services-track">
+          {[...services, ...services].map((s, i) => (
+            <ServiceCard key={`${s.slug}-${i}`} service={s} />
+          ))}
+        </div>
       </div>
 
       <style>{`
+        :root {
+          --om-svc-card-w: min(46vw, 620px);
+          --om-svc-card-h: 480px;
+        }
         .om-service-card {
-          transition: transform 0.35s cubic-bezier(0.16,1,0.3,1), border-color 0.35s ease;
+          border-radius: 22px;
         }
-        .om-service-card:hover {
-          transform: translateY(-6px);
-          border-color: var(--border-accent);
+        @media (max-width: 860px) {
+          :root { --om-svc-card-w: 86vw; --om-svc-card-h: 420px; }
         }
-        .om-service-card-glow {
-          position: absolute;
-          inset: auto -40% -40% auto;
-          width: 220px;
-          height: 220px;
-          background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
-          opacity: 0.08;
-          pointer-events: none;
+        @media (max-width: 480px) {
+          :root { --om-svc-card-h: 380px; }
         }
-        @media (max-width: 720px) {
-          section#services { height: auto !important; }
-          section#services > div { position: relative !important; height: auto !important; }
-          .om-services-track {
-            transform: none !important;
-            overflow-x: auto !important;
-            padding-left: 24px !important;
-            scroll-snap-type: x mandatory;
-          }
-          .om-service-card { scroll-snap-align: start; }
+        .om-services-track {
+          padding-left: 24px;
         }
       `}</style>
     </section>
