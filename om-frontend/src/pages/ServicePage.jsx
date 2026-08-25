@@ -255,7 +255,7 @@ export default function ServicePage() {
           display: inline-flex;
           align-items: center;
           gap: 8px;
-          font-family: Switzer, sans-serif;
+          font-family: "Inter Tight", sans-serif;
           font-size: 13px;
           font-weight: 700;
           letter-spacing: 0.14em;

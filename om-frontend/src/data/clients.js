@@ -5,14 +5,14 @@ import { trustedBy } from "./trustedBy";
 // whenever ready; this is just a working placeholder set so the row isn't
 // empty.
 const NAMES = [
-  "Northwind",
-  "Lumen Labs",
-  "Vertex",
-  "Anchorline",
-  "Kestrel",
-  "Solace",
-  "Meridian",
-  "Haloworks",
+  "The Next Big Thing",
+  "Mainfold",
+  "Ace.me",
+  "Elevator Goods",
+  "X&Hq",
+  "Highdrop",
+  "Refly ",
+  "Quantum byte.ai",
 ];
 
 export const clients = NAMES.map((name, i) => ({

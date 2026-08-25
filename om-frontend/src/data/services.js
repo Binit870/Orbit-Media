@@ -65,7 +65,7 @@ export const services = [
       "https://res.cloudinary.com/db2ehmua9/video/upload/v1782936570/snapsave-app_3929377201126544045_74753095231_juzaou.mp4",
       "https://res.cloudinary.com/db2ehmua9/video/upload/v1782936554/snapsave-app_3860702596688385982_74753095231_eikjkm.mp4",
       "https://res.cloudinary.com/db2ehmua9/video/upload/v1782936552/snapsave-app_3907912043153851976_74753095231_ftcqsx.mp4",
-      "https://res.cloudinary.com/db2ehmua9/video/upload/v1782936425/snapsave-app_3856446934878143193_66631538702_ktuizn.mp4",
+    
     ],
     offer: [
       {
@@ -110,7 +110,7 @@ export const services = [
       "https://res.cloudinary.com/db2ehmua9/video/upload/v1782064059/Drop_a_follow_rn_to_stay_ahead_of_the_curve._orbitmedia_viral_motiongrohics._bbb1bm.mp4",
       "https://res.cloudinary.com/db2ehmua9/video/upload/v1782851087/snapsave-app_3793425405127082179_74753095231_auqwde.mp4",
       "https://res.cloudinary.com/db2ehmua9/video/upload/v1782851008/snapsave-app_3773712887991501535_45133244619_ucylrw.mp4",
-      "https://res.cloudinary.com/db2ehmua9/video/upload/v1782851051/snapsave-app_3760777504433528150_74753095231_mymivm.mp4",
+      
     ],
     offer: [
       {
@@ -158,6 +158,7 @@ export const services = [
       "https://res.cloudinary.com/db2ehmua9/video/upload/v1781857773/Comment_Brand_to_get_exact_roadmad_and_stay_ahead_of_curve._aiugc_ugc_viral_flmfpg.mp4",
       "https://res.cloudinary.com/db2ehmua9/video/upload/v1781856812/AI-UGC_is_getting_out_of_hand_orbit.media.in_uwukmo.mp4",
       "https://res.cloudinary.com/db2ehmua9/video/upload/v1781856757/AQPzRttId5cCfdcdWJ5pu4F4qmU2YA6x2yLxKvtI4htBuKMdpA1fxNbTJa7mM7nJ8ZodX2qv8PYqlFCpZM60oW_871DRhayF_pls7zs.mp4",
+        "https://res.cloudinary.com/db2ehmua9/video/upload/v1782936425/snapsave-app_3856446934878143193_66631538702_ktuizn.mp4",
     ],
     offer: [
       {
@@ -204,6 +205,7 @@ export const services = [
       "https://res.cloudinary.com/db2ehmua9/video/upload/v1782064547/ace.me_solves_the_digital_identity_problem_jeoghn.mp4",
       "https://res.cloudinary.com/db2ehmua9/video/upload/v1782064495/Is_Apple_just_Steve_Jobs_b6yadn.mp4",
       "https://res.cloudinary.com/db2ehmua9/video/upload/v1782064486/Google_made_402B_last_year_-_and_what_did_you_get_ace.me_is_the_privacy_friendly_subscription_cidl7l.mp4",
+        "https://res.cloudinary.com/db2ehmua9/video/upload/v1782936425/snapsave-app_3856446934878143193_66631538702_ktuizn.mp4",
     ],
     offer: [
       {

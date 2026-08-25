@@ -196,7 +196,7 @@ export default function ContentFlywheel() {
         }
 
         .cfw-heading h2 {
-          font-family: 'Outfit', -apple-system, sans-serif;
+          font-family: 'Inter Tight', -apple-system, sans-serif;
           font-size: clamp(28px, 4vw, 48px);
           font-weight: 700;
           color: #fff;
@@ -210,7 +210,7 @@ export default function ContentFlywheel() {
         }
 
         .cfw-heading p {
-          font-family: 'Outfit', -apple-system, sans-serif;
+          font-family: 'Inter Tight', -apple-system, sans-serif;
           font-size: clamp(13px, 1.6vw, 17px);
           font-weight: 400;
           color: rgba(255,255,255,0.55);
@@ -232,7 +232,7 @@ export default function ContentFlywheel() {
           justify-content: center;
           background: #ff8c00;
           color: #fff;
-          font-family: 'Outfit', -apple-system, sans-serif;
+          font-family: 'Inter Tight', -apple-system, sans-serif;
           font-size: 18px;
           font-weight: 700;
           letter-spacing: 0.01em;

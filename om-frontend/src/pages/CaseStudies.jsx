@@ -39,18 +39,7 @@ const caseStudies = [
     result: "Long paragraph here...",
     deliverables: ["Founder Brand", "Short-Form Content", "AI UGC"],
   },
-  {
-    slug: "elevator-goods",
-    title: "Elevator Goods",
-    tag: "Product Design",
-    summary: "Cut onboarding time by 40% with a redesigned signup flow.",
-    coverImage: "https://res.cloudinary.com/db2ehmua9/image/upload/v1783431658/681623840_18585858838057902_8146540992922266948_n_hq2amv.jpg",
-    instagram: "https://www.instagram.com/elevatorgoods",
-    problem: "Long paragraph here...",
-    approach: "Long paragraph here...",
-    result: "Long paragraph here...",
-    deliverables: ["Launch Video", "Motion Graphics"],
-  },
+
   {
     slug: "ace-me",
     title: "ACE.ME",
@@ -89,7 +78,7 @@ const caseStudies = [
   },
 ];
 
-const TOTAL_SLOTS = 6;
+const TOTAL_SLOTS = 5;
 
 // How long one full loop of the marquee takes. Bigger number = slower drift.
 const VERTICAL_LOOP_SECONDS = 10;
@@ -430,8 +419,8 @@ export default function CaseStudies() {
   // track's "down" animation naturally plays the same list in reverse — so
   // item 1 appears on the left at the same moment the last item appears on
   // the right.
-  const leftColumn = allCards;
-  const rightColumn = allCards;
+const leftColumn = allCards;
+const rightColumn = [...allCards].reverse();
 
   const renderCard = (item, key, fixedWidth) =>
     item.type === "study" ? (
@@ -442,7 +431,7 @@ export default function CaseStudies() {
 
   return (
     <>
-      <section id="work" style={{ padding: "80px 24px 0", textAlign: "center" }}>
+      <section id="case-studies" style={{ padding: "80px 24px 0", textAlign: "center" }}>
         <p className="om-eyebrow" style={{ marginBottom: 18 }}>Our Work</p>
         <h1 className="om-heading" style={{ fontSize: "clamp(40px, 7vw, 68px)", marginBottom: 18 }}>
           Case Studies

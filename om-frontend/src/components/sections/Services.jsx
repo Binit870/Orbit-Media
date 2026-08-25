@@ -4,7 +4,7 @@ import { ArrowUpRight } from "lucide-react";
 import { services } from "../../data/services";
 import { Link } from "react-router-dom";
 
-const SLIDE_INTERVAL = 200;
+const SLIDE_INTERVAL = 5000;
 const DEFAULT_THUMB =
   "https://res.cloudinary.com/db2ehmua9/image/upload/v1782801029/Gemini_Generated_Image_9ej1iv9ej1iv9ej1_lfvevy.png";
 
@@ -41,7 +41,7 @@ function ServiceCardMedia({ videos, name }) {
             initial={{ opacity: 0, scale: 1.04 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.98 }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.1, ease: [0.16, 1, 0.3, 1] }}
             style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
           />
         </AnimatePresence>
